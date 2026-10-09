@@ -18,6 +18,6 @@ services:
       # Set your Turso Cloud credentials in the Render dashboard
       # If left blank, it automatically falls back to local libSQL storage
       - key: TURSO_DATABASE_URL
-        sync: false
+        value: libsql://kisantrace-nihalsamar.aws-ap-south-1.turso.io
       - key: TURSO_AUTH_TOKEN
         sync: false
