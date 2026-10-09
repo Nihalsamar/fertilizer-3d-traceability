@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+package-lock.json
+
+# Environment & credentials
+.env
+*.env.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# Binaries & archives
+*.zip
+*.db
+.turso/
+kisan_trace.db-journal
+kisan_trace.db-wal

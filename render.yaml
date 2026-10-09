@@ -1,0 +1,23 @@
+# ==============================================================================
+# Render Blueprint Configuration (render.yaml)
+# Deploy KisanTrace 3D with Node.js & Turso Database on Render (render.com)
+# ==============================================================================
+
+services:
+  - type: web
+    name: kisantrace-3d-traceability
+    runtime: node
+    plan: free
+    region: oregon
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /api/status
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # Set your Turso Cloud credentials in the Render dashboard
+      # If left blank, it automatically falls back to local libSQL storage
+      - key: TURSO_DATABASE_URL
+        sync: false
+      - key: TURSO_AUTH_TOKEN
+        sync: false
