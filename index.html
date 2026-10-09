@@ -26,6 +26,8 @@
         <button class="chip" id="btn-open-details">📋 All Details</button>
         <!-- Dedicated Core Determinants Button -->
         <button class="chip" id="btn-open-determinants">⚙ Core Determinants</button>
+        <!-- Dedicated Turso Database Button -->
+        <button class="chip" id="btn-open-turso">🗄️ Turso DB</button>
         <!-- Dedicated Reverse Flow Button -->
         <button class="chip danger-chip" id="btn-reverse-flow-top">↩ Reverse Flow</button>
       </div>
@@ -153,6 +155,7 @@
             <div class="modal-tabs">
               <button class="modal-tab-btn active" id="tab-btn-telemetry">📋 Telemetry &amp; Logs</button>
               <button class="modal-tab-btn" id="tab-btn-determinants">⚙ Core Determinants &amp; Parameters</button>
+              <button class="modal-tab-btn" id="tab-btn-turso">🗄️ Turso Database Hub</button>
             </div>
           </div>
           <button class="modal-close" id="btn-close-details">✕</button>
@@ -276,6 +279,78 @@
                   <li><strong>Subsidy Fraud &amp; Anti-Hoarding:</strong> Aadhaar &amp; land-record (Bhulekh) acreage-based purchase caps prevent diversion, black marketing, and unauthorized commercial resale.</li>
                   <li><strong>Environmental &amp; Runoff Governance:</strong> Nutrient application tracking against Soil Health Card guidelines, nitrogen runoff mitigation, and carbon footprint ledger audits.</li>
                 </ul>
+              </div>
+          </div>
+
+          <!-- View 3: Turso Database Hub -->
+          <div id="view-turso" style="display:none;">
+            <div class="turso-hub-container">
+              <!-- Live Database Banner -->
+              <div class="turso-banner" id="turso-live-banner">
+                <div class="turso-status-dot pulse" id="turso-pulse-dot"></div>
+                <div class="turso-banner-text">
+                  <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.5px; opacity:0.8;">Active libSQL Storage Engine</div>
+                  <div id="turso-banner-status" style="font-weight:700; font-size:13.5px; color:#38bdf8;">Checking Database Connection...</div>
+                </div>
+                <button class="chip" id="btn-refresh-turso-status" style="margin-left:auto; font-size:11px;">🔄 Ping DB</button>
+              </div>
+
+              <!-- Connection & Update Form -->
+              <div class="turso-config-card">
+                <h4 style="margin:0 0 6px 0; font-size:13.5px; color:#f8fafc; display:flex; align-items:center; gap:8px;">
+                  <span>⚡ Connect &amp; Update Turso Database</span>
+                  <span class="det-badge det-badge-blue">Cloud Sync</span>
+                </h4>
+                <p style="font-size:11.5px; color:#94a3b8; margin:0 0 12px 0; line-height:1.45;">
+                  Connect your remote Turso cloud database (or sync updates directly to your local libSQL storage). Click <strong>Connect &amp; Update</strong> to verify and seed all 6 relational tables with immutable blockchain provenance records.
+                </p>
+                <div class="turso-form-grid">
+                  <div class="turso-form-group">
+                    <label for="turso-url-input">Turso Database URL:</label>
+                    <input type="text" id="turso-url-input" class="turso-input" placeholder="libsql://your-db-org.turso.io (or leave blank for local)" />
+                  </div>
+                  <div class="turso-form-group">
+                    <label for="turso-token-input">Turso Auth Token:</label>
+                    <input type="password" id="turso-token-input" class="turso-input" placeholder="eyJhbGciOi... (optional for local)" />
+                  </div>
+                </div>
+                <div class="turso-actions-row">
+                  <button class="turso-btn-primary" id="btn-turso-connect">⚡ Connect &amp; Update Database</button>
+                  <button class="turso-btn-secondary" id="btn-turso-sync">🔄 Re-Sync All 6 Tables</button>
+                  <button class="turso-btn-secondary" id="btn-turso-push-current">📤 Push Current Sensor Telemetry</button>
+                </div>
+                <div id="turso-msg" class="turso-msg-box" style="display:none;"></div>
+              </div>
+
+              <!-- Live Tables Counter Grid -->
+              <div class="turso-tables-section">
+                <h5 style="margin:0 0 10px 0; font-size:12px; text-transform:uppercase; letter-spacing:0.5px; color:#94a3b8;">Live Database Record Counts</h5>
+                <div class="turso-stats-grid">
+                  <div class="turso-stat-card">
+                    <div class="turso-stat-val" id="stat-cnt-batches">-</div>
+                    <div class="turso-stat-lbl">Batches</div>
+                  </div>
+                  <div class="turso-stat-card">
+                    <div class="turso-stat-val" id="stat-cnt-packaging">-</div>
+                    <div class="turso-stat-lbl">Packaging Levels</div>
+                  </div>
+                  <div class="turso-stat-card">
+                    <div class="turso-stat-val" id="stat-cnt-telemetry">-</div>
+                    <div class="turso-stat-lbl">Telemetry Logs</div>
+                  </div>
+                  <div class="turso-stat-card">
+                    <div class="turso-stat-val" id="stat-cnt-custody">-</div>
+                    <div class="turso-stat-lbl">Custody Steps</div>
+                  </div>
+                  <div class="turso-stat-card">
+                    <div class="turso-stat-val" id="stat-cnt-dbt">-</div>
+                    <div class="turso-stat-lbl">DBT Disbursements</div>
+                  </div>
+                  <div class="turso-stat-card">
+                    <div class="turso-stat-val" id="stat-cnt-reverse">-</div>
+                    <div class="turso-stat-lbl">Reverse Flow Events</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

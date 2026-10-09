@@ -7,7 +7,17 @@
 
 const express = require('express');
 const path = require('path');
-const { getBatches, getTelemetry, logTelemetry, initDb, seedDb, isCloud, url } = require('./turso_db');
+const {
+  getBatches,
+  getTelemetry,
+  logTelemetry,
+  initDb,
+  seedDb,
+  getTablesStatus,
+  updateClientConfig,
+  isCloud,
+  url
+} = require('./turso_db');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -18,21 +28,64 @@ app.use(express.static(__dirname));
 // --- API Endpoints ---
 
 // 1. Health & Database Provider Status
-app.get('/api/status', (req, res) => {
-  res.json({
-    status: 'ONLINE',
-    platform: 'KisanTrace 3D Provenance Platform',
-    database: {
-      provider: isCloud ? 'Turso Cloud (Edge libSQL)' : 'Local libSQL Engine',
-      endpoint: isCloud ? url.split('@').pop() : url,
-      cloudConnected: isCloud
-    },
-    version: '3.0.0',
-    timestamp: new Date().toISOString()
-  });
+app.get('/api/status', async (req, res) => {
+  try {
+    const tableCounts = await getTablesStatus();
+    res.json({
+      status: 'ONLINE',
+      platform: 'KisanTrace 3D Provenance Platform',
+      database: {
+        provider: isCloud() ? 'Turso Cloud (Edge libSQL)' : 'Local libSQL Engine',
+        endpoint: isCloud() ? url().split('@').pop() : url(),
+        cloudConnected: isCloud(),
+        tableCounts
+      },
+      version: '3.1.0',
+      timestamp: new Date().toISOString()
+    });
+  } catch (e) {
+    res.json({
+      status: 'ONLINE',
+      platform: 'KisanTrace 3D Provenance Platform',
+      database: {
+        provider: isCloud() ? 'Turso Cloud' : 'Local libSQL Engine',
+        error: e.message
+      }
+    });
+  }
 });
 
-// 2. Batches
+// 2. Turso Connect & Update API (Dynamic cloud connection)
+app.post('/api/turso/connect', async (req, res) => {
+  try {
+    const { url: dbUrl, authToken } = req.body;
+    if (!dbUrl) {
+      return res.status(400).json({ success: false, error: 'Database URL is required' });
+    }
+
+    console.log('[Server] Connecting and updating Turso database:', dbUrl);
+    updateClientConfig(dbUrl, authToken);
+
+    // Run schema and force-seed records into the new database
+    await seedDb(true);
+    const tables = await getTablesStatus();
+
+    res.json({
+      success: true,
+      message: 'Successfully connected to Turso database and populated all 6 tables!',
+      database: {
+        url: dbUrl,
+        cloudConnected: isCloud(),
+        tables
+      }
+    });
+  } catch (err) {
+    console.error('[Server] Turso connect error:', err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// 3. Batches
 app.get('/api/batches', async (req, res) => {
   try {
     const batches = await getBatches();
@@ -42,7 +95,7 @@ app.get('/api/batches', async (req, res) => {
   }
 });
 
-// 3. Telemetry Stream
+// 4. Telemetry Stream
 app.get('/api/telemetry', async (req, res) => {
   try {
     const batchId = req.query.batch_id || 'batch-iffco-2026-x992';
@@ -53,25 +106,33 @@ app.get('/api/telemetry', async (req, res) => {
   }
 });
 
-// 4. Log Sensor Reading
+// 5. Log Sensor Reading
 app.post('/api/telemetry', async (req, res) => {
   try {
     const { batch_id, node_index, node_name, gps, temperature, humidity } = req.body;
     if (temperature === undefined || humidity === undefined) {
       return res.status(400).json({ success: false, error: 'temperature and humidity are required' });
     }
-    const result = await logTelemetry(batch_id, node_index || 0, node_name || 'Manual Sensor', gps || '26.45°N 80.33°E', parseFloat(temperature), parseFloat(humidity));
+    const result = await logTelemetry(
+      batch_id,
+      node_index || 0,
+      node_name || 'Manual Sensor',
+      gps || '26.45°N 80.33°E',
+      parseFloat(temperature),
+      parseFloat(humidity)
+    );
     res.json({ success: true, ...result });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }
 });
 
-// 5. Seed / Reset Database
+// 6. Force Seed / Update All Records
 app.post('/api/seed', async (req, res) => {
   try {
-    await seedDb();
-    res.json({ success: true, message: 'Database initialized and seeded successfully.' });
+    await seedDb(true);
+    const tables = await getTablesStatus();
+    res.json({ success: true, message: 'Database tables verified and records updated successfully.', tables });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
   }
@@ -82,14 +143,14 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// Initialize DB and start listening
+// Start server
 initDb()
   .then(() => {
     app.listen(PORT, () => {
       console.log(`========================================================`);
       console.log(`🌱 KisanTrace 3D Web Service is Live!`);
       console.log(`📡 URL: http://localhost:${PORT}`);
-      console.log(`🗄️ Database: ${isCloud ? 'Turso Cloud' : 'Local libSQL (file:kisan_trace.db)'}`);
+      console.log(`🗄️ Database: ${isCloud() ? 'Turso Cloud' : 'Local libSQL (file:kisan_trace.db)'}`);
       console.log(`🚀 Ready for Render.com deployment`);
       console.log(`========================================================`);
     });

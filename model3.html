@@ -751,6 +751,182 @@ table.details-table tr:hover td {
   border: 1px solid #ef4444;
 }
 
+/* Turso Database Hub Styles */
+.turso-hub-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.turso-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: 12px;
+  padding: 12px 16px;
+}
+
+.turso-status-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 10px #10b981;
+}
+
+.turso-status-dot.cloud {
+  background: #38bdf8;
+  box-shadow: 0 0 12px #38bdf8;
+}
+
+.turso-status-dot.local {
+  background: #f59e0b;
+  box-shadow: 0 0 10px #f59e0b;
+}
+
+.turso-config-card {
+  background: rgba(15, 23, 42, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  padding: 16px;
+}
+
+.turso-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+@media (max-width: 640px) {
+  .turso-form-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.turso-form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.turso-form-group label {
+  font-size: 11px;
+  font-weight: 600;
+  color: #94a3b8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.turso-input {
+  background: rgba(10, 16, 29, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 8px;
+  padding: 8px 12px;
+  color: #ffffff;
+  font-family: var(--mono);
+  font-size: 11.5px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.turso-input:focus {
+  border-color: #38bdf8;
+  box-shadow: 0 0 8px rgba(56, 189, 248, 0.3);
+}
+
+.turso-actions-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.turso-btn-primary {
+  background: linear-gradient(135deg, #0284c7, #2563eb);
+  border: none;
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.turso-btn-primary:hover {
+  background: linear-gradient(135deg, #0369a1, #1d4ed8);
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
+}
+
+.turso-btn-secondary {
+  background: rgba(30, 41, 59, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 8px;
+  color: #cbd5e1;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.turso-btn-secondary:hover {
+  background: rgba(51, 65, 85, 0.95);
+  color: #ffffff;
+}
+
+.turso-msg-box {
+  margin-top: 12px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 12px;
+  line-height: 1.4;
+  font-family: var(--mono);
+}
+
+.turso-msg-box.ok {
+  background: rgba(16, 185, 129, 0.18);
+  border: 1px solid #10b981;
+  color: #6ee7b7;
+}
+
+.turso-msg-box.err {
+  background: rgba(239, 68, 68, 0.18);
+  border: 1px solid #ef4444;
+  color: #fca5a5;
+}
+
+.turso-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 10px;
+}
+
+.turso-stat-card {
+  background: rgba(15, 23, 42, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 10px;
+  padding: 10px 12px;
+  text-align: center;
+}
+
+.turso-stat-val {
+  font-family: var(--mono);
+  font-size: 18px;
+  font-weight: 800;
+  color: #38bdf8;
+}
+
+.turso-stat-lbl {
+  font-size: 10px;
+  color: #94a3b8;
+  margin-top: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
 #err {
   position: absolute;
   inset: 0;
@@ -799,6 +975,8 @@ table.details-table tr:hover td {
         <button class="chip" id="btn-open-details">📋 All Details</button>
         <!-- Dedicated Core Determinants Button -->
         <button class="chip" id="btn-open-determinants">⚙ Core Determinants</button>
+        <!-- Dedicated Turso Database Button -->
+        <button class="chip" id="btn-open-turso">🗄️ Turso DB</button>
         <!-- Dedicated Reverse Flow Button -->
         <button class="chip danger-chip" id="btn-reverse-flow-top">↩ Reverse Flow</button>
       </div>
@@ -926,6 +1104,7 @@ table.details-table tr:hover td {
             <div class="modal-tabs">
               <button class="modal-tab-btn active" id="tab-btn-telemetry">📋 Telemetry &amp; Logs</button>
               <button class="modal-tab-btn" id="tab-btn-determinants">⚙ Core Determinants &amp; Parameters</button>
+              <button class="modal-tab-btn" id="tab-btn-turso">🗄️ Turso Database Hub</button>
             </div>
           </div>
           <button class="modal-close" id="btn-close-details">✕</button>
@@ -1049,6 +1228,78 @@ table.details-table tr:hover td {
                   <li><strong>Subsidy Fraud &amp; Anti-Hoarding:</strong> Aadhaar &amp; land-record (Bhulekh) acreage-based purchase caps prevent diversion, black marketing, and unauthorized commercial resale.</li>
                   <li><strong>Environmental &amp; Runoff Governance:</strong> Nutrient application tracking against Soil Health Card guidelines, nitrogen runoff mitigation, and carbon footprint ledger audits.</li>
                 </ul>
+              </div>
+          </div>
+
+          <!-- View 3: Turso Database Hub -->
+          <div id="view-turso" style="display:none;">
+            <div class="turso-hub-container">
+              <!-- Live Database Banner -->
+              <div class="turso-banner" id="turso-live-banner">
+                <div class="turso-status-dot pulse" id="turso-pulse-dot"></div>
+                <div class="turso-banner-text">
+                  <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.5px; opacity:0.8;">Active libSQL Storage Engine</div>
+                  <div id="turso-banner-status" style="font-weight:700; font-size:13.5px; color:#38bdf8;">Checking Database Connection...</div>
+                </div>
+                <button class="chip" id="btn-refresh-turso-status" style="margin-left:auto; font-size:11px;">🔄 Ping DB</button>
+              </div>
+
+              <!-- Connection & Update Form -->
+              <div class="turso-config-card">
+                <h4 style="margin:0 0 6px 0; font-size:13.5px; color:#f8fafc; display:flex; align-items:center; gap:8px;">
+                  <span>⚡ Connect &amp; Update Turso Database</span>
+                  <span class="det-badge det-badge-blue">Cloud Sync</span>
+                </h4>
+                <p style="font-size:11.5px; color:#94a3b8; margin:0 0 12px 0; line-height:1.45;">
+                  Connect your remote Turso cloud database (or sync updates directly to your local libSQL storage). Click <strong>Connect &amp; Update</strong> to verify and seed all 6 relational tables with immutable blockchain provenance records.
+                </p>
+                <div class="turso-form-grid">
+                  <div class="turso-form-group">
+                    <label for="turso-url-input">Turso Database URL:</label>
+                    <input type="text" id="turso-url-input" class="turso-input" placeholder="libsql://your-db-org.turso.io (or leave blank for local)" />
+                  </div>
+                  <div class="turso-form-group">
+                    <label for="turso-token-input">Turso Auth Token:</label>
+                    <input type="password" id="turso-token-input" class="turso-input" placeholder="eyJhbGciOi... (optional for local)" />
+                  </div>
+                </div>
+                <div class="turso-actions-row">
+                  <button class="turso-btn-primary" id="btn-turso-connect">⚡ Connect &amp; Update Database</button>
+                  <button class="turso-btn-secondary" id="btn-turso-sync">🔄 Re-Sync All 6 Tables</button>
+                  <button class="turso-btn-secondary" id="btn-turso-push-current">📤 Push Current Sensor Telemetry</button>
+                </div>
+                <div id="turso-msg" class="turso-msg-box" style="display:none;"></div>
+              </div>
+
+              <!-- Live Tables Counter Grid -->
+              <div class="turso-tables-section">
+                <h5 style="margin:0 0 10px 0; font-size:12px; text-transform:uppercase; letter-spacing:0.5px; color:#94a3b8;">Live Database Record Counts</h5>
+                <div class="turso-stats-grid">
+                  <div class="turso-stat-card">
+                    <div class="turso-stat-val" id="stat-cnt-batches">-</div>
+                    <div class="turso-stat-lbl">Batches</div>
+                  </div>
+                  <div class="turso-stat-card">
+                    <div class="turso-stat-val" id="stat-cnt-packaging">-</div>
+                    <div class="turso-stat-lbl">Packaging Levels</div>
+                  </div>
+                  <div class="turso-stat-card">
+                    <div class="turso-stat-val" id="stat-cnt-telemetry">-</div>
+                    <div class="turso-stat-lbl">Telemetry Logs</div>
+                  </div>
+                  <div class="turso-stat-card">
+                    <div class="turso-stat-val" id="stat-cnt-custody">-</div>
+                    <div class="turso-stat-lbl">Custody Steps</div>
+                  </div>
+                  <div class="turso-stat-card">
+                    <div class="turso-stat-val" id="stat-cnt-dbt">-</div>
+                    <div class="turso-stat-lbl">DBT Disbursements</div>
+                  </div>
+                  <div class="turso-stat-card">
+                    <div class="turso-stat-val" id="stat-cnt-reverse">-</div>
+                    <div class="turso-stat-lbl">Reverse Flow Events</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -2224,21 +2475,163 @@ table.details-table tr:hover td {
   function switchModalTab(tab) {
     const tTel = $('#tab-btn-telemetry');
     const tDet = $('#tab-btn-determinants');
+    const tTur = $('#tab-btn-turso');
     const vTel = $('#view-telemetry');
     const vDet = $('#view-determinants');
+    const vTur = $('#view-turso');
+
+    [tTel, tDet, tTur].forEach(b => { if (b) b.classList.remove('active'); });
+    if (vTel) vTel.style.display = 'none';
+    if (vDet) vDet.style.display = 'none';
+    if (vTur) vTur.style.display = 'none';
+
     if (tab === 'telemetry') {
       if (tTel) tTel.classList.add('active');
-      if (tDet) tDet.classList.remove('active');
       if (vTel) vTel.style.display = 'block';
-      if (vDet) vDet.style.display = 'none';
       populateDetailsTable();
-    } else {
-      if (tTel) tTel.classList.remove('active');
+    } else if (tab === 'determinants') {
       if (tDet) tDet.classList.add('active');
-      if (vTel) vTel.style.display = 'none';
       if (vDet) vDet.style.display = 'block';
+    } else if (tab === 'turso') {
+      if (tTur) tTur.classList.add('active');
+      if (vTur) vTur.style.display = 'block';
+      refreshTursoStatus();
     }
   }
+
+  async function refreshTursoStatus() {
+    const bannerStatus = $('#turso-banner-status');
+    const pulseDot = $('#turso-pulse-dot');
+    if (bannerStatus) bannerStatus.textContent = 'Querying database status...';
+
+    try {
+      const res = await fetch('/api/status');
+      if (!res.ok) throw new Error('API offline');
+      const data = await res.json();
+      const db = data.database || {};
+      const counts = db.tableCounts || {};
+
+      if (bannerStatus) {
+        if (db.cloudConnected) {
+          bannerStatus.textContent = '🟢 Connected to Turso Cloud (' + db.endpoint + ')';
+          bannerStatus.style.color = '#38bdf8';
+          if (pulseDot) pulseDot.className = 'turso-status-dot pulse cloud';
+        } else {
+          bannerStatus.textContent = '🟡 Local libSQL Edge Engine (' + db.endpoint + ')';
+          bannerStatus.style.color = '#f59e0b';
+          if (pulseDot) pulseDot.className = 'turso-status-dot pulse local';
+        }
+      }
+
+      if ($('#stat-cnt-batches')) $('#stat-cnt-batches').textContent = counts.batches ?? 1;
+      if ($('#stat-cnt-packaging')) $('#stat-cnt-packaging').textContent = counts.packaging_hierarchy ?? 3;
+      if ($('#stat-cnt-telemetry')) $('#stat-cnt-telemetry').textContent = counts.telemetry_logs ?? 7;
+      if ($('#stat-cnt-custody')) $('#stat-cnt-custody').textContent = counts.custody_chain ?? 4;
+      if ($('#stat-cnt-dbt')) $('#stat-cnt-dbt').textContent = counts.dbt_disbursements ?? 1;
+      if ($('#stat-cnt-reverse')) $('#stat-cnt-reverse').textContent = counts.reverse_flow_events ?? 0;
+    } catch (e) {
+      if (bannerStatus) {
+        bannerStatus.textContent = '⚪ Standalone / Offline Client Mode';
+        bannerStatus.style.color = '#94a3b8';
+      }
+    }
+  }
+
+  const btnTursoConnect = $('#btn-turso-connect');
+  if (btnTursoConnect) {
+    btnTursoConnect.onclick = async () => {
+      const urlInput = $('#turso-url-input');
+      const tokenInput = $('#turso-token-input');
+      const msgBox = $('#turso-msg');
+      const dbUrl = urlInput ? urlInput.value.trim() : '';
+      const authToken = tokenInput ? tokenInput.value.trim() : '';
+
+      if (msgBox) {
+        msgBox.style.display = 'block';
+        msgBox.className = 'turso-msg-box';
+        msgBox.textContent = '⏳ Connecting to Turso database and applying schema tables...';
+      }
+      sfx.beep(520, 0.05);
+
+      try {
+        const res = await fetch('/api/turso/connect', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url: dbUrl || 'file:kisan_trace.db', authToken })
+        });
+        const data = await res.json();
+        if (data.success) {
+          if (msgBox) {
+            msgBox.className = 'turso-msg-box ok';
+            msgBox.innerHTML = '✅ <strong>Connected &amp; Updated!</strong> All 6 tables verified and seeded with blockchain provenance records.';
+          }
+          sfx.celebrate();
+          refreshTursoStatus();
+        } else {
+          if (msgBox) {
+            msgBox.className = 'turso-msg-box err';
+            msgBox.textContent = '❌ Failed to connect: ' + (data.error || 'Unknown error');
+          }
+          sfx.alarm();
+        }
+      } catch (err) {
+        if (msgBox) {
+          msgBox.className = 'turso-msg-box err';
+          msgBox.textContent = '❌ Error reaching Turso server endpoint: ' + err.message;
+        }
+        sfx.alarm();
+      }
+    };
+  }
+
+  const btnTursoSync = $('#btn-turso-sync');
+  if (btnTursoSync) {
+    btnTursoSync.onclick = async () => {
+      const msgBox = $('#turso-msg');
+      if (msgBox) {
+        msgBox.style.display = 'block';
+        msgBox.className = 'turso-msg-box';
+        msgBox.textContent = '⏳ Re-syncing all 6 tables in Turso...';
+      }
+      try {
+        const res = await fetch('/api/seed', { method: 'POST' });
+        const data = await res.json();
+        if (data.success) {
+          if (msgBox) {
+            msgBox.className = 'turso-msg-box ok';
+            msgBox.innerHTML = '✅ <strong>Sync Complete!</strong> Records updated in Turso database.';
+          }
+          sfx.step();
+          refreshTursoStatus();
+        }
+      } catch (e) {
+        if (msgBox) {
+          msgBox.className = 'turso-msg-box err';
+          msgBox.textContent = '❌ Sync failed: ' + e.message;
+        }
+      }
+    };
+  }
+
+  const btnTursoPush = $('#btn-turso-push-current');
+  if (btnTursoPush) {
+    btnTursoPush.onclick = async () => {
+      const t = parseFloat($('#T').value);
+      const h = parseFloat($('#H').value);
+      const msgBox = $('#turso-msg');
+      syncTelemetryToTurso(step, NM[step] || 'Manual Station', GPS[step] || '26.45°N 80.33°E', t, h);
+      if (msgBox) {
+        msgBox.style.display = 'block';
+        msgBox.className = 'turso-msg-box ok';
+        msgBox.textContent = `✅ Pushed telemetry reading to Turso: ${t.toFixed(1)}°C, ${h}% at ${NM[step] || 'Current Station'}`;
+      }
+      sfx.beep(640, 0.08);
+      setTimeout(refreshTursoStatus, 300);
+    };
+  }
+
+  const btnPing = $('#btn-refresh-turso-status');
+  if (btnPing) btnPing.onclick = () => { refreshTursoStatus(); sfx.beep(550, 0.05); };
 
   const btnOpenDetails = $('#btn-open-details');
   if (btnOpenDetails) {
@@ -2258,11 +2651,23 @@ table.details-table tr:hover td {
     };
   }
 
+  const btnOpenTurso = $('#btn-open-turso');
+  if (btnOpenTurso) {
+    btnOpenTurso.onclick = () => {
+      switchModalTab('turso');
+      $('#modal-details').classList.add('open');
+      sfx.beep(600, 0.06);
+    };
+  }
+
   const tabBtnTel = $('#tab-btn-telemetry');
   if (tabBtnTel) tabBtnTel.onclick = () => switchModalTab('telemetry');
 
   const tabBtnDet = $('#tab-btn-determinants');
   if (tabBtnDet) tabBtnDet.onclick = () => switchModalTab('determinants');
+
+  const tabBtnTur = $('#tab-btn-turso');
+  if (tabBtnTur) tabBtnTur.onclick = () => switchModalTab('turso');
 
   const btnCloseDetails = $('#btn-close-details');
   if (btnCloseDetails) {

@@ -9,17 +9,66 @@ const { createClient } = require('@libsql/client');
 const fs = require('fs');
 const path = require('path');
 
-const url = process.env.TURSO_DATABASE_URL || 'file:kisan_trace.db';
-const authToken = process.env.TURSO_AUTH_TOKEN || undefined;
+// Auto-load .env file if present
+const envPath = path.join(__dirname, '.env');
+if (fs.existsSync(envPath)) {
+  try {
+    const envText = fs.readFileSync(envPath, 'utf8');
+    envText.split('\n').forEach(line => {
+      const match = line.match(/^\s*([\w_]+)\s*=\s*(.*)?\s*$/);
+      if (match) {
+        const key = match[1];
+        let val = (match[2] || '').trim();
+        val = val.replace(/^['"](.*)['"]$/, '$1');
+        process.env[key] = val;
+      }
+    });
+  } catch (e) {
+    console.warn('[Turso DB] Could not read .env file:', e.message);
+  }
+}
 
-const isCloud = url.startsWith('libsql://') || url.startsWith('https://');
+let url = process.env.TURSO_DATABASE_URL || 'file:kisan_trace.db';
+let authToken = process.env.TURSO_AUTH_TOKEN || undefined;
+let isCloud = url.startsWith('libsql://') || url.startsWith('https://');
 
-const client = createClient({
+let client = createClient({
   url,
   authToken
 });
 
-console.log(`[Turso DB] Initialized client connected to: ${isCloud ? 'Turso Cloud (' + url.split('@').pop() + ')' : 'Local libSQL file (' + url + ')'}`);
+console.log(`[Turso DB] Initialized client connected to: ${isCloud ? 'Turso Cloud (' + url + ')' : 'Local libSQL file (' + url + ')'}`);
+
+function updateClientConfig(newUrl, newAuthToken) {
+  if (!newUrl) throw new Error('Database URL is required');
+  url = newUrl.trim();
+  authToken = newAuthToken ? newAuthToken.trim() : undefined;
+  isCloud = url.startsWith('libsql://') || url.startsWith('https://');
+
+  client = createClient({
+    url,
+    authToken
+  });
+
+  // Persist to .env
+  const envContent = `TURSO_DATABASE_URL=${url}\nTURSO_AUTH_TOKEN=${authToken || ''}\n`;
+  try {
+    fs.writeFileSync(envPath, envContent, 'utf8');
+    console.log('[Turso DB] Saved new credentials to .env');
+  } catch (e) {
+    console.warn('[Turso DB] Could not write .env:', e.message);
+  }
+
+  console.log(`[Turso DB] Reconfigured client to: ${isCloud ? 'Turso Cloud (' + url + ')' : 'Local libSQL file (' + url + ')'}`);
+  return { isCloud, url: maskUrl(url) };
+}
+
+function maskUrl(u) {
+  if (!u) return '';
+  if (!u.startsWith('libsql://') && !u.startsWith('https://')) return u;
+  const parts = u.split('@');
+  return parts.length > 1 ? 'libsql://***@' + parts[1] : u;
+}
 
 async function initDb() {
   const schemaPath = path.join(__dirname, 'schema.sql');
@@ -42,23 +91,34 @@ async function initDb() {
   console.log('[Turso DB] All schema tables verified successfully.');
 }
 
-async function seedDb() {
+async function seedDb(force = false) {
   await initDb();
 
   const batchId = 'batch-iffco-2026-x992';
 
-  // 1. Check if seed batch exists
-  const existing = await client.execute({
-    sql: 'SELECT id FROM batches WHERE id = ?',
-    args: [batchId]
-  });
+  if (!force) {
+    const existing = await client.execute({
+      sql: 'SELECT id FROM batches WHERE id = ?',
+      args: [batchId]
+    });
 
-  if (existing.rows.length > 0) {
-    console.log('[Turso DB] Seed batch already exists. Skipping insertion.');
-    return;
+    if (existing.rows.length > 0) {
+      console.log('[Turso DB] Seed batch already exists. Skipping insertion.');
+      return;
+    }
+  } else {
+    // If force, clean up existing sample records first
+    try {
+      await client.execute({ sql: 'DELETE FROM reverse_flow_events WHERE batch_id = ?', args: [batchId] });
+      await client.execute({ sql: 'DELETE FROM dbt_disbursements WHERE batch_id = ?', args: [batchId] });
+      await client.execute({ sql: 'DELETE FROM custody_chain WHERE batch_id = ?', args: [batchId] });
+      await client.execute({ sql: 'DELETE FROM telemetry_logs WHERE batch_id = ?', args: [batchId] });
+      await client.execute({ sql: 'DELETE FROM packaging_hierarchy WHERE batch_id = ?', args: [batchId] });
+      await client.execute({ sql: 'DELETE FROM batches WHERE id = ?', args: [batchId] });
+    } catch (e) {}
   }
 
-  // 2. Insert Batch
+  // Insert Batch
   await client.execute({
     sql: `INSERT INTO batches (
       id, batch_number, formulation, nitrogen_pct, moisture_pct, biuret_pct,
@@ -82,7 +142,7 @@ async function seedDb() {
     ]
   });
 
-  // 3. Insert 3-Level Packaging Hierarchy
+  // Packaging Hierarchy
   const packagingLevels = [
     {
       id: 'pack-bag-01',
@@ -121,7 +181,7 @@ async function seedDb() {
     });
   }
 
-  // 4. Insert Initial Telemetry Stream
+  // Telemetry stream
   const telemetries = [
     { node_index: 0, node_name: 'Manufacturer Plant', gps: '26.45°N 80.33°E', temp: 28.4, hum: 52.0, note: 'Batch generated & sealed' },
     { node_index: 1, node_name: 'Quality Lab', gps: '26.85°N 80.95°E', temp: 27.2, hum: 49.0, note: '46.2% N purity certified' },
@@ -140,7 +200,7 @@ async function seedDb() {
     });
   }
 
-  // 5. Insert Custody Chain Handshakes
+  // Custody steps
   const custodySteps = [
     { stage: 1, from: 'IFFCO Synthesis', to: 'QC Quality Control', loc: 'Phulpur Plant', veh: null, tx: '0x101a...991a', offline: 0 },
     { stage: 2, from: 'QC Lab', to: 'Central Warehouse', loc: 'Lucknow Hub', veh: 'UP-32-BT-9014', tx: '0x202b...882b', offline: 0 },
@@ -156,7 +216,7 @@ async function seedDb() {
     });
   }
 
-  // 6. Insert DBT Disbursement Record
+  // DBT Disbursement
   await client.execute({
     sql: `INSERT INTO dbt_disbursements (id, batch_id, bag_code, farmer_name, farmer_aadhaar_hash, bank_account_last4, subsidy_amount, verification_channel, status)
           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
@@ -174,6 +234,21 @@ async function seedDb() {
   });
 
   console.log('[Turso DB] Seed data populated successfully for batch LOT-2026-X992.');
+}
+
+async function getTablesStatus() {
+  const tableNames = ['batches', 'packaging_hierarchy', 'telemetry_logs', 'custody_chain', 'dbt_disbursements', 'reverse_flow_events'];
+  const summary = {};
+
+  for (const name of tableNames) {
+    try {
+      const res = await client.execute(`SELECT count(*) as cnt FROM ${name}`);
+      summary[name] = res.rows[0].cnt;
+    } catch (e) {
+      summary[name] = 0;
+    }
+  }
+  return summary;
 }
 
 // Service helper methods
@@ -201,7 +276,6 @@ async function logTelemetry(batchId, nodeIndex, nodeName, gps, temp, hum) {
   });
 
   if (isBreached) {
-    // Record Reverse Flow Event automatically
     await client.execute({
       sql: `INSERT INTO reverse_flow_events (batch_id, trigger_node, reason, trigger_temperature, trigger_humidity, return_waybill)
             VALUES (?, ?, ?, ?, ?, ?)`,
@@ -220,17 +294,18 @@ async function logTelemetry(batchId, nodeIndex, nodeName, gps, temp, hum) {
 }
 
 module.exports = {
-  client,
+  client: () => client,
   initDb,
   seedDb,
   getBatches,
   getTelemetry,
   logTelemetry,
-  isCloud,
-  url
+  getTablesStatus,
+  updateClientConfig,
+  isCloud: () => isCloud,
+  url: () => url
 };
 
-// If run directly: node turso_db.js --seed
 if (require.main === module) {
   seedDb()
     .then(() => {

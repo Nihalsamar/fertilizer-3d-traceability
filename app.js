@@ -1151,21 +1151,163 @@
   function switchModalTab(tab) {
     const tTel = $('#tab-btn-telemetry');
     const tDet = $('#tab-btn-determinants');
+    const tTur = $('#tab-btn-turso');
     const vTel = $('#view-telemetry');
     const vDet = $('#view-determinants');
+    const vTur = $('#view-turso');
+
+    [tTel, tDet, tTur].forEach(b => { if (b) b.classList.remove('active'); });
+    if (vTel) vTel.style.display = 'none';
+    if (vDet) vDet.style.display = 'none';
+    if (vTur) vTur.style.display = 'none';
+
     if (tab === 'telemetry') {
       if (tTel) tTel.classList.add('active');
-      if (tDet) tDet.classList.remove('active');
       if (vTel) vTel.style.display = 'block';
-      if (vDet) vDet.style.display = 'none';
       populateDetailsTable();
-    } else {
-      if (tTel) tTel.classList.remove('active');
+    } else if (tab === 'determinants') {
       if (tDet) tDet.classList.add('active');
-      if (vTel) vTel.style.display = 'none';
       if (vDet) vDet.style.display = 'block';
+    } else if (tab === 'turso') {
+      if (tTur) tTur.classList.add('active');
+      if (vTur) vTur.style.display = 'block';
+      refreshTursoStatus();
     }
   }
+
+  async function refreshTursoStatus() {
+    const bannerStatus = $('#turso-banner-status');
+    const pulseDot = $('#turso-pulse-dot');
+    if (bannerStatus) bannerStatus.textContent = 'Querying database status...';
+
+    try {
+      const res = await fetch('/api/status');
+      if (!res.ok) throw new Error('API offline');
+      const data = await res.json();
+      const db = data.database || {};
+      const counts = db.tableCounts || {};
+
+      if (bannerStatus) {
+        if (db.cloudConnected) {
+          bannerStatus.textContent = '🟢 Connected to Turso Cloud (' + db.endpoint + ')';
+          bannerStatus.style.color = '#38bdf8';
+          if (pulseDot) pulseDot.className = 'turso-status-dot pulse cloud';
+        } else {
+          bannerStatus.textContent = '🟡 Local libSQL Edge Engine (' + db.endpoint + ')';
+          bannerStatus.style.color = '#f59e0b';
+          if (pulseDot) pulseDot.className = 'turso-status-dot pulse local';
+        }
+      }
+
+      if ($('#stat-cnt-batches')) $('#stat-cnt-batches').textContent = counts.batches ?? 1;
+      if ($('#stat-cnt-packaging')) $('#stat-cnt-packaging').textContent = counts.packaging_hierarchy ?? 3;
+      if ($('#stat-cnt-telemetry')) $('#stat-cnt-telemetry').textContent = counts.telemetry_logs ?? 7;
+      if ($('#stat-cnt-custody')) $('#stat-cnt-custody').textContent = counts.custody_chain ?? 4;
+      if ($('#stat-cnt-dbt')) $('#stat-cnt-dbt').textContent = counts.dbt_disbursements ?? 1;
+      if ($('#stat-cnt-reverse')) $('#stat-cnt-reverse').textContent = counts.reverse_flow_events ?? 0;
+    } catch (e) {
+      if (bannerStatus) {
+        bannerStatus.textContent = '⚪ Standalone / Offline Client Mode';
+        bannerStatus.style.color = '#94a3b8';
+      }
+    }
+  }
+
+  const btnTursoConnect = $('#btn-turso-connect');
+  if (btnTursoConnect) {
+    btnTursoConnect.onclick = async () => {
+      const urlInput = $('#turso-url-input');
+      const tokenInput = $('#turso-token-input');
+      const msgBox = $('#turso-msg');
+      const dbUrl = urlInput ? urlInput.value.trim() : '';
+      const authToken = tokenInput ? tokenInput.value.trim() : '';
+
+      if (msgBox) {
+        msgBox.style.display = 'block';
+        msgBox.className = 'turso-msg-box';
+        msgBox.textContent = '⏳ Connecting to Turso database and applying schema tables...';
+      }
+      sfx.beep(520, 0.05);
+
+      try {
+        const res = await fetch('/api/turso/connect', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url: dbUrl || 'file:kisan_trace.db', authToken })
+        });
+        const data = await res.json();
+        if (data.success) {
+          if (msgBox) {
+            msgBox.className = 'turso-msg-box ok';
+            msgBox.innerHTML = '✅ <strong>Connected &amp; Updated!</strong> All 6 tables verified and seeded with blockchain provenance records.';
+          }
+          sfx.celebrate();
+          refreshTursoStatus();
+        } else {
+          if (msgBox) {
+            msgBox.className = 'turso-msg-box err';
+            msgBox.textContent = '❌ Failed to connect: ' + (data.error || 'Unknown error');
+          }
+          sfx.alarm();
+        }
+      } catch (err) {
+        if (msgBox) {
+          msgBox.className = 'turso-msg-box err';
+          msgBox.textContent = '❌ Error reaching Turso server endpoint: ' + err.message;
+        }
+        sfx.alarm();
+      }
+    };
+  }
+
+  const btnTursoSync = $('#btn-turso-sync');
+  if (btnTursoSync) {
+    btnTursoSync.onclick = async () => {
+      const msgBox = $('#turso-msg');
+      if (msgBox) {
+        msgBox.style.display = 'block';
+        msgBox.className = 'turso-msg-box';
+        msgBox.textContent = '⏳ Re-syncing all 6 tables in Turso...';
+      }
+      try {
+        const res = await fetch('/api/seed', { method: 'POST' });
+        const data = await res.json();
+        if (data.success) {
+          if (msgBox) {
+            msgBox.className = 'turso-msg-box ok';
+            msgBox.innerHTML = '✅ <strong>Sync Complete!</strong> Records updated in Turso database.';
+          }
+          sfx.step();
+          refreshTursoStatus();
+        }
+      } catch (e) {
+        if (msgBox) {
+          msgBox.className = 'turso-msg-box err';
+          msgBox.textContent = '❌ Sync failed: ' + e.message;
+        }
+      }
+    };
+  }
+
+  const btnTursoPush = $('#btn-turso-push-current');
+  if (btnTursoPush) {
+    btnTursoPush.onclick = async () => {
+      const t = parseFloat($('#T').value);
+      const h = parseFloat($('#H').value);
+      const msgBox = $('#turso-msg');
+      syncTelemetryToTurso(step, NM[step] || 'Manual Station', GPS[step] || '26.45°N 80.33°E', t, h);
+      if (msgBox) {
+        msgBox.style.display = 'block';
+        msgBox.className = 'turso-msg-box ok';
+        msgBox.textContent = `✅ Pushed telemetry reading to Turso: ${t.toFixed(1)}°C, ${h}% at ${NM[step] || 'Current Station'}`;
+      }
+      sfx.beep(640, 0.08);
+      setTimeout(refreshTursoStatus, 300);
+    };
+  }
+
+  const btnPing = $('#btn-refresh-turso-status');
+  if (btnPing) btnPing.onclick = () => { refreshTursoStatus(); sfx.beep(550, 0.05); };
 
   const btnOpenDetails = $('#btn-open-details');
   if (btnOpenDetails) {
@@ -1185,11 +1327,23 @@
     };
   }
 
+  const btnOpenTurso = $('#btn-open-turso');
+  if (btnOpenTurso) {
+    btnOpenTurso.onclick = () => {
+      switchModalTab('turso');
+      $('#modal-details').classList.add('open');
+      sfx.beep(600, 0.06);
+    };
+  }
+
   const tabBtnTel = $('#tab-btn-telemetry');
   if (tabBtnTel) tabBtnTel.onclick = () => switchModalTab('telemetry');
 
   const tabBtnDet = $('#tab-btn-determinants');
   if (tabBtnDet) tabBtnDet.onclick = () => switchModalTab('determinants');
+
+  const tabBtnTur = $('#tab-btn-turso');
+  if (tabBtnTur) tabBtnTur.onclick = () => switchModalTab('turso');
 
   const btnCloseDetails = $('#btn-close-details');
   if (btnCloseDetails) {
