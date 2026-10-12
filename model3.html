@@ -1262,6 +1262,10 @@ table.details-table tr:hover td {
                     <label for="turso-token-input">Turso Auth Token:</label>
                     <input type="password" id="turso-token-input" class="turso-input" placeholder="eyJhbGciOi... (optional for local)" />
                   </div>
+                  <div class="turso-form-group" style="grid-column: 1 / -1;">
+                    <label for="turso-admin-key-input">Admin Security Key (Required for Connect &amp; Re-Sync):</label>
+                    <input type="password" id="turso-admin-key-input" class="turso-input" value="kisantrace-admin-2026" placeholder="Enter admin key (default: kisantrace-admin-2026)" />
+                  </div>
                 </div>
                 <div class="turso-actions-row">
                   <button class="turso-btn-primary" id="btn-turso-connect">⚡ Connect &amp; Update Database</button>
@@ -2542,9 +2546,11 @@ table.details-table tr:hover td {
     btnTursoConnect.onclick = async () => {
       const urlInput = $('#turso-url-input');
       const tokenInput = $('#turso-token-input');
+      const adminKeyInput = $('#turso-admin-key-input');
       const msgBox = $('#turso-msg');
       const dbUrl = urlInput ? urlInput.value.trim() : '';
       const authToken = tokenInput ? tokenInput.value.trim() : '';
+      const adminKey = adminKeyInput ? adminKeyInput.value.trim() : 'kisantrace-admin-2026';
 
       if (msgBox) {
         msgBox.style.display = 'block';
@@ -2556,10 +2562,21 @@ table.details-table tr:hover td {
       try {
         const res = await fetch('/api/turso/connect', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ url: dbUrl || 'file:kisan_trace.db', authToken })
+          headers: {
+            'Content-Type': 'application/json',
+            'x-admin-key': adminKey
+          },
+          body: JSON.stringify({ url: dbUrl || 'file:kisan_trace.db', authToken, adminKey })
         });
         const data = await res.json();
+        if (res.status === 429) {
+          if (msgBox) {
+            msgBox.className = 'turso-msg-box err';
+            msgBox.textContent = '⚠️ Rate limit active: please wait ' + (data.retryAfter || 10) + 's before retrying.';
+          }
+          sfx.alarm();
+          return;
+        }
         if (data.success) {
           if (msgBox) {
             msgBox.className = 'turso-msg-box ok';
@@ -2587,6 +2604,8 @@ table.details-table tr:hover td {
   const btnTursoSync = $('#btn-turso-sync');
   if (btnTursoSync) {
     btnTursoSync.onclick = async () => {
+      const adminKeyInput = $('#turso-admin-key-input');
+      const adminKey = adminKeyInput ? adminKeyInput.value.trim() : 'kisantrace-admin-2026';
       const msgBox = $('#turso-msg');
       if (msgBox) {
         msgBox.style.display = 'block';
@@ -2594,8 +2613,22 @@ table.details-table tr:hover td {
         msgBox.textContent = '⏳ Re-syncing all 6 tables in Turso...';
       }
       try {
-        const res = await fetch('/api/seed', { method: 'POST' });
+        const res = await fetch('/api/seed', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-admin-key': adminKey
+          },
+          body: JSON.stringify({ adminKey })
+        });
         const data = await res.json();
+        if (res.status === 429) {
+          if (msgBox) {
+            msgBox.className = 'turso-msg-box err';
+            msgBox.textContent = '⚠️ Rate limit active: please wait ' + (data.retryAfter || 10) + 's before retrying.';
+          }
+          return;
+        }
         if (data.success) {
           if (msgBox) {
             msgBox.className = 'turso-msg-box ok';
@@ -2603,6 +2636,11 @@ table.details-table tr:hover td {
           }
           sfx.step();
           refreshTursoStatus();
+        } else {
+          if (msgBox) {
+            msgBox.className = 'turso-msg-box err';
+            msgBox.textContent = '❌ Sync failed: ' + (data.error || 'Unknown error');
+          }
         }
       } catch (e) {
         if (msgBox) {

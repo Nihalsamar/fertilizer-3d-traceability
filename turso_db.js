@@ -51,13 +51,16 @@ function updateClientConfig(newUrl, newAuthToken) {
   });
 
   // Persist to .env
-  const envContent = `TURSO_DATABASE_URL=${url}\nTURSO_AUTH_TOKEN=${authToken || ''}\n`;
+  const adminKey = process.env.ADMIN_KEY || 'kisantrace-admin-2026';
+  const envContent = `TURSO_DATABASE_URL=${url}\nTURSO_AUTH_TOKEN=${authToken || ''}\nADMIN_KEY=${adminKey}\n`;
   try {
     fs.writeFileSync(envPath, envContent, 'utf8');
     console.log('[Turso DB] Saved new credentials to .env');
   } catch (e) {
     console.warn('[Turso DB] Could not write .env:', e.message);
   }
+
+  invalidateCache();
 
   console.log(`[Turso DB] Reconfigured client to: ${isCloud ? 'Turso Cloud (' + url + ')' : 'Local libSQL file (' + url + ')'}`);
   return { isCloud, url: maskUrl(url) };
@@ -234,26 +237,82 @@ async function seedDb(force = false) {
   });
 
   console.log('[Turso DB] Seed data populated successfully for batch LOT-2026-X992.');
+  invalidateCache();
 }
 
-async function getTablesStatus() {
-  const tableNames = ['batches', 'packaging_hierarchy', 'telemetry_logs', 'custody_chain', 'dbt_disbursements', 'reverse_flow_events'];
-  const summary = {};
+// In-Memory TTL Cache State
+let statusCache = { data: null, expiresAt: 0 };
+let batchesCache = { data: null, expiresAt: 0 };
+let statusInFlight = null;
 
-  for (const name of tableNames) {
-    try {
-      const res = await client.execute(`SELECT count(*) as cnt FROM ${name}`);
-      summary[name] = res.rows[0].cnt;
-    } catch (e) {
-      summary[name] = 0;
-    }
+function invalidateCache() {
+  statusCache = { data: null, expiresAt: 0 };
+  batchesCache = { data: null, expiresAt: 0 };
+}
+
+async function getTablesStatus(skipCache = false) {
+  const now = Date.now();
+  if (!skipCache && statusCache.data && statusCache.expiresAt > now) {
+    return statusCache.data;
   }
-  return summary;
+
+  // Prevent cache stampede / thundering herd under concurrent storms
+  if (!skipCache && statusInFlight) {
+    return statusInFlight;
+  }
+
+  statusInFlight = (async () => {
+    try {
+      const sql = `SELECT 
+        (SELECT count(*) FROM batches) as batches,
+        (SELECT count(*) FROM packaging_hierarchy) as packaging_hierarchy,
+        (SELECT count(*) FROM telemetry_logs) as telemetry_logs,
+        (SELECT count(*) FROM custody_chain) as custody_chain,
+        (SELECT count(*) FROM dbt_disbursements) as dbt_disbursements,
+        (SELECT count(*) FROM reverse_flow_events) as reverse_flow_events;`;
+
+      const res = await client.execute(sql);
+      const row = res.rows[0] || {};
+      const summary = {
+        batches: Number(row.batches || 0),
+        packaging_hierarchy: Number(row.packaging_hierarchy || 0),
+        telemetry_logs: Number(row.telemetry_logs || 0),
+        custody_chain: Number(row.custody_chain || 0),
+        dbt_disbursements: Number(row.dbt_disbursements || 0),
+        reverse_flow_events: Number(row.reverse_flow_events || 0)
+      };
+
+      statusCache = {
+        data: summary,
+        expiresAt: Date.now() + 5000 // 5 seconds TTL cache
+      };
+      return summary;
+    } catch (e) {
+      console.error('[Turso DB] getTablesStatus query error:', e.message);
+      return statusCache.data || {
+        batches: 0, packaging_hierarchy: 0, telemetry_logs: 0,
+        custody_chain: 0, dbt_disbursements: 0, reverse_flow_events: 0
+      };
+    } finally {
+      statusInFlight = null;
+    }
+  })();
+
+  return statusInFlight;
 }
 
 // Service helper methods
-async function getBatches() {
+async function getBatches(skipCache = false) {
+  const now = Date.now();
+  if (!skipCache && batchesCache.data && batchesCache.expiresAt > now) {
+    return batchesCache.data;
+  }
+
   const result = await client.execute('SELECT * FROM batches ORDER BY created_at DESC');
+  batchesCache = {
+    data: result.rows,
+    expiresAt: now + 8000 // 8 seconds TTL cache
+  };
   return result.rows;
 }
 
@@ -290,6 +349,9 @@ async function logTelemetry(batchId, nodeIndex, nodeName, gps, temp, hum) {
     });
   }
 
+  // Bust cache when new telemetry is logged
+  invalidateCache();
+
   return { success: true, isBreached };
 }
 
@@ -302,6 +364,7 @@ module.exports = {
   logTelemetry,
   getTablesStatus,
   updateClientConfig,
+  invalidateCache,
   isCloud: () => isCloud,
   url: () => url
 };

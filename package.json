@@ -7,7 +7,8 @@
     "start": "node server.js",
     "seed": "node turso_db.js --seed",
     "bundle": "node bundle.js",
-    "test": "node test_runner.js"
+    "test": "node test_runner.js",
+    "test:load": "node load_test.js"
   },
   "keywords": [
     "threejs",

@@ -1218,9 +1218,11 @@
     btnTursoConnect.onclick = async () => {
       const urlInput = $('#turso-url-input');
       const tokenInput = $('#turso-token-input');
+      const adminKeyInput = $('#turso-admin-key-input');
       const msgBox = $('#turso-msg');
       const dbUrl = urlInput ? urlInput.value.trim() : '';
       const authToken = tokenInput ? tokenInput.value.trim() : '';
+      const adminKey = adminKeyInput ? adminKeyInput.value.trim() : 'kisantrace-admin-2026';
 
       if (msgBox) {
         msgBox.style.display = 'block';
@@ -1232,10 +1234,21 @@
       try {
         const res = await fetch('/api/turso/connect', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ url: dbUrl || 'file:kisan_trace.db', authToken })
+          headers: {
+            'Content-Type': 'application/json',
+            'x-admin-key': adminKey
+          },
+          body: JSON.stringify({ url: dbUrl || 'file:kisan_trace.db', authToken, adminKey })
         });
         const data = await res.json();
+        if (res.status === 429) {
+          if (msgBox) {
+            msgBox.className = 'turso-msg-box err';
+            msgBox.textContent = '⚠️ Rate limit active: please wait ' + (data.retryAfter || 10) + 's before retrying.';
+          }
+          sfx.alarm();
+          return;
+        }
         if (data.success) {
           if (msgBox) {
             msgBox.className = 'turso-msg-box ok';
@@ -1263,6 +1276,8 @@
   const btnTursoSync = $('#btn-turso-sync');
   if (btnTursoSync) {
     btnTursoSync.onclick = async () => {
+      const adminKeyInput = $('#turso-admin-key-input');
+      const adminKey = adminKeyInput ? adminKeyInput.value.trim() : 'kisantrace-admin-2026';
       const msgBox = $('#turso-msg');
       if (msgBox) {
         msgBox.style.display = 'block';
@@ -1270,8 +1285,22 @@
         msgBox.textContent = '⏳ Re-syncing all 6 tables in Turso...';
       }
       try {
-        const res = await fetch('/api/seed', { method: 'POST' });
+        const res = await fetch('/api/seed', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-admin-key': adminKey
+          },
+          body: JSON.stringify({ adminKey })
+        });
         const data = await res.json();
+        if (res.status === 429) {
+          if (msgBox) {
+            msgBox.className = 'turso-msg-box err';
+            msgBox.textContent = '⚠️ Rate limit active: please wait ' + (data.retryAfter || 10) + 's before retrying.';
+          }
+          return;
+        }
         if (data.success) {
           if (msgBox) {
             msgBox.className = 'turso-msg-box ok';
@@ -1279,6 +1308,11 @@
           }
           sfx.step();
           refreshTursoStatus();
+        } else {
+          if (msgBox) {
+            msgBox.className = 'turso-msg-box err';
+            msgBox.textContent = '❌ Sync failed: ' + (data.error || 'Unknown error');
+          }
         }
       } catch (e) {
         if (msgBox) {
