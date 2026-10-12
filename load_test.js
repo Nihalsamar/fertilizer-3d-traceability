@@ -5,16 +5,16 @@
  * ============================================================================
  */
 
-const http = require('http');
-
 const BASE_URL = process.env.TEST_URL || 'http://localhost:3000';
 const parsedUrl = new URL(BASE_URL);
+const isHttps = parsedUrl.protocol === 'https:';
+const client = isHttps ? require('https') : require('http');
 const TARGET_HOST = parsedUrl.hostname;
-const TARGET_PORT = parsedUrl.port || (parsedUrl.protocol === 'https:' ? 443 : 80);
+const TARGET_PORT = parsedUrl.port || (isHttps ? 443 : 80);
 
 function request(options, body = null) {
   return new Promise((resolve, reject) => {
-    const req = http.request({
+    const req = client.request({
       host: TARGET_HOST,
       port: TARGET_PORT,
       ...options
