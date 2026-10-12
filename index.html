@@ -28,6 +28,8 @@
         <button class="chip" id="btn-open-determinants">⚙ Core Determinants</button>
         <!-- Dedicated Turso Database Button -->
         <button class="chip" id="btn-open-turso">🗄️ Turso DB</button>
+        <!-- Dedicated Excel Export Button -->
+        <button class="chip" id="btn-open-excel" style="background: rgba(16, 185, 129, 0.16); border-color: rgba(16, 185, 129, 0.45); color: #34d399; font-weight:600;">📊 Excel Export</button>
         <!-- Dedicated Reverse Flow Button -->
         <button class="chip danger-chip" id="btn-reverse-flow-top">↩ Reverse Flow</button>
       </div>
@@ -156,6 +158,7 @@
               <button class="modal-tab-btn active" id="tab-btn-telemetry">📋 Telemetry &amp; Logs</button>
               <button class="modal-tab-btn" id="tab-btn-determinants">⚙ Core Determinants &amp; Parameters</button>
               <button class="modal-tab-btn" id="tab-btn-turso">🗄️ Turso Database Hub</button>
+              <button class="modal-tab-btn" id="tab-btn-excel" style="color:#34d399;">📊 Excel Database Hub</button>
             </div>
           </div>
           <button class="modal-close" id="btn-close-details">✕</button>
@@ -358,6 +361,63 @@
               </div>
             </div>
           </div>
+
+          <!-- View 4: Excel Database Hub -->
+          <div id="view-excel" style="display:none;">
+            <div class="excel-hub-container">
+              <!-- Excel Banner -->
+              <div class="excel-banner">
+                <div style="font-size:26px;">📊</div>
+                <div>
+                  <div style="font-size:13.5px; font-weight:700; color:#34d399;">Turso Database Excel Extraction &amp; IoT Provenance Ledger</div>
+                  <div style="font-size:11.5px; color:#94a3b8; line-height:1.45;">
+                    Extract all database records gathered in Turso Cloud. Includes exact timestamps, separated Latitude &amp; Longitude coordinates, decimal GPS for GIS mapping, environmental telemetry, blockchain custody hops, and DBT subsidy disbursements.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Toolbar -->
+              <div class="excel-toolbar">
+                <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                  <button class="excel-btn-download" id="btn-download-excel-full">
+                    <span>📥</span>
+                    <span>Download Excel Workbook (.xlsx)</span>
+                  </button>
+                  <button class="excel-btn-csv" id="btn-download-csv-full">
+                    <span>📄</span>
+                    <span>Download Telemetry CSV</span>
+                  </button>
+                  <button class="excel-btn-csv" id="btn-refresh-excel-data">
+                    <span>🔄</span>
+                    <span>Refresh from Turso DB</span>
+                  </button>
+                </div>
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <input type="text" id="excel-search-input" class="turso-input" style="width:200px; padding:6px 10px;" placeholder="🔍 Filter records..." />
+                  <span id="excel-row-count-badge" style="font-size:11px; color:#94a3b8; font-family:var(--mono);">0 rows</span>
+                </div>
+              </div>
+
+              <!-- Sub Tabs for Datasets -->
+              <div class="excel-sub-tabs">
+                <button class="excel-sub-tab active" data-sheet="telemetry">📡 IoT Telemetry &amp; GPS (<span id="cnt-tab-telemetry">0</span>)</button>
+                <button class="excel-sub-tab" data-sheet="batches">📦 Batches Master (<span id="cnt-tab-batches">0</span>)</button>
+                <button class="excel-sub-tab" data-sheet="custody">🚚 Custody Chain (<span id="cnt-tab-custody">0</span>)</button>
+                <button class="excel-sub-tab" data-sheet="dbt">🌾 DBT Disbursements (<span id="cnt-tab-dbt">0</span>)</button>
+                <button class="excel-sub-tab" data-sheet="reverse">⚠️ Reverse Flow Recalls (<span id="cnt-tab-reverse">0</span>)</button>
+                <button class="excel-sub-tab" data-sheet="packaging">🏷️ Packaging Hierarchy (<span id="cnt-tab-packaging">0</span>)</button>
+              </div>
+
+              <!-- Excel Table Grid Container -->
+              <div class="excel-grid-wrap" id="excel-grid-wrap">
+                <table class="excel-grid-table" id="excel-grid-table">
+                  <thead id="excel-grid-thead"></thead>
+                  <tbody id="excel-grid-tbody"></tbody>
+                </table>
+              </div>
+              <div id="excel-status-msg" style="font-size:11.5px; color:#94a3b8; font-family:var(--mono); text-align:right;"></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -375,6 +435,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <!-- Confetti library -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <!-- SheetJS Library for Client-side Excel .xlsx Generation -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <!-- Main Application Logic -->
   <script src="app.js"></script>
 </body>

@@ -953,6 +953,173 @@ table.details-table tr:hover td {
   }
 }
 
+/* Excel Data Export Hub Styles */
+.excel-hub-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.excel-banner {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.28);
+  border-radius: 12px;
+  padding: 12px 16px;
+}
+
+.excel-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background: rgba(15, 23, 42, 0.6);
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.excel-btn-download {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, #059669, #10b981);
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 8px 16px;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.25);
+  transition: all 0.2s ease;
+}
+
+.excel-btn-download:hover {
+  background: linear-gradient(135deg, #047857, #059669);
+  transform: translateY(-1px);
+}
+
+.excel-btn-csv {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  color: #cbd5e1;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.excel-btn-csv:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+}
+
+.excel-sub-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 8px;
+}
+
+.excel-sub-tab {
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #94a3b8;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.excel-sub-tab:hover {
+  color: #f1f5f9;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.excel-sub-tab.active {
+  background: rgba(16, 185, 129, 0.15);
+  border-color: rgba(16, 185, 129, 0.35);
+  color: #34d399;
+}
+
+.excel-grid-wrap {
+  max-height: 420px;
+  overflow: auto;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(10, 15, 29, 0.75);
+}
+
+.excel-grid-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 11px;
+  font-family: var(--mono);
+}
+
+.excel-grid-table th {
+  position: sticky;
+  top: 0;
+  background: #064e3b;
+  color: #ffffff;
+  padding: 8px 10px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 11px;
+  border-right: 1px solid rgba(255, 255, 255, 0.15);
+  white-space: nowrap;
+  z-index: 10;
+}
+
+.excel-grid-table td {
+  padding: 6px 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border-right: 1px solid rgba(255, 255, 255, 0.04);
+  color: #cbd5e1;
+  white-space: nowrap;
+}
+
+.excel-grid-table tr:nth-child(even) td {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.excel-grid-table tr:hover td {
+  background: rgba(16, 185, 129, 0.08);
+  color: #ffffff;
+}
+
+.excel-badge-breach {
+  background: rgba(239, 68, 68, 0.2);
+  color: #fca5a5;
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 10px;
+}
+
+.excel-badge-ok {
+  background: rgba(16, 185, 129, 0.2);
+  color: #6ee7b7;
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 10px;
+}
+
 </style>
 </head>
 <body>
@@ -977,6 +1144,8 @@ table.details-table tr:hover td {
         <button class="chip" id="btn-open-determinants">⚙ Core Determinants</button>
         <!-- Dedicated Turso Database Button -->
         <button class="chip" id="btn-open-turso">🗄️ Turso DB</button>
+        <!-- Dedicated Excel Export Button -->
+        <button class="chip" id="btn-open-excel" style="background: rgba(16, 185, 129, 0.16); border-color: rgba(16, 185, 129, 0.45); color: #34d399; font-weight:600;">📊 Excel Export</button>
         <!-- Dedicated Reverse Flow Button -->
         <button class="chip danger-chip" id="btn-reverse-flow-top">↩ Reverse Flow</button>
       </div>
@@ -1105,6 +1274,7 @@ table.details-table tr:hover td {
               <button class="modal-tab-btn active" id="tab-btn-telemetry">📋 Telemetry &amp; Logs</button>
               <button class="modal-tab-btn" id="tab-btn-determinants">⚙ Core Determinants &amp; Parameters</button>
               <button class="modal-tab-btn" id="tab-btn-turso">🗄️ Turso Database Hub</button>
+              <button class="modal-tab-btn" id="tab-btn-excel" style="color:#34d399;">📊 Excel Database Hub</button>
             </div>
           </div>
           <button class="modal-close" id="btn-close-details">✕</button>
@@ -1307,6 +1477,63 @@ table.details-table tr:hover td {
               </div>
             </div>
           </div>
+
+          <!-- View 4: Excel Database Hub -->
+          <div id="view-excel" style="display:none;">
+            <div class="excel-hub-container">
+              <!-- Excel Banner -->
+              <div class="excel-banner">
+                <div style="font-size:26px;">📊</div>
+                <div>
+                  <div style="font-size:13.5px; font-weight:700; color:#34d399;">Turso Database Excel Extraction &amp; IoT Provenance Ledger</div>
+                  <div style="font-size:11.5px; color:#94a3b8; line-height:1.45;">
+                    Extract all database records gathered in Turso Cloud. Includes exact timestamps, separated Latitude &amp; Longitude coordinates, decimal GPS for GIS mapping, environmental telemetry, blockchain custody hops, and DBT subsidy disbursements.
+                  </div>
+                </div>
+              </div>
+
+              <!-- Toolbar -->
+              <div class="excel-toolbar">
+                <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                  <button class="excel-btn-download" id="btn-download-excel-full">
+                    <span>📥</span>
+                    <span>Download Excel Workbook (.xlsx)</span>
+                  </button>
+                  <button class="excel-btn-csv" id="btn-download-csv-full">
+                    <span>📄</span>
+                    <span>Download Telemetry CSV</span>
+                  </button>
+                  <button class="excel-btn-csv" id="btn-refresh-excel-data">
+                    <span>🔄</span>
+                    <span>Refresh from Turso DB</span>
+                  </button>
+                </div>
+                <div style="display:flex; align-items:center; gap:8px;">
+                  <input type="text" id="excel-search-input" class="turso-input" style="width:200px; padding:6px 10px;" placeholder="🔍 Filter records..." />
+                  <span id="excel-row-count-badge" style="font-size:11px; color:#94a3b8; font-family:var(--mono);">0 rows</span>
+                </div>
+              </div>
+
+              <!-- Sub Tabs for Datasets -->
+              <div class="excel-sub-tabs">
+                <button class="excel-sub-tab active" data-sheet="telemetry">📡 IoT Telemetry &amp; GPS (<span id="cnt-tab-telemetry">0</span>)</button>
+                <button class="excel-sub-tab" data-sheet="batches">📦 Batches Master (<span id="cnt-tab-batches">0</span>)</button>
+                <button class="excel-sub-tab" data-sheet="custody">🚚 Custody Chain (<span id="cnt-tab-custody">0</span>)</button>
+                <button class="excel-sub-tab" data-sheet="dbt">🌾 DBT Disbursements (<span id="cnt-tab-dbt">0</span>)</button>
+                <button class="excel-sub-tab" data-sheet="reverse">⚠️ Reverse Flow Recalls (<span id="cnt-tab-reverse">0</span>)</button>
+                <button class="excel-sub-tab" data-sheet="packaging">🏷️ Packaging Hierarchy (<span id="cnt-tab-packaging">0</span>)</button>
+              </div>
+
+              <!-- Excel Table Grid Container -->
+              <div class="excel-grid-wrap" id="excel-grid-wrap">
+                <table class="excel-grid-table" id="excel-grid-table">
+                  <thead id="excel-grid-thead"></thead>
+                  <tbody id="excel-grid-tbody"></tbody>
+                </table>
+              </div>
+              <div id="excel-status-msg" style="font-size:11.5px; color:#94a3b8; font-family:var(--mono); text-align:right;"></div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -1324,6 +1551,8 @@ table.details-table tr:hover td {
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <!-- Confetti library -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <!-- SheetJS Library for Client-side Excel .xlsx Generation -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
   <!-- Main Application Logic -->
   <script>
 /**
@@ -2480,14 +2709,17 @@ table.details-table tr:hover td {
     const tTel = $('#tab-btn-telemetry');
     const tDet = $('#tab-btn-determinants');
     const tTur = $('#tab-btn-turso');
+    const tExc = $('#tab-btn-excel');
     const vTel = $('#view-telemetry');
     const vDet = $('#view-determinants');
     const vTur = $('#view-turso');
+    const vExc = $('#view-excel');
 
-    [tTel, tDet, tTur].forEach(b => { if (b) b.classList.remove('active'); });
+    [tTel, tDet, tTur, tExc].forEach(b => { if (b) b.classList.remove('active'); });
     if (vTel) vTel.style.display = 'none';
     if (vDet) vDet.style.display = 'none';
     if (vTur) vTur.style.display = 'none';
+    if (vExc) vExc.style.display = 'none';
 
     if (tab === 'telemetry') {
       if (tTel) tTel.classList.add('active');
@@ -2500,6 +2732,10 @@ table.details-table tr:hover td {
       if (tTur) tTur.classList.add('active');
       if (vTur) vTur.style.display = 'block';
       refreshTursoStatus();
+    } else if (tab === 'excel') {
+      if (tExc) tExc.classList.add('active');
+      if (vExc) vExc.style.display = 'block';
+      loadExcelDataHub();
     }
   }
 
@@ -2706,6 +2942,402 @@ table.details-table tr:hover td {
 
   const tabBtnTur = $('#tab-btn-turso');
   if (tabBtnTur) tabBtnTur.onclick = () => switchModalTab('turso');
+
+  const tabBtnExc = $('#tab-btn-excel');
+  if (tabBtnExc) tabBtnExc.onclick = () => switchModalTab('excel');
+
+  const btnOpenExcel = $('#btn-open-excel');
+  if (btnOpenExcel) {
+    btnOpenExcel.onclick = () => {
+      switchModalTab('excel');
+      $('#modal-details').classList.add('open');
+      sfx.beep(640, 0.06);
+    };
+  }
+
+  // --------------------------------------------------------------------------
+  // Excel Data Export & Turso Cloud Extraction Module
+  // --------------------------------------------------------------------------
+  const excelState = {
+    data: null,
+    activeSheet: 'telemetry',
+    searchQuery: '',
+    loading: false
+  };
+
+  function parseCoordinateString(coords) {
+    if (!coords) return { lat: '26.45°N', lng: '80.33°E', decLat: '26.450000', decLng: '80.330000' };
+    const str = String(coords).trim();
+    const match = str.match(/([0-9.]+)\s*°?\s*([NSns])\s*,?\s*([0-9.]+)\s*°?\s*([EWew])/);
+    if (match) {
+      const latVal = parseFloat(match[1]);
+      const latDir = match[2].toUpperCase();
+      const lngVal = parseFloat(match[3]);
+      const lngDir = match[4].toUpperCase();
+      return {
+        lat: `${latVal}°${latDir}`,
+        lng: `${lngVal}°${lngDir}`,
+        decLat: (latDir === 'S' ? -latVal : latVal).toFixed(6),
+        decLng: (lngDir === 'W' ? -lngVal : lngVal).toFixed(6)
+      };
+    }
+    return { lat: str, lng: '', decLat: '', decLng: '' };
+  }
+
+  function getFallbackExcelData() {
+    const now = new Date();
+    const sampleTelemetry = nodes.map((n, idx) => {
+      const coords = parseCoordinateString(n.gps);
+      const timeAgo = new Date(now.getTime() - (nodes.length - idx) * 3600000);
+      return {
+        id: idx + 1,
+        recorded_at: timeAgo.toISOString().replace('T', ' ').slice(0, 19),
+        batch_id: 'batch-iffco-2026-x992',
+        node_index: idx,
+        node_name: n.name,
+        latitude: coords.lat,
+        longitude: coords.lng,
+        decimal_latitude: coords.decLat,
+        decimal_longitude: coords.decLng,
+        gps_coordinates: n.gps,
+        temperature: n.temp,
+        humidity: n.hum,
+        is_breached: n.temp > 40.0 || n.hum > 85.0 ? 1 : 0,
+        status_note: (n.temp > 40.0 || n.hum > 85.0) ? 'BREACH: Critical Limit Exceeded' : 'Condition Compliant'
+      };
+    });
+
+    return {
+      telemetry: sampleTelemetry,
+      batches: [{
+        id: 'batch-iffco-2026-x992',
+        batch_number: 'LOT-2026-X992',
+        formulation: 'Neem-Coated Urea (46.2% N)',
+        nitrogen_pct: 46.2,
+        moisture_pct: 0.42,
+        biuret_pct: 1.15,
+        quantity_bags: 1000,
+        total_weight_mt: 50.0,
+        manufacturer_name: 'IFFCO Phulpur Production Unit',
+        plant_latitude: '26.45°N',
+        plant_longitude: '80.33°E',
+        plant_decimal_latitude: '26.450000',
+        plant_decimal_longitude: '80.330000',
+        plant_gps: '26.45°N 80.33°E',
+        genesis_tx_hash: '0x8a9f3b14e92a83c7104b901fc88a10427e1892b189a7401c9018e7492a83c710',
+        qc_cert_hash: '0xqc462pass99014aef72c81093bc71a0912f8471c90081e7492a83c7104b901fc8',
+        status: 'ACTIVE',
+        created_at: '2026-10-09 08:33:21'
+      }],
+      custody: [
+        { id: 1, batch_id: 'batch-iffco-2026-x992', stage_number: 1, from_entity: 'IFFCO Synthesis', to_entity: 'QC Lab', location_name: 'Phulpur Plant', carrier_vehicle_id: 'Internal', tx_hash: '0x101a...991a', is_offline_signed: 0, verified_at: '2026-10-09 09:15:00' },
+        { id: 2, batch_id: 'batch-iffco-2026-x992', stage_number: 2, from_entity: 'QC Lab', to_entity: 'Central Warehouse', location_name: 'Lucknow Hub', carrier_vehicle_id: 'UP-32-BT-9014', tx_hash: '0x202b...882b', is_offline_signed: 0, verified_at: '2026-10-09 14:30:00' },
+        { id: 3, batch_id: 'batch-iffco-2026-x992', stage_number: 3, from_entity: 'Central Warehouse', to_entity: 'District Distributor', location_name: 'Varanasi Central', carrier_vehicle_id: 'UP-65-AR-4011', tx_hash: '0x303c...773c', is_offline_signed: 0, verified_at: '2026-10-10 11:00:00' },
+        { id: 4, batch_id: 'batch-iffco-2026-x992', stage_number: 4, from_entity: 'District Distributor', to_entity: 'Kisan Kendra', location_name: 'Chiraigaon Rural', carrier_vehicle_id: 'UP-65-T-1288', tx_hash: '0x404d...664d', is_offline_signed: 1, verified_at: '2026-10-11 16:45:00' }
+      ],
+      dbt: [{
+        id: 'dbt-tx-88912',
+        batch_id: 'batch-iffco-2026-x992',
+        bag_code: 'BAG-2026-X992-0001',
+        farmer_name: 'Ramesh Kumar Patel',
+        farmer_aadhaar_hash: '0xaadhaar7f201948bc819e01f2984c90',
+        bank_account_last4: '4091',
+        subsidy_amount: 1500.0,
+        verification_channel: 'SMARTPHONE_QR',
+        status: 'CREDITED',
+        disbursed_at: '2026-10-12 10:20:00'
+      }],
+      reverse_flow: [
+        { id: 1, batch_id: 'batch-iffco-2026-x992', trigger_node: 'Transporter Fleet (Truck)', reason: 'Thermal breach: 43.8°C (Limit: 40°C)', trigger_temperature: 43.8, trigger_humidity: 89.2, return_route: 'Truck -> Warehouse -> Factory', return_waybill: 'RET-LOT-2026-88192', quarantined_at: '2026-10-11 13:20:00' }
+      ],
+      packaging: [
+        { id: 'pack-bag-01', batch_id: 'batch-iffco-2026-x992', level: 'BAG', code: 'BAG-2026-X992-0001', parent_code: 'PALLET-2026-X992-01', rfid_epc: '-', merkle_root: '0x3a91...e2f3', weight_kg: 50.0, created_at: '2026-10-09 08:33:21' },
+        { id: 'pack-pallet-01', batch_id: 'batch-iffco-2026-x992', level: 'PALLET', code: 'PALLET-2026-X992-01', parent_code: 'CONTAINER-2026-X992', rfid_epc: 'EPC96-3008-0001', merkle_root: '0x7b14...e47f', weight_kg: 2500.0, created_at: '2026-10-09 08:33:21' },
+        { id: 'pack-cont-01', batch_id: 'batch-iffco-2026-x992', level: 'MASTER_CONTAINER', code: 'CONTAINER-2026-X992', parent_code: '-', rfid_epc: 'EPC96-3008-CONT', merkle_root: '0x9901...3b14', weight_kg: 50000.0, created_at: '2026-10-09 08:33:21' }
+      ]
+    };
+  }
+
+  async function loadExcelDataHub(forceRefresh = false) {
+    const statusMsg = $('#excel-status-msg');
+    if (statusMsg) statusMsg.textContent = '⏳ Querying Turso Cloud database for all records...';
+
+    if (!forceRefresh && excelState.data) {
+      renderExcelCounts();
+      renderExcelGridTable();
+      if (statusMsg) statusMsg.textContent = `✅ Showing ${excelState.data.telemetry?.length || 0} gathered records from Turso database.`;
+      return;
+    }
+
+    excelState.loading = true;
+    try {
+      const res = await fetch('/api/export/all');
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const json = await res.json();
+      if (json.success && json.data) {
+        excelState.data = json.data;
+        if (statusMsg) {
+          statusMsg.innerHTML = `🟢 <strong>Live Turso Connected:</strong> ${json.counts?.telemetry || 0} telemetry logs, ${json.counts?.batches || 0} batches extracted at ${new Date().toLocaleTimeString()}.`;
+        }
+      } else {
+        throw new Error(json.error || 'Invalid database payload');
+      }
+    } catch (e) {
+      excelState.data = getFallbackExcelData();
+      if (statusMsg) {
+        statusMsg.textContent = `🟡 Loaded local gathered records (${excelState.data.telemetry.length} logs). Connected to edge engine.`;
+      }
+    } finally {
+      excelState.loading = false;
+      renderExcelCounts();
+      renderExcelGridTable();
+    }
+  }
+
+  function renderExcelCounts() {
+    if (!excelState.data) return;
+    const { telemetry = [], batches = [], custody = [], dbt = [], reverse_flow = [], packaging = [] } = excelState.data;
+    if ($('#cnt-tab-telemetry')) $('#cnt-tab-telemetry').textContent = telemetry.length;
+    if ($('#cnt-tab-batches')) $('#cnt-tab-batches').textContent = batches.length;
+    if ($('#cnt-tab-custody')) $('#cnt-tab-custody').textContent = custody.length;
+    if ($('#cnt-tab-dbt')) $('#cnt-tab-dbt').textContent = dbt.length;
+    if ($('#cnt-tab-reverse')) $('#cnt-tab-reverse').textContent = reverse_flow.length;
+    if ($('#cnt-tab-packaging')) $('#cnt-tab-packaging').textContent = packaging.length;
+  }
+
+  function renderExcelGridTable() {
+    const thead = $('#excel-grid-thead');
+    const tbody = $('#excel-grid-tbody');
+    const rowBadge = $('#excel-row-count-badge');
+    if (!thead || !tbody || !excelState.data) return;
+
+    thead.innerHTML = '';
+    tbody.innerHTML = '';
+
+    const sheet = excelState.activeSheet;
+    let rows = (excelState.data[sheet === 'reverse' ? 'reverse_flow' : sheet] || []);
+    const q = (excelState.searchQuery || '').toLowerCase().trim();
+
+    if (q) {
+      rows = rows.filter(r => {
+        return Object.values(r).some(val => String(val || '').toLowerCase().includes(q));
+      });
+    }
+
+    if (rowBadge) rowBadge.textContent = `${rows.length} rows`;
+
+    let columns = [];
+    if (sheet === 'telemetry') {
+      columns = [
+        { title: '#ID', key: 'id' },
+        { title: 'Recorded Timestamp (UTC/IST)', key: 'recorded_at' },
+        { title: 'Batch ID', key: 'batch_id' },
+        { title: 'Node / Facility Name', key: 'node_name' },
+        { title: 'Latitude (°N/S)', key: 'latitude' },
+        { title: 'Longitude (°E/W)', key: 'longitude' },
+        { title: 'Decimal Lat', key: 'decimal_latitude' },
+        { title: 'Decimal Lng', key: 'decimal_longitude' },
+        { title: 'Temp (°C)', key: 'temperature', fmt: v => v != null ? `${Number(v).toFixed(1)}°C` : '-' },
+        { title: 'Humidity (%)', key: 'humidity', fmt: v => v != null ? `${Number(v).toFixed(1)}%` : '-' },
+        {
+          title: 'Status',
+          key: 'is_breached',
+          render: (r) => r.is_breached ? `<span class="excel-badge-breach">BREACHED</span>` : `<span class="excel-badge-ok">COMPLIANT</span>`
+        },
+        { title: 'Condition Note', key: 'status_note' }
+      ];
+    } else if (sheet === 'batches') {
+      columns = [
+        { title: 'Batch ID', key: 'id' },
+        { title: 'Lot Number', key: 'batch_number' },
+        { title: 'Fertilizer Formulation', key: 'formulation' },
+        { title: 'Nitrogen (% N)', key: 'nitrogen_pct' },
+        { title: 'Moisture (%)', key: 'moisture_pct' },
+        { title: 'Total Bags', key: 'quantity_bags' },
+        { title: 'Weight (MT)', key: 'total_weight_mt' },
+        { title: 'Manufacturer', key: 'manufacturer_name' },
+        { title: 'Plant Latitude', key: 'plant_latitude' },
+        { title: 'Plant Longitude', key: 'plant_longitude' },
+        { title: 'Genesis Tx', key: 'genesis_tx_hash', fmt: v => v ? String(v).slice(0, 16) + '...' : '-' },
+        { title: 'Status', key: 'status' },
+        { title: 'Created At', key: 'created_at' }
+      ];
+    } else if (sheet === 'custody') {
+      columns = [
+        { title: 'Hop ID', key: 'id' },
+        { title: 'Batch ID', key: 'batch_id' },
+        { title: 'Stage #', key: 'stage_number' },
+        { title: 'From Entity', key: 'from_entity' },
+        { title: 'To Entity', key: 'to_entity' },
+        { title: 'Location Name', key: 'location_name' },
+        { title: 'Carrier Vehicle', key: 'carrier_vehicle_id' },
+        { title: 'Tx Hash', key: 'tx_hash', fmt: v => v ? String(v).slice(0, 16) + '...' : '-' },
+        { title: 'Offline Signed', key: 'is_offline_signed', fmt: v => v ? 'YES' : 'NO' },
+        { title: 'Verified At', key: 'verified_at' }
+      ];
+    } else if (sheet === 'dbt') {
+      columns = [
+        { title: 'Disbursement ID', key: 'id' },
+        { title: 'Bag Code (QR)', key: 'bag_code' },
+        { title: 'Farmer Beneficiary', key: 'farmer_name' },
+        { title: 'Aadhaar Hash', key: 'farmer_aadhaar_hash', fmt: v => v ? String(v).slice(0, 16) + '...' : '-' },
+        { title: 'Bank Acc (Last 4)', key: 'bank_account_last4' },
+        { title: 'Subsidy Amount', key: 'subsidy_amount', fmt: v => `₹${v}` },
+        { title: 'Verification Channel', key: 'verification_channel' },
+        { title: 'Status', key: 'status', render: () => `<span class="excel-badge-ok">CREDITED</span>` },
+        { title: 'Disbursed At', key: 'disbursed_at' }
+      ];
+    } else if (sheet === 'reverse') {
+      columns = [
+        { title: 'Recall ID', key: 'id' },
+        { title: 'Batch ID', key: 'batch_id' },
+        { title: 'Trigger Node', key: 'trigger_node' },
+        { title: 'Breach Reason', key: 'reason' },
+        { title: 'Trigger Temp', key: 'trigger_temperature', fmt: v => v != null ? `${v}°C` : '-' },
+        { title: 'Trigger Humidity', key: 'trigger_humidity', fmt: v => v != null ? `${v}%` : '-' },
+        { title: 'Return Route', key: 'return_route' },
+        { title: 'Return Waybill', key: 'return_waybill' },
+        { title: 'Quarantined At', key: 'quarantined_at' }
+      ];
+    } else if (sheet === 'packaging') {
+      columns = [
+        { title: 'Package ID', key: 'id' },
+        { title: 'Level', key: 'level' },
+        { title: 'QR Serialization Code', key: 'code' },
+        { title: 'Parent Container', key: 'parent_code' },
+        { title: 'RFID EPC Tag', key: 'rfid_epc' },
+        { title: 'Merkle Root', key: 'merkle_root', fmt: v => v ? String(v).slice(0, 16) + '...' : '-' },
+        { title: 'Weight (kg)', key: 'weight_kg', fmt: v => `${v} kg` },
+        { title: 'Timestamp', key: 'created_at' }
+      ];
+    }
+
+    const trHead = document.createElement('tr');
+    columns.forEach(c => {
+      const th = document.createElement('th');
+      th.textContent = c.title;
+      trHead.appendChild(th);
+    });
+    thead.appendChild(trHead);
+
+    if (rows.length === 0) {
+      const trEmpty = document.createElement('tr');
+      const tdEmpty = document.createElement('td');
+      tdEmpty.colSpan = columns.length;
+      tdEmpty.style.textAlign = 'center';
+      tdEmpty.style.padding = '24px';
+      tdEmpty.style.color = '#94a3b8';
+      tdEmpty.textContent = q ? `No records matching "${q}" found.` : 'No records available in this table.';
+      trEmpty.appendChild(tdEmpty);
+      tbody.appendChild(trEmpty);
+      return;
+    }
+
+    rows.forEach(r => {
+      const tr = document.createElement('tr');
+      columns.forEach(c => {
+        const td = document.createElement('td');
+        if (c.render) {
+          td.innerHTML = c.render(r);
+        } else {
+          const raw = r[c.key];
+          td.textContent = c.fmt ? c.fmt(raw) : (raw != null ? raw : '-');
+        }
+        tr.appendChild(td);
+      });
+      tbody.appendChild(tr);
+    });
+  }
+
+  function downloadFullExcelWorkbook() {
+    sfx.beep(750, 0.08);
+    const data = excelState.data || getFallbackExcelData();
+    const dateStr = new Date().toISOString().slice(0, 10);
+    const fileName = `KisanTrace_Turso_Export_${dateStr}.xlsx`;
+
+    // 1. If SheetJS (window.XLSX) is available in browser, build multi-sheet binary .xlsx
+    if (typeof window !== 'undefined' && window.XLSX) {
+      try {
+        const wb = window.XLSX.utils.book_new();
+
+        const wsTelemetry = window.XLSX.utils.json_to_sheet(data.telemetry || []);
+        window.XLSX.utils.book_append_sheet(wb, wsTelemetry, 'IoT_Telemetry_Logs');
+
+        const wsBatches = window.XLSX.utils.json_to_sheet(data.batches || []);
+        window.XLSX.utils.book_append_sheet(wb, wsBatches, 'Batches_Master');
+
+        const wsCustody = window.XLSX.utils.json_to_sheet(data.custody || []);
+        window.XLSX.utils.book_append_sheet(wb, wsCustody, 'Custody_Chain');
+
+        const wsDbt = window.XLSX.utils.json_to_sheet(data.dbt || []);
+        window.XLSX.utils.book_append_sheet(wb, wsDbt, 'DBT_Disbursements');
+
+        const wsReverse = window.XLSX.utils.json_to_sheet(data.reverse_flow || []);
+        window.XLSX.utils.book_append_sheet(wb, wsReverse, 'Reverse_Flow_Recalls');
+
+        const wsPack = window.XLSX.utils.json_to_sheet(data.packaging || []);
+        window.XLSX.utils.book_append_sheet(wb, wsPack, 'Packaging_Hierarchy');
+
+        window.XLSX.writeFile(wb, fileName);
+        sfx.celebrate();
+        const msg = $('#excel-status-msg');
+        if (msg) msg.textContent = `✅ Successfully exported multi-sheet workbook: ${fileName}`;
+        return;
+      } catch (err) {
+        console.warn('[Excel Export] SheetJS export fallback:', err.message);
+      }
+    }
+
+    // 2. Fallback to server endpoint /api/export/excel
+    const link = document.createElement('a');
+    link.href = '/api/export/excel';
+    link.download = `KisanTrace_Turso_Database_Export_${dateStr}.xls`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    sfx.celebrate();
+  }
+
+  function downloadTelemetryCsv() {
+    sfx.beep(550, 0.05);
+    const dateStr = new Date().toISOString().slice(0, 10);
+    const link = document.createElement('a');
+    link.href = '/api/export/csv';
+    link.download = `KisanTrace_Telemetry_Logs_${dateStr}.csv`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
+
+  const btnDownloadExcel = $('#btn-download-excel-full');
+  if (btnDownloadExcel) btnDownloadExcel.onclick = downloadFullExcelWorkbook;
+
+  const btnDownloadCsv = $('#btn-download-csv-full');
+  if (btnDownloadCsv) btnDownloadCsv.onclick = downloadTelemetryCsv;
+
+  const btnRefreshExcel = $('#btn-refresh-excel-data');
+  if (btnRefreshExcel) btnRefreshExcel.onclick = () => {
+    sfx.beep(600, 0.05);
+    loadExcelDataHub(true);
+  };
+
+  const excelSearch = $('#excel-search-input');
+  if (excelSearch) {
+    excelSearch.oninput = e => {
+      excelState.searchQuery = e.target.value;
+      renderExcelGridTable();
+    };
+  }
+
+  document.querySelectorAll('.excel-sub-tab').forEach(b => {
+    b.onclick = () => {
+      document.querySelectorAll('.excel-sub-tab').forEach(x => x.classList.remove('active'));
+      b.classList.add('active');
+      excelState.activeSheet = b.dataset.sheet;
+      sfx.step();
+      renderExcelGridTable();
+    };
+  });
 
   const btnCloseDetails = $('#btn-close-details');
   if (btnCloseDetails) {

@@ -15,11 +15,14 @@ const {
   initDb,
   seedDb,
   getTablesStatus,
+  getAllDatabaseRecords,
+  parseGps,
   updateClientConfig,
   invalidateCache,
   isCloud,
   url
 } = require('./turso_db');
+const { generateExcelXml, generateTelemetryCsv } = require('./excel_export');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -64,6 +67,7 @@ const BLOCKED_FILENAMES = new Set([
   'test_runner.js',
   'bundle.js',
   'load_test.js',
+  'excel_export.js',
   'kisan_trace.db',
   'temp_hist.db'
 ]);
@@ -340,24 +344,92 @@ app.post('/api/seed', adminLimiter, requireAdminAuth, async (req, res) => {
   }
 });
 
+// 7. Full Database Export API (JSON with parsed Latitude, Longitude, and Timestamps)
+app.get('/api/export/all', generalLimiter, async (req, res) => {
+  try {
+    const data = await getAllDatabaseRecords();
+    res.json({
+      success: true,
+      platform: 'KisanTrace 3D Provenance Platform',
+      timestamp: new Date().toISOString(),
+      counts: {
+        telemetry: data.telemetry.length,
+        batches: data.batches.length,
+        custody: data.custody.length,
+        dbt: data.dbt.length,
+        reverse_flow: data.reverse_flow.length,
+        packaging: data.packaging.length
+      },
+      data
+    });
+  } catch (err) {
+    console.error('[Server] Export all error:', err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// 8. Native Multi-Sheet Excel Workbook Export (SpreadsheetML .xls)
+app.get('/api/export/excel', generalLimiter, async (req, res) => {
+  try {
+    const data = await getAllDatabaseRecords();
+    const xml = generateExcelXml(data);
+    const dateStr = new Date().toISOString().slice(0, 10);
+    const filename = `KisanTrace_Turso_Database_Export_${dateStr}.xls`;
+
+    res.setHeader('Content-Type', 'application/vnd.ms-excel; charset=utf-8');
+    res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+    res.send(xml);
+  } catch (err) {
+    console.error('[Server] Excel export error:', err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// 9. Telemetry & GPS Sensor Logs CSV Export
+app.get('/api/export/csv', generalLimiter, async (req, res) => {
+  try {
+    const data = await getAllDatabaseRecords();
+    const csv = generateTelemetryCsv(data.telemetry);
+    const dateStr = new Date().toISOString().slice(0, 10);
+    const filename = `KisanTrace_Telemetry_Logs_${dateStr}.csv`;
+
+    res.setHeader('Content-Type', 'text/csv; charset=utf-8');
+    res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+    res.send(csv);
+  } catch (err) {
+    console.error('[Server] CSV export error:', err);
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
 // Fallback to index.html for SPA routes (with safety check against dotfile paths)
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-// Start server
-initDb()
-  .then(() => {
-    app.listen(PORT, () => {
-      console.log(`========================================================`);
-      console.log(`🛡️  KisanTrace 3D Hardened Web Service is Live!`);
-      console.log(`📡 URL: http://localhost:${PORT}`);
-      console.log(`🗄️ Database: ${isCloud() ? 'Turso Cloud' : 'Local libSQL (file:kisan_trace.db)'}`);
-      console.log(`🔒 Security: Rate Limiting ON | Static Guard ON | Cache ON`);
-      console.log(`🚀 Ready for Render.com deployment`);
-      console.log(`========================================================`);
-    });
-  })
-  .catch(err => {
-    console.error('Failed to initialize database on startup:', err);
+// Start server with resilient retry
+async function startServerWithRetry(maxRetries = 3) {
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      await initDb();
+      break;
+    } catch (err) {
+      console.warn(`[Startup] DB init attempt ${attempt}/${maxRetries} notice:`, err.message);
+      if (attempt < maxRetries) {
+        await new Promise(r => setTimeout(r, 1000));
+      }
+    }
+  }
+
+  app.listen(PORT, () => {
+    console.log(`========================================================`);
+    console.log(`🛡️  KisanTrace 3D Hardened Web Service is Live!`);
+    console.log(`📡 URL: http://localhost:${PORT}`);
+    console.log(`🗄️ Database: ${isCloud() ? 'Turso Cloud' : 'Local libSQL (file:kisan_trace.db)'}`);
+    console.log(`📊 Features: Excel Multi-Sheet Export | Rate Limiting | Cache`);
+    console.log(`🚀 Ready for Render.com deployment`);
+    console.log(`========================================================`);
   });
+}
+
+startServerWithRetry();

@@ -355,6 +355,90 @@ async function logTelemetry(batchId, nodeIndex, nodeName, gps, temp, hum) {
   return { success: true, isBreached };
 }
 
+function parseGps(gpsStr) {
+  if (!gpsStr) return { lat: '', lng: '', decimalLat: null, decimalLng: null, raw: '' };
+  const str = String(gpsStr).trim();
+  const dmsMatch = str.match(/([0-9.]+)\s*°?\s*([NSns])\s*,?\s*([0-9.]+)\s*°?\s*([EWew])/);
+  if (dmsMatch) {
+    const latVal = parseFloat(dmsMatch[1]);
+    const latDir = dmsMatch[2].toUpperCase();
+    const lngVal = parseFloat(dmsMatch[3]);
+    const lngDir = dmsMatch[4].toUpperCase();
+    const decLat = latDir === 'S' ? -latVal : latVal;
+    const decLng = lngDir === 'W' ? -lngVal : lngVal;
+    return {
+      lat: `${latVal}°${latDir}`,
+      lng: `${lngVal}°${lngDir}`,
+      decimalLat: Number(decLat.toFixed(6)),
+      decimalLng: Number(decLng.toFixed(6)),
+      raw: str
+    };
+  }
+  const numMatch = str.match(/(-?[0-9.]+)\s*,\s*(-?[0-9.]+)/);
+  if (numMatch) {
+    const latNum = parseFloat(numMatch[1]);
+    const lngNum = parseFloat(numMatch[2]);
+    return {
+      lat: `${Math.abs(latNum)}°${latNum >= 0 ? 'N' : 'S'}`,
+      lng: `${Math.abs(lngNum)}°${lngNum >= 0 ? 'E' : 'W'}`,
+      decimalLat: Number(latNum.toFixed(6)),
+      decimalLng: Number(lngNum.toFixed(6)),
+      raw: str
+    };
+  }
+  return { lat: str, lng: '', decimalLat: null, decimalLng: null, raw: str };
+}
+
+async function getAllDatabaseRecords() {
+  const [
+    telemetryRes,
+    batchesRes,
+    custodyRes,
+    dbtRes,
+    reverseRes,
+    packagingRes
+  ] = await Promise.all([
+    client.execute('SELECT * FROM telemetry_logs ORDER BY id DESC'),
+    client.execute('SELECT * FROM batches ORDER BY created_at DESC'),
+    client.execute('SELECT * FROM custody_chain ORDER BY stage_number ASC'),
+    client.execute('SELECT * FROM dbt_disbursements ORDER BY disbursed_at DESC'),
+    client.execute('SELECT * FROM reverse_flow_events ORDER BY id DESC'),
+    client.execute('SELECT * FROM packaging_hierarchy ORDER BY level ASC')
+  ]);
+
+  const enrichedTelemetry = telemetryRes.rows.map(row => {
+    const gps = parseGps(row.gps_coordinates);
+    return {
+      ...row,
+      latitude: gps.lat,
+      longitude: gps.lng,
+      decimal_latitude: gps.decimalLat,
+      decimal_longitude: gps.decimalLng,
+      compliance_status: row.is_breached ? 'BREACHED' : 'COMPLIANT'
+    };
+  });
+
+  const enrichedBatches = batchesRes.rows.map(row => {
+    const gps = parseGps(row.plant_gps);
+    return {
+      ...row,
+      plant_latitude: gps.lat,
+      plant_longitude: gps.lng,
+      plant_decimal_latitude: gps.decimalLat,
+      plant_decimal_longitude: gps.decimalLng
+    };
+  });
+
+  return {
+    telemetry: enrichedTelemetry,
+    batches: enrichedBatches,
+    custody: custodyRes.rows,
+    dbt: dbtRes.rows,
+    reverse_flow: reverseRes.rows,
+    packaging: packagingRes.rows
+  };
+}
+
 module.exports = {
   client: () => client,
   initDb,
@@ -363,6 +447,8 @@ module.exports = {
   getTelemetry,
   logTelemetry,
   getTablesStatus,
+  getAllDatabaseRecords,
+  parseGps,
   updateClientConfig,
   invalidateCache,
   isCloud: () => isCloud,
