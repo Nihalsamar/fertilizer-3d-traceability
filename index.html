@@ -2,36 +2,54 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Hybrid Fertilizer Traceability — Model 3 (Complete Controls)</title>
+  <title>KisanTrace Spatial 3D — Farm-to-Fork Traceability &amp; Quality Certification</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <div id="app">
-    <!-- 3D Canvas -->
-    <canvas id="c" aria-label="3D model of fertilizer supply chain from manufacturer to farmer"></canvas>
+    <!-- 3D WebGL Canvas -->
+    <canvas id="c" aria-label="Spatial 3D Model of Blockchain Farm-to-Fork Traceability for Agricultural Produce"></canvas>
 
-    <!-- Top View & Presets Bar -->
+    <!-- Top Spatial Navigation Bar (VisionOS Floating Glass Island) -->
     <div id="top-bar">
       <div class="top-left">
-        <div class="brand-badge">
-          <span>🌱</span>
-          <span>KisanTrace &bull; Model 3</span>
+        <!-- Dual Project Switcher (Ensures Previous Fertilizer Project is 100% Safe & Accessible) -->
+        <div class="project-switcher" title="Switch between Active Farm-to-Fork Produce and Safe Fertilizer Project">
+          <button class="project-switch-btn active" id="btn-project-agri">
+            <span>🌿</span>
+            <span>Farm-to-Fork Produce</span>
+          </button>
+          <a href="/fertilizer" class="project-switch-btn legacy-btn" id="btn-project-fertilizer" title="Open Previous Fertilizer Model 3 Traceability">
+            <span>⚡</span>
+            <span>Fertilizer Model 3 (Safe)</span>
+          </a>
         </div>
-        <button class="chip" data-v="auto" aria-pressed="true">Step view</button>
-        <button class="chip" data-v="over" aria-pressed="false">Overview</button>
-        <button class="chip" data-v="farmer" aria-pressed="false">Farmer's POV</button>
-        <button class="chip" id="dataBtn" aria-pressed="true">Data lines</button>
-        <!-- Dedicated All Details Button -->
-        <button class="chip" id="btn-open-details">📋 All Details</button>
-        <!-- Dedicated Core Determinants Button -->
-        <button class="chip" id="btn-open-determinants">⚙ Core Determinants</button>
-        <!-- Dedicated Turso Database Button -->
+
+        <!-- Spatial Camera Perspectives -->
+        <button class="chip active" data-v="auto" aria-pressed="true" title="Spatial Panoramic Orbit">👁️ Orbit</button>
+        <button class="chip" data-v="farm" aria-pressed="false" title="Stage 1: Shinde Organic Orchard">🌱 Farm</button>
+        <button class="chip" data-v="mandi" aria-pressed="false" title="Stage 2: APMC Mandi Aggregator">⚖️ Mandi</button>
+        <button class="chip" data-v="lab" aria-pressed="false" title="Stage 3: Packhouse & Computer Vision AI Lab">🔬 AI Lab</button>
+        <button class="chip" data-v="transit" aria-pressed="false" title="Stage 4: Cold-Chain Reefer Truck Corridor">❄️ Reefer</button>
+        <button class="chip" data-v="fork" aria-pressed="false" title="Stage 5: Consumer Dining & Fork Verification">🍽️ Fork</button>
+        <button class="chip" id="dataBtn" aria-pressed="true" title="Toggle 3D Blockchain Ledger Laser Streams">📡 Ledger Data</button>
+
+        <!-- Dedicated Interactive Action Modals -->
+        <button class="chip" id="btn-open-cv-scanner" style="background: rgba(6, 182, 212, 0.2); border-color: rgba(6, 182, 212, 0.5); color: #38bdf8; font-weight: 700;">
+          <span>📷</span>
+          <span>AI Vision Scan</span>
+        </button>
+        <button class="chip" id="btn-open-fork-modal" style="background: rgba(16, 185, 129, 0.2); border-color: rgba(16, 185, 129, 0.5); color: #34d399; font-weight: 700;">
+          <span>🍽️</span>
+          <span>Fork Verify</span>
+        </button>
+        <button class="chip" id="btn-open-details">📋 All Logs</button>
+        <button class="chip" id="btn-open-determinants">⚙ Determinants</button>
         <button class="chip" id="btn-open-turso">🗄️ Turso DB</button>
-        <!-- Dedicated Excel Export Button -->
-        <button class="chip" id="btn-open-excel" style="background: rgba(16, 185, 129, 0.16); border-color: rgba(16, 185, 129, 0.45); color: #34d399; font-weight:600;">📊 Excel Export</button>
-        <!-- Dedicated Reverse Flow Button -->
-        <button class="chip danger-chip" id="btn-reverse-flow-top">↩ Reverse Flow</button>
+        <button class="chip" id="btn-open-excel" style="background: rgba(16, 185, 129, 0.16); border-color: rgba(16, 185, 129, 0.45); color: #34d399; font-weight:600;">📊 Excel Hub</button>
+        <!-- 1-Click Direct Excel Download Button -->
+        <button class="chip" id="btn-quick-excel" title="Download all Turso DB records &amp; clicks to Excel with 1 click" style="background: linear-gradient(135deg, #059669, #10b981); color:#ffffff; font-weight:700; border:none; box-shadow:0 2px 8px rgba(16,185,129,0.35);">⚡ 1-Click Excel</button>
       </div>
 
       <div class="top-right">
@@ -40,22 +58,22 @@
       </div>
     </div>
 
-    <!-- Farmer's Phone HUD (Appears in Farmer's POV Mode) -->
-    <div id="phone-hud">
+    <!-- Farmer Mobile / Consumer Verification HUD Card -->
+    <div id="phone-hud" style="display:none;">
       <div class="phone-header">
-        <h3>📱 Farmer Verification Hub</h3>
-        <span style="font-size:11px; color:#94a3b8;">4G &bull; Aadhaar DBT</span>
+        <h3>📱 Farm-to-Fork Consumer Verification</h3>
+        <span style="font-size:11px; color:#94a3b8;">GS1 Digital Link &bull; APEDA Certified</span>
       </div>
 
-      <!-- 3 Verification Channels (from PDF Point 7) -->
+      <!-- 3 Verification Channels -->
       <div class="channel-pills">
-        <button class="channel-pill active" data-channel="smart">① Smartphone</button>
-        <button class="channel-pill" data-channel="ussd">② USSD (*99#)</button>
-        <button class="channel-pill" data-channel="pos">③ POS Biometrics</button>
+        <button class="channel-pill active" data-channel="smart">① Smartphone PWA</button>
+        <button class="channel-pill" data-channel="ussd">② SMS / USSD</button>
+        <button class="channel-pill" data-channel="pos">③ Retail Scanner</button>
       </div>
 
       <div id="phone-body">
-        <!-- Dynamically populated with verification history & DBT credit -->
+        <!-- Dynamically populated with crop provenance history & fair-trade premium -->
       </div>
     </div>
 
@@ -64,8 +82,8 @@
       <div id="hd">
         <span id="sn">1/8</span>
         <div id="ttl">
-          <h2 id="t">1 · Manufacturer &amp; 3-level QR</h2>
-          <small id="hi">निर्माता व 3-स्तरीय क्यूआर</small>
+          <h2 id="t">1 · Organic Farm Origin &amp; Harvest Genesis</h2>
+          <small id="hi">जैविक खेत उत्पत्ति व डिजिटल उद्भव ब्लॉक</small>
         </div>
         <button id="fold" aria-label="Collapse details">▾</button>
       </div>
@@ -75,17 +93,17 @@
 
         <!-- Live Environmental Telemetry Reading Bar -->
         <div id="rdg">
-          Time: waiting · GPS · Temp · Humidity
+          Time: waiting · GPS · Temp · Humidity · Ethylene
         </div>
 
-        <!-- Data & Smart Contract Columns (From PDF) -->
+        <!-- Data & Smart Contract Columns -->
         <div class="cols">
           <div>
-            <h3>Data Stored in Batch</h3>
+            <h3>Farm Inputs &amp; Organic Data</h3>
             <ul id="st"></ul>
           </div>
           <div>
-            <h3>Blockchain Action</h3>
+            <h3>Blockchain Smart Contract Action</h3>
             <ul id="ac"></ul>
           </div>
         </div>
@@ -94,7 +112,7 @@
 
     <!-- Always-Visible Interactive Controls Dock -->
     <div id="control-dock">
-      <!-- Dock Top Row: Controls, Packets Control, and Reverse Flow -->
+      <!-- Dock Top Row: Controls, Packets Control, and Cold Chain Breach -->
       <div class="dock-top-row">
         <!-- Play / Nav Buttons -->
         <div class="dock-actions-left">
@@ -104,59 +122,232 @@
           <button class="btn" id="next">Next ›</button>
         </div>
 
-        <!-- Packets Control (1 Bag / 1 Pallet / 1 Master Container) -->
-        <div class="packets-control-group" title="Select Packet Level (from PDF Point 1)">
-          <button class="packet-btn" data-pack="bag">📦 1 Bag (50kg)</button>
-          <button class="packet-btn active" data-pack="pallet">📦📦 Pallet (50 Bags)</button>
-          <button class="packet-btn" data-pack="master">🏭 Container (20 Pallets)</button>
+        <!-- Agricultural Produce Packaging Hierarchy Control -->
+        <div class="packets-control-group" title="Select Agricultural Produce Packaging Serialization Level">
+          <button class="packet-btn" data-pack="mango">🥭 Single Fruit QR</button>
+          <button class="packet-btn active" data-pack="clamshell">📦 4-Pack Clamshell</button>
+          <button class="packet-btn" data-pack="crate">🪵 20kg Wooden Crate</button>
+          <button class="packet-btn" data-pack="pallet">🏭 Export Pallet RFID</button>
         </div>
 
-        <!-- Reverse Flow Trigger Button -->
-        <button class="chip danger-chip" id="btn-reverse-trigger" title="Trigger Reverse Flow (PDF Point 8)">
-          ↩ Trigger Reverse Flow
+        <!-- Cold Chain Breach Trigger Button -->
+        <button class="chip danger-chip" id="btn-reverse-trigger" title="Simulate Cold-Chain Thermal Breach &amp; Automated Quarantine">
+          ❄️ Trigger Cold Breach Recall
         </button>
       </div>
 
-      <!-- Dock Sliders Row: Live Temperature & Humidity Controls -->
+      <!-- Dock Sliders Row: Live Reefer Temperature & Humidity Controls -->
       <div class="dock-sliders-row">
-        <!-- Temperature Slider -->
+        <!-- Reefer Temperature Slider (Optimal: 12.0 - 13.5°C, SLA breach limit: >16.0°C) -->
         <div class="slider-unit">
           <div class="slider-meta-head">
-            <span>Ambient Temperature (Limit: 40 °C)</span>
-            <b id="Tv">28.0 °C</b>
+            <span>Reefer Truck Cold-Chain Temperature (Limit: 16.0 °C)</span>
+            <b id="Tv">12.8 °C</b>
           </div>
-          <input type="range" class="dock-slider" id="T" min="10" max="55" step="0.5" value="28">
+          <input type="range" class="dock-slider" id="T" min="0" max="35" step="0.5" value="12.8">
         </div>
 
-        <!-- Humidity Slider -->
+        <!-- Reefer Humidity Slider (Optimal: 85 - 95%) -->
         <div class="slider-unit">
           <div class="slider-meta-head">
-            <span>Relative Humidity (Limit: 85 %)</span>
-            <b id="Hv">55 %</b>
+            <span>Relative Humidity (Optimal: 85 - 95 %)</span>
+            <b id="Hv">90 %</b>
           </div>
-          <input type="range" class="dock-slider" id="H" min="20" max="100" step="1" value="55">
+          <input type="range" class="dock-slider" id="H" min="30" max="100" step="1" value="90">
         </div>
       </div>
 
       <!-- Dock Hint -->
       <div class="dock-hint">
-        <span><strong>Smart Contract Rule:</strong> Exceeding 40 °C or 85 % humidity automatically discards the batch and triggers reverse flow back to manufacturer.</span>
-        <span id="reverse-status-msg" style="color:#a7f3d0; font-weight:600;">Status: Batch Compliant ✓</span>
+        <span><strong>Smart Contract Cold-Chain SLA:</strong> Temperature exceeding 16.0 °C automatically flags the produce consignment, triggers insurance quarantine, and alerts buyers.</span>
+        <span id="reverse-status-msg" style="color:#a7f3d0; font-weight:600;">Status: Cold-Chain Intact (12.8°C) ✓</span>
       </div>
     </div>
 
-    <!-- Modal: Provenance Hub & Core Determinants -->
+    <!-- Modal 1: Computer Vision AI Quality Grading Portal -->
+    <div class="modal-backdrop" id="modal-cv-scanner">
+      <div class="modal-window" style="max-width: 860px;">
+        <div class="modal-head">
+          <div class="modal-head-left">
+            <h3>
+              <span style="font-size:20px;">🔬</span>
+              <span>Computer Vision AI Quality Grading &amp; Defect Classification</span>
+            </h3>
+            <span class="det-badge det-badge-blue">YOLOv8 Edge Vision &bull; 99.4% Confidence</span>
+          </div>
+          <button class="modal-close" id="btn-close-cv">✕</button>
+        </div>
+        <div class="modal-content">
+          <p style="font-size:12px; color:#94a3b8; margin-bottom:12px;">
+            Mobile-first &amp; packhouse optical grading system. Neural networks detect produce species, compute millimeter caliber dimensions, quantify ripeness color spectra, scan for surface blemishes/fungal spots, and generate cryptographic quality certificates.
+          </p>
+
+          <!-- Sample Selector -->
+          <div class="cv-sample-pills">
+            <button class="cv-sample-btn active" data-sample="mango-export">🥭 Sample A: Alphonso Mango (Export Grade A+)</button>
+            <button class="cv-sample-btn" data-sample="tomato-export">🍅 Sample B: Heritage Tomato (Export Grade A)</button>
+            <button class="cv-sample-btn" data-sample="mango-blemish">⚠️ Sample C: Minor Surface Scratch (Grade B Domestic)</button>
+          </div>
+
+          <div class="cv-portal-container">
+            <!-- Simulated Camera Feed with Animated Laser & Bounding Box -->
+            <div class="cv-viewport-box">
+              <canvas class="cv-viewport-canvas" id="cv-canvas" width="400" height="300"></canvas>
+              <div class="cv-laser-scanner"></div>
+              <div class="cv-bbox-overlay">
+                <div class="cv-bbox-tag">
+                  <span id="cv-tag-name">Alphonso Mango</span>
+                  <span id="cv-tag-conf">99.4%</span>
+                </div>
+                <div class="cv-bbox-metrics">
+                  <div>Caliber: <strong id="cv-tag-caliber">72.4 mm</strong></div>
+                  <div>Ripeness: <strong id="cv-tag-ripeness">88.2% (Golden Saffron)</strong></div>
+                  <div>Defect: <strong id="cv-tag-defect">0.0% (Clean Surface)</strong></div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Quality Analysis Metrics Card -->
+            <div class="cv-metrics-card">
+              <div class="cv-grade-badge-export" id="cv-badge-grade">🌟 GRADE A+ EXPORT CERTIFIED</div>
+
+              <div class="cv-metric-row">
+                <span class="cv-metric-label">Assigned Quality Grade:</span>
+                <span class="cv-metric-val" id="cv-val-grade" style="color:#34d399;">Grade A+ Export</span>
+              </div>
+              <div class="cv-metric-row">
+                <span class="cv-metric-label">Caliber (Diameter):</span>
+                <span class="cv-metric-val" id="cv-val-caliber">72.4 mm (&gt;70mm threshold)</span>
+              </div>
+              <div class="cv-metric-row">
+                <span class="cv-metric-label">Estimated Weight:</span>
+                <span class="cv-metric-val" id="cv-val-weight">265 grams (&plusmn;5g)</span>
+              </div>
+              <div class="cv-metric-row">
+                <span class="cv-metric-label">Sugar Content (Brix Rating):</span>
+                <span class="cv-metric-val" id="cv-val-brix">19.2° Brix (Optimal Edible)</span>
+              </div>
+              <div class="cv-metric-row">
+                <span class="cv-metric-label">Color Uniformity (Ripeness):</span>
+                <span class="cv-metric-val" id="cv-val-color">88.2% Saffron Gold</span>
+              </div>
+              <div class="cv-metric-row">
+                <span class="cv-metric-label">Surface Defect Classification:</span>
+                <span class="cv-metric-val" id="cv-val-defect" style="color:#6ee7b7;">0.0% (APEDA Compliant)</span>
+              </div>
+              <div class="cv-metric-row">
+                <span class="cv-metric-label">Chemical Residue MRL Test:</span>
+                <span class="cv-metric-val" id="cv-val-mrl" style="color:#6ee7b7;">&lt;0.005 ppm (Pesticide-Free)</span>
+              </div>
+              <div class="cv-metric-row">
+                <span class="cv-metric-label">Cryptographic Certificate Hash:</span>
+                <span class="cv-metric-val" id="cv-val-hash" style="font-size:10px; color:#38bdf8;">0xqc994pass_alphonso_export_0001</span>
+              </div>
+
+              <button class="btn pri" id="btn-cv-record-log" style="margin-top:auto; justify-content:center;">
+                <span>💾</span>
+                <span>Commit AI Grade to Blockchain &amp; Database</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal 2: Consumer Fork Verification Portal -->
+    <div class="modal-backdrop" id="modal-consumer-fork">
+      <div class="modal-window" style="max-width: 860px;">
+        <div class="modal-head">
+          <div class="modal-head-left">
+            <h3>
+              <span style="font-size:20px;">🍽️</span>
+              <span>Consumer &amp; Buyer Farm-to-Fork Verification Portal</span>
+            </h3>
+            <span class="fork-cert-pill">✓ Jaivik Bharat &bull; NPOP Organic &bull; GI Tagged</span>
+          </div>
+          <button class="modal-close" id="btn-close-fork">✕</button>
+        </div>
+        <div class="modal-content">
+          <div class="fork-hero-grid">
+            <!-- Produce Identity & QR Card -->
+            <div class="fork-id-card">
+              <div style="font-size:36px;">🥭</div>
+              <h4 style="margin:0; font-size:15px; color:#ffffff;">Organic Alphonso Mango</h4>
+              <p style="margin:0; font-size:11.5px; color:#94a3b8;">Ratnagiri Hapus &bull; GI Registration #124</p>
+
+              <div class="fork-qr-box">
+                <canvas id="fork-qr-canvas" width="124" height="124"></canvas>
+              </div>
+              <div style="font-family:var(--mono); font-size:10px; color:#38bdf8;">GS1-DL: 890103009124</div>
+
+              <!-- Fair Trade Premium Breakdown -->
+              <div class="fork-fair-trade-box">
+                <div style="font-size:10px; text-transform:uppercase; color:#6ee7b7; font-weight:700; margin-bottom:4px;">🌱 Transparent Farmer Payout</div>
+                <div style="font-size:16px; font-weight:800; color:#ffffff;">₹165.00 / kg</div>
+                <div style="font-size:10.5px; color:#cbd5e1; line-height:1.35; margin-top:3px;">
+                  Farmer received <strong>+28.5% premium</strong> over conventional mandi rates (₹85/kg) due to verifiable organic provenance.
+                </div>
+              </div>
+            </div>
+
+            <!-- Provenance Timeline & Chemical Integrity -->
+            <div class="fork-details-panel">
+              <div style="background:rgba(15,23,42,0.65); border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:12px;">
+                <h5 style="margin:0 0 10px 0; font-size:12.5px; color:#f8fafc; display:flex; justify-content:space-between;">
+                  <span>📍 Verified Farm-to-Fork Journey</span>
+                  <span style="font-size:10.5px; color:#34d399; font-weight:600;">100% Blockchain Verified</span>
+                </h5>
+
+                <div class="fork-provenance-timeline">
+                  <div class="fork-timeline-node">
+                    <strong>1. Shinde Organic Orchards (Ratnagiri) &bull; Harvest Date: 28 Oct 2026, 06:30 AM</strong><br>
+                    <span style="color:#94a3b8; font-size:11px;">Farmer: Santosh Shinde | Soil: NPK 240-45-310 | Inputs: Panchagavya, Neem Oil | Altitude: 145m</span>
+                  </div>
+                  <div class="fork-timeline-node">
+                    <strong>2. Sahyadri FPO Mandi Hub &bull; Intake: 28 Oct 2026, 11:15 AM</strong><br>
+                    <span style="color:#94a3b8; font-size:11px;">Aggregated: 120 Crates (2,400 kg) | e-NWR Warehouse Receipt #99104 | Ed25519 Signed</span>
+                  </div>
+                  <div class="fork-timeline-node">
+                    <strong>3. Vashi Packhouse &amp; AI Quality Lab &bull; Graded: 28 Oct 2026, 04:45 PM</strong><br>
+                    <span style="color:#94a3b8; font-size:11px;">YOLOv8 AI Scan: Caliber 72.4mm | Brix 19.2° | Zero Defect | Certified: GRADE A+ EXPORT</span>
+                  </div>
+                  <div class="fork-timeline-node">
+                    <strong>4. Cold Logistics Reefer Transit &bull; Dispatched: 29 Oct 2026, 02:00 AM</strong><br>
+                    <span style="color:#94a3b8; font-size:11px;">Reefer MH-08-AG-9941 | Temperature: 12.8°C | Humidity: 90% | Zero Cold Breaches</span>
+                  </div>
+                  <div class="fork-timeline-node">
+                    <strong>5. Nature's Basket Retail Hypermarket &bull; Arrival: 29 Oct 2026, 09:30 AM</strong><br>
+                    <span style="color:#94a3b8; font-size:11px;">Clamshell 4-Pack On-Shelf | Carbon Footprint: 0.18 kg CO2e/kg | Ready for Consumer</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Lab Test Purity Proof Card -->
+              <div style="background:rgba(16,185,129,0.08); border:1px solid rgba(16,185,129,0.3); border-radius:10px; padding:10px; display:flex; justify-content:space-between; align-items:center;">
+                <div>
+                  <div style="font-size:11.5px; font-weight:700; color:#34d399;">🧪 HPLC Spectrometry Chemical Residue Test</div>
+                  <div style="font-size:10.5px; color:#cbd5e1;">Pesticide MRL: 0.002 ppm (Limit: 0.010 ppm) &bull; Zero synthetic ripening carbide</div>
+                </div>
+                <span class="fork-cert-pill">PASSED ✓</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal 3: Provenance Hub, Core Determinants, Turso DB & Excel Hub -->
     <div class="modal-backdrop" id="modal-details">
       <div class="modal-window">
         <div class="modal-head">
           <div class="modal-head-left">
             <h3>
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
-              <span>KisanTrace &bull; Architecture &amp; Provenance Hub</span>
+              <span>KisanTrace &bull; Farm-to-Fork Provenance &amp; Database Hub</span>
             </h3>
             <div class="modal-tabs">
               <button class="modal-tab-btn active" id="tab-btn-telemetry">📋 Telemetry &amp; Logs</button>
-              <button class="modal-tab-btn" id="tab-btn-determinants">⚙ Core Determinants &amp; Parameters</button>
+              <button class="modal-tab-btn" id="tab-btn-determinants">⚙ Core Determinants &amp; Standards</button>
               <button class="modal-tab-btn" id="tab-btn-turso">🗄️ Turso Database Hub</button>
               <button class="modal-tab-btn" id="tab-btn-excel" style="color:#34d399;">📊 Excel Database Hub</button>
             </div>
@@ -167,18 +358,18 @@
           <!-- View 1: Telemetry & Live Logs -->
           <div id="view-telemetry">
             <p style="font-size:12px; color:#94a3b8; margin-bottom:12px;">
-              End-to-end audit trail including timestamps, GPS coordinates, environmental readings, cryptographic hashes, and smart contract custody records:
+              End-to-end farm-to-fork audit trail: exact timestamps, GPS coordinates, Computer Vision AI grades, reefer temperatures, Merkle roots, and smart contract custody records:
             </p>
             <div class="details-table-wrap">
               <table class="details-table">
                 <thead>
                   <tr>
-                    <th>Node</th>
-                    <th>GPS Coordinates</th>
+                    <th>Stage Node</th>
+                    <th>GIS GPS Coordinates</th>
                     <th>Timestamp</th>
-                    <th>Temp / Humidity</th>
-                    <th>Packet Hierarchy</th>
-                    <th>QC / Hash</th>
+                    <th>Climate (Temp / Hum)</th>
+                    <th>Packaging / Hierarchy</th>
+                    <th>Quality / Cert Hash</th>
                     <th>Status</th>
                   </tr>
                 </thead>
@@ -189,111 +380,89 @@
             </div>
           </div>
 
-          <!-- View 2: Core Determinants & System Parameters -->
+          <!-- View 2: Core Determinants & Technical Parameters -->
           <div id="view-determinants" style="display:none;">
             <p style="font-size:12px; color:#94a3b8; margin-bottom:16px;">
-              Technical determinants, cryptographic standards, hardware specifications, and regulatory frameworks governing the blockchain traceable supply chain:
+              Technical determinants, cryptographic standards, Computer Vision neural networks, and regulatory frameworks governing the Farm-to-Fork supply chain:
             </p>
             <div class="determinants-grid">
               <!-- Part 1 -->
               <div class="det-card">
                 <div class="det-card-head">
-                  <div class="det-card-icon" style="background:rgba(16,185,129,0.15); color:#10b981;">🧪</div>
+                  <div class="det-card-icon" style="background:rgba(16,185,129,0.15); color:#10b981;">🌱</div>
                   <div>
-                    <h4 class="det-card-title">Part 1 &bull; Product Authenticity &amp; Composition Data</h4>
-                    <span class="det-badge det-badge-green">Chemical Integrity Layer</span>
+                    <h4 class="det-card-title">Part 1 &bull; Agricultural Produce &amp; Farm Origin</h4>
+                    <span class="det-badge det-badge-green">Organic Integrity Layer</span>
                   </div>
                 </div>
                 <ul class="det-list">
-                  <li><strong>Raw Material Provenance:</strong> Upstream origin hashing for Nitrogen (Haber-Bosch natural gas), Phosphorus (rock phosphate mines in Jordan/Rajasthan), and Potash (MOP/SOP sources).</li>
-                  <li><strong>Chemical Formulation Percentages:</strong> Guaranteed N-P-K stoichiometry (e.g. Urea 46.2% N, DAP 18-46-0). Maximum tolerances: Biuret &le; 1.5%, moisture &le; 0.5%, particle size 1.0–2.8 mm.</li>
-                  <li><strong>Lab-Tested Quality &amp; Certification:</strong> Pre-dispatch HPLC &amp; spectroscopy records. Cryptographically signed with accredited lab's Ed25519 private key into batch certificates.</li>
+                  <li><strong>Geo-Fenced Orchard Boundaries:</strong> Farm perimeter polygon registered on-chain with GPS polygon mapping in Ratnagiri, Maharashtra (GI registration tag #124).</li>
+                  <li><strong>Soil Health &amp; Organic Inputs:</strong> Immutable logging of periodic N-P-K soil assays, organic carbon index, and organic inputs (Panchagavya, Jeevamrit, non-chemical neem cake).</li>
+                  <li><strong>Harvest Time Window:</strong> Morning harvest timestamps linked to diurnal sugar accumulation for optimal post-harvest shelf life.</li>
                 </ul>
               </div>
 
               <!-- Part 2 -->
               <div class="det-card">
                 <div class="det-card-head">
-                  <div class="det-card-icon" style="background:rgba(59,130,246,0.15); color:#3b82f6;">🏷️</div>
+                  <div class="det-card-icon" style="background:rgba(6,182,212,0.15); color:#06b6d4;">🔬</div>
                   <div>
-                    <h4 class="det-card-title">Part 2 &bull; Unique Identification &amp; Data Capture</h4>
-                    <span class="det-badge det-badge-blue">Hardware &amp; Serialization Layer</span>
+                    <h4 class="det-card-title">Part 2 &bull; Computer Vision AI Quality Grading</h4>
+                    <span class="det-badge det-badge-blue">Edge AI Vision Layer</span>
                   </div>
                 </div>
                 <ul class="det-list">
-                  <li><strong>Hierarchical 3-Level Identifiers:</strong>
-                    <div class="det-subtags">
-                      <span class="det-pill">1 Bag (50 kg) &rarr; Unit Bag QR (SHA-256)</span>
-                      <span class="det-pill">50 Bags &rarr; Pallet QR (50 Hashes Merkle Root)</span>
-                      <span class="det-pill">20 Pallets (50 MT) &rarr; Master Container RFID (EPC Gen2)</span>
-                    </div>
-                  </li>
-                  <li><strong>IoT Edge Sensor Telemetry:</strong> Real-time environmental tracking (temperature, relative humidity, multi-axis shock, battery health) with cellular 4G/NB-IoT &amp; GPS backhaul.</li>
-                  <li><strong>Active Threshold Guardrails:</strong> Critical tripwire at <strong>T &gt; 40.0 °C</strong> or <strong>H &gt; 85.0 %</strong>. Over-limit triggers instant quarantine and reverse-flow throw back.</li>
+                  <li><strong>YOLOv8 Edge Neural Architecture:</strong> Sub-15ms optical inference on edge mobile devices &amp; packhouse sorters. Computes caliber millimeter diameter with &plusmn;0.5mm precision.</li>
+                  <li><strong>Color Ripeness Segmentation:</strong> HSV color space segmentation calculates saffron-gold hue percentage (88.2% optimal maturity Stage 4).</li>
+                  <li><strong>Surface Defect &amp; Blemish Masking:</strong> Automated classification of anthracnose, fruit fly puncture, or mechanical bruises against APEDA export tolerances.</li>
                 </ul>
               </div>
 
               <!-- Part 3 -->
               <div class="det-card">
                 <div class="det-card-head">
-                  <div class="det-card-icon" style="background:rgba(245,158,11,0.15); color:#f59e0b;">🚚</div>
+                  <div class="det-card-icon" style="background:rgba(245,158,11,0.15); color:#f59e0b;">❄️</div>
                   <div>
-                    <h4 class="det-card-title">Part 3 &bull; Supply Chain Stage Mapping</h4>
-                    <span class="det-badge det-badge-amber">Lifecycle &amp; Custody Layer</span>
+                    <h4 class="det-card-title">Part 3 &bull; Cold-Chain Telemetry &amp; Shelf Life</h4>
+                    <span class="det-badge det-badge-amber">IoT Cold Logistics</span>
                   </div>
                 </div>
                 <ul class="det-list">
-                  <li><strong>Manufacturing / Production:</strong> Raw material entry, mixing &amp; granulation, automated packaging timestamps, genesis block batch minting with factory GPS.</li>
-                  <li><strong>Warehousing / Storage:</strong> RFID gate logs inward custody; decision point routes sound stock to transporter or damaged stock back to factory.</li>
-                  <li><strong>Logistics / Transport:</strong> Vehicle binding (UP-32-BT-9014), continuous GPS transit corridor telemetry (NH-19), tamper-seal verification.</li>
-                  <li><strong>District Distribution:</strong> Pallet QR scan for bulk custody handoff, sub-lot splitting, reverse-flow staging for damaged pallets.</li>
-                  <li><strong>Retailer POS (Works Offline):</strong> Village-resilient local SQLite cache, signed with timestamp + nonce, local OTP receipt, batch sync upon reconnection.</li>
-                  <li><strong>Farmer &amp; DBT Subsidy:</strong> 3 Citizen channels (① Smartphone QR, ② Feature Phone SMS/USSD *99#, ③ Aadhaar POS) release ₹1,500 DBT straight to bank account.</li>
+                  <li><strong>Multi-Sensor Telemetry Nodes:</strong> Calibrated dual-temperature probes, capacitive relative humidity sensors, and electrochemical ethylene (C2H4) gas detectors (&lt;0.05 ppm).</li>
+                  <li><strong>Active Threshold SLA Guardrails:</strong> Cold-chain envelope strictly bounded at <strong>12.0 °C – 13.5 °C</strong>. Breaching <strong>16.0 °C</strong> triggers automated smart contract quarantine.</li>
+                  <li><strong>Dynamic Shelf-Life Algorithm:</strong> Real-time Arrhenius kinetic model estimates remaining shelf-life days based on integrated temperature exposure over time.</li>
                 </ul>
               </div>
 
               <!-- Part 4 -->
               <div class="det-card">
                 <div class="det-card-head">
-                  <div class="det-card-icon" style="background:rgba(139,92,246,0.15); color:#8b5cf6;">⛓️</div>
+                  <div class="det-card-icon" style="background:rgba(139,92,246,0.15); color:#8b5cf6;">🔗</div>
                   <div>
-                    <h4 class="det-card-title">Part 4 &bull; Blockchain Architecture &amp; Governance</h4>
-                    <span class="det-badge det-badge-purple">Consortium &amp; Smart Contract Layer</span>
+                    <h4 class="det-card-title">Part 4 &bull; Decentralized Ledger &amp; GS1 Digital Link</h4>
+                    <span class="det-badge det-badge-purple">Blockchain Provenance</span>
                   </div>
                 </div>
                 <ul class="det-list">
-                  <li><strong>Network Topology:</strong> Permissioned / consortium blockchain (Hyperledger Fabric / Enterprise EVM). Private data collections protect proprietary pricing and commercial formulas.</li>
-                  <li><strong>Consensus Mechanism:</strong> High-efficiency PBFT (Practical Byzantine Fault Tolerance) / Raft / PoA. Sub-second finality, 2,500+ TPS, zero wasteful mining energy.</li>
-                  <li><strong>Smart Contracts &amp; Automation:</strong> Programmable compliance rules, automated multi-sig custody transfer, automated recall upon sensor violation, single-use token burn preventing bag refilling.</li>
+                  <li><strong>Low-Cost Edge Ledger:</strong> Decentralized libSQL/Turso serverless database synchronizing cryptographically signed transactions across edge devices with zero transaction fees.</li>
+                  <li><strong>Offline-First Cryptography:</strong> Ed25519 asymmetric key pairs sign handovers in zero-connectivity rural mandis; queued payloads batch-sync when reconnected.</li>
+                  <li><strong>GS1 Digital Link Standard:</strong> Uniform Resource Identifiers (URIs) encode GTIN and batch serials, allowing any standard smartphone camera to resolve provenance without a custom app.</li>
                 </ul>
               </div>
-
-              <!-- Part 5 -->
-              <div class="det-card">
-                <div class="det-card-head">
-                  <div class="det-card-icon" style="background:rgba(236,72,153,0.15); color:#ec4899;">🏛️</div>
-                  <div>
-                    <h4 class="det-card-title">Part 5 &bull; Regulatory &amp; Compliance Tracking</h4>
-                    <span class="det-badge det-badge-pink">Governance &amp; Environmental Layer</span>
-                  </div>
-                </div>
-                <ul class="det-list">
-                  <li><strong>Policy &amp; Licensing Integration:</strong> Real-time API bridges with national fertilizer systems (e.g. India's iFMS / DBT Fertilizer portal, manufacturer licenses, MRP ceiling checks).</li>
-                  <li><strong>Subsidy Fraud &amp; Anti-Hoarding:</strong> Aadhaar &amp; land-record (Bhulekh) acreage-based purchase caps prevent diversion, black marketing, and unauthorized commercial resale.</li>
-                  <li><strong>Environmental &amp; Runoff Governance:</strong> Nutrient application tracking against Soil Health Card guidelines, nitrogen runoff mitigation, and carbon footprint ledger audits.</li>
-                </ul>
-              </div>
+            </div>
           </div>
 
-          <!-- View 3: Turso Database Hub -->
+          <!-- View 3: Turso Cloud Database Manager -->
           <div id="view-turso" style="display:none;">
             <div class="turso-hub-container">
-              <!-- Live Database Banner -->
-              <div class="turso-banner" id="turso-live-banner">
-                <div class="turso-status-dot pulse" id="turso-pulse-dot"></div>
-                <div class="turso-banner-text">
-                  <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.5px; opacity:0.8;">Active libSQL Storage Engine</div>
-                  <div id="turso-banner-status" style="font-weight:700; font-size:13.5px; color:#38bdf8;">Checking Database Connection...</div>
+              <!-- Banner -->
+              <div class="turso-banner">
+                <div class="turso-banner-left">
+                  <span class="turso-status-dot pulse cloud" id="turso-pulse-dot"></span>
+                  <div>
+                    <div style="font-weight:700; color:#f8fafc; font-size:13.5px;" id="turso-banner-title">Turso Cloud Database Infrastructure</div>
+                    <div style="font-size:11.5px; color:#94a3b8;" id="turso-banner-status">Connecting to Turso Cloud (AWS ap-south-1 Mumbai)...</div>
+                  </div>
                 </div>
                 <button class="chip" id="btn-refresh-turso-status" style="margin-left:auto; font-size:11px;">🔄 Ping DB</button>
               </div>
@@ -305,7 +474,7 @@
                   <span class="det-badge det-badge-blue">Cloud Sync</span>
                 </h4>
                 <p style="font-size:11.5px; color:#94a3b8; margin:0 0 12px 0; line-height:1.45;">
-                  Connect your remote Turso cloud database (or sync updates directly to your local libSQL storage). Click <strong>Connect &amp; Update</strong> to verify and seed all 6 relational tables with immutable blockchain provenance records.
+                  Connect your remote Turso cloud database (or sync updates directly to your local libSQL storage). Click <strong>Connect &amp; Update</strong> to verify and seed all relational tables with immutable agricultural provenance records.
                 </p>
                 <div class="turso-form-grid">
                   <div class="turso-form-group">
@@ -323,8 +492,8 @@
                 </div>
                 <div class="turso-actions-row">
                   <button class="turso-btn-primary" id="btn-turso-connect">⚡ Connect &amp; Update Database</button>
-                  <button class="turso-btn-secondary" id="btn-turso-sync">🔄 Re-Sync All 6 Tables</button>
-                  <button class="turso-btn-secondary" id="btn-turso-push-current">📤 Push Current Sensor Telemetry</button>
+                  <button class="turso-btn-secondary" id="btn-turso-sync">🔄 Re-Sync All Tables</button>
+                  <button class="turso-btn-secondary" id="btn-turso-push-current">📤 Push Current Cold Telemetry</button>
                 </div>
                 <div id="turso-msg" class="turso-msg-box" style="display:none;"></div>
               </div>
@@ -334,28 +503,28 @@
                 <h5 style="margin:0 0 10px 0; font-size:12px; text-transform:uppercase; letter-spacing:0.5px; color:#94a3b8;">Live Database Record Counts</h5>
                 <div class="turso-stats-grid">
                   <div class="turso-stat-card">
-                    <div class="turso-stat-val" id="stat-cnt-batches">-</div>
-                    <div class="turso-stat-lbl">Batches</div>
+                    <div class="turso-stat-val" id="stat-cnt-agri-batches">-</div>
+                    <div class="turso-stat-lbl">Produce Batches</div>
                   </div>
                   <div class="turso-stat-card">
-                    <div class="turso-stat-val" id="stat-cnt-packaging">-</div>
-                    <div class="turso-stat-lbl">Packaging Levels</div>
+                    <div class="turso-stat-val" id="stat-cnt-cv-grading">-</div>
+                    <div class="turso-stat-lbl">AI CV Grading Logs</div>
                   </div>
                   <div class="turso-stat-card">
-                    <div class="turso-stat-val" id="stat-cnt-telemetry">-</div>
-                    <div class="turso-stat-lbl">Telemetry Logs</div>
+                    <div class="turso-stat-val" id="stat-cnt-coldchain">-</div>
+                    <div class="turso-stat-lbl">Cold-Chain Logs</div>
                   </div>
                   <div class="turso-stat-card">
                     <div class="turso-stat-val" id="stat-cnt-custody">-</div>
-                    <div class="turso-stat-lbl">Custody Steps</div>
+                    <div class="turso-stat-lbl">Custody Handovers</div>
                   </div>
                   <div class="turso-stat-card">
-                    <div class="turso-stat-val" id="stat-cnt-dbt">-</div>
-                    <div class="turso-stat-lbl">DBT Disbursements</div>
+                    <div class="turso-stat-val" id="stat-cnt-consumer-scans">-</div>
+                    <div class="turso-stat-lbl">Consumer Scans</div>
                   </div>
                   <div class="turso-stat-card">
-                    <div class="turso-stat-val" id="stat-cnt-reverse">-</div>
-                    <div class="turso-stat-lbl">Reverse Flow Events</div>
+                    <div class="turso-stat-val" id="stat-cnt-clicks">-</div>
+                    <div class="turso-stat-lbl">Click Audit Logs</div>
                   </div>
                 </div>
               </div>
@@ -369,9 +538,9 @@
               <div class="excel-banner">
                 <div style="font-size:26px;">📊</div>
                 <div>
-                  <div style="font-size:13.5px; font-weight:700; color:#34d399;">Turso Database Excel Extraction &amp; IoT Provenance Ledger</div>
+                  <div style="font-size:13.5px; font-weight:700; color:#34d399;">Turso Database Excel Extraction &amp; Farm-to-Fork Provenance Ledger</div>
                   <div style="font-size:11.5px; color:#94a3b8; line-height:1.45;">
-                    Extract all database records gathered in Turso Cloud. Includes exact timestamps, separated Latitude &amp; Longitude coordinates, decimal GPS for GIS mapping, environmental telemetry, blockchain custody hops, and DBT subsidy disbursements.
+                    Extract all database records gathered in Turso Cloud. Includes exact timestamps, separated Latitude &amp; Longitude coordinates, decimal GPS for GIS mapping, Computer Vision AI grades, brix ratings, cold-chain telemetry, custody hops, and single-click interaction audit trail.
                   </div>
                 </div>
               </div>
@@ -400,12 +569,14 @@
 
               <!-- Sub Tabs for Datasets -->
               <div class="excel-sub-tabs">
-                <button class="excel-sub-tab active" data-sheet="telemetry">📡 IoT Telemetry &amp; GPS (<span id="cnt-tab-telemetry">0</span>)</button>
-                <button class="excel-sub-tab" data-sheet="batches">📦 Batches Master (<span id="cnt-tab-batches">0</span>)</button>
-                <button class="excel-sub-tab" data-sheet="custody">🚚 Custody Chain (<span id="cnt-tab-custody">0</span>)</button>
-                <button class="excel-sub-tab" data-sheet="dbt">🌾 DBT Disbursements (<span id="cnt-tab-dbt">0</span>)</button>
-                <button class="excel-sub-tab" data-sheet="reverse">⚠️ Reverse Flow Recalls (<span id="cnt-tab-reverse">0</span>)</button>
-                <button class="excel-sub-tab" data-sheet="packaging">🏷️ Packaging Hierarchy (<span id="cnt-tab-packaging">0</span>)</button>
+                <button class="excel-sub-tab active" data-sheet="clicks">🖱️ Single-Click Logs (<span id="cnt-tab-clicks">0</span>)</button>
+                <button class="excel-sub-tab" data-sheet="timeline">⏱️ Master Event Timeline (<span id="cnt-tab-timeline">0</span>)</button>
+                <button class="excel-sub-tab" data-sheet="agri_batches">🥭 Farm Produce Batches (<span id="cnt-tab-agri-batches">0</span>)</button>
+                <button class="excel-sub-tab" data-sheet="cv_grading">🔬 Computer Vision Grades (<span id="cnt-tab-cv-grading">0</span>)</button>
+                <button class="excel-sub-tab" data-sheet="coldchain_telemetry">❄️ Cold-Chain Telemetry (<span id="cnt-tab-coldchain">0</span>)</button>
+                <button class="excel-sub-tab" data-sheet="farm_custody">🚚 Custody Handovers (<span id="cnt-tab-custody">0</span>)</button>
+                <button class="excel-sub-tab" data-sheet="consumer_scans">🍽️ Consumer Fork Scans (<span id="cnt-tab-consumer-scans">0</span>)</button>
+                <button class="excel-sub-tab" data-sheet="fertilizer_legacy">⚡ Fertilizer Legacy Data (<span id="cnt-tab-fertilizer">0</span>)</button>
               </div>
 
               <!-- Excel Table Grid Container -->

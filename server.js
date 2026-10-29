@@ -12,6 +12,7 @@ const {
   getBatches,
   getTelemetry,
   logTelemetry,
+  logClickEvent,
   initDb,
   seedDb,
   getTablesStatus,
@@ -20,7 +21,14 @@ const {
   updateClientConfig,
   invalidateCache,
   isCloud,
-  url
+  url,
+  getAgriBatches,
+  getCvGradingLogs,
+  logCvGrading,
+  getColdChainTelemetry,
+  logColdChainTelemetry,
+  logFarmCustodyHop,
+  logConsumerScan
 } = require('./turso_db');
 const { generateExcelXml, generateTelemetryCsv } = require('./excel_export');
 
@@ -333,7 +341,53 @@ app.post('/api/telemetry', telemetryLimiter, async (req, res) => {
   }
 });
 
-// 6. Force Seed / Update All Records (Admin Auth Protected & Rate Limited)
+// 6. Capture Single-Click Interactions & Events to Turso Cloud DB
+app.post('/api/click-event', telemetryLimiter, async (req, res) => {
+  try {
+    const {
+      batch_id,
+      batchId,
+      action_type,
+      actionType,
+      target_element,
+      targetElement,
+      node_index,
+      nodeIndex,
+      node_name,
+      nodeName,
+      gps,
+      gpsCoordinates,
+      temperature,
+      humidity,
+      details
+    } = req.body || {};
+
+    const safeBatchId = String(batch_id || batchId || 'batch-iffco-2026-x992').slice(0, 100).replace(/[^a-zA-Z0-9_\-\.]/g, '');
+    const safeActionType = String(action_type || actionType || 'SINGLE_CLICK').slice(0, 80);
+    const safeTarget = String(target_element || targetElement || 'UI_INTERACTION').slice(0, 120);
+    const safeNodeName = String(node_name || nodeName || 'Facility').slice(0, 100);
+    const safeGps = String(gps || gpsCoordinates || '26.45°N 80.33°E').slice(0, 60);
+    const safeDetails = String(details || 'User interaction captured').slice(0, 250);
+
+    const result = await logClickEvent(
+      safeBatchId,
+      safeActionType,
+      safeTarget,
+      parseInt(node_index, 10) || 0,
+      safeNodeName,
+      safeGps,
+      temperature,
+      humidity,
+      safeDetails
+    );
+
+    res.json({ success: true, ...result });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// 7. Force Seed / Update All Records (Admin Auth Protected & Rate Limited)
 app.post('/api/seed', adminLimiter, requireAdminAuth, async (req, res) => {
   try {
     await seedDb(true);
@@ -344,21 +398,161 @@ app.post('/api/seed', adminLimiter, requireAdminAuth, async (req, res) => {
   }
 });
 
-// 7. Full Database Export API (JSON with parsed Latitude, Longitude, and Timestamps)
+// Dedicated Route to load previous Fertilizer Model 3 application safely
+app.get('/fertilizer', (req, res) => {
+  res.sendFile(path.join(__dirname, 'fertilizer.html'));
+});
+
+// ----------------------------------------------------------------------------
+// AgriProduce Farm-to-Fork API Endpoints
+// ----------------------------------------------------------------------------
+app.get('/api/agri/batches', generalLimiter, async (req, res) => {
+  try {
+    const batches = await getAgriBatches();
+    res.json({ success: true, count: batches.length, batches });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+app.get('/api/agri/cv-grading', generalLimiter, async (req, res) => {
+  try {
+    const batchId = req.query.batch_id || 'BATCH-AGRI-2026-F2F-091';
+    const logs = await getCvGradingLogs(batchId);
+    res.json({ success: true, count: logs.length, logs });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+app.post('/api/agri/cv-grading', telemetryLimiter, async (req, res) => {
+  try {
+    const {
+      batch_id,
+      sample_item_code,
+      produce_type,
+      detection_confidence,
+      caliber_diameter_mm,
+      estimated_weight_g,
+      ripeness_color_pct,
+      sugar_brix_rating,
+      defect_count,
+      defect_type,
+      defect_area_pct,
+      mrl_pesticide_ppm,
+      assigned_grade,
+      quality_cert_hash
+    } = req.body || {};
+
+    const result = await logCvGrading(
+      batch_id,
+      sample_item_code,
+      produce_type,
+      detection_confidence,
+      caliber_diameter_mm,
+      estimated_weight_g,
+      ripeness_color_pct,
+      sugar_brix_rating,
+      defect_count,
+      defect_type,
+      defect_area_pct,
+      mrl_pesticide_ppm,
+      assigned_grade,
+      quality_cert_hash
+    );
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+app.get('/api/agri/coldchain', generalLimiter, async (req, res) => {
+  try {
+    const batchId = req.query.batch_id || 'BATCH-AGRI-2026-F2F-091';
+    const logs = await getColdChainTelemetry(batchId);
+    res.json({ success: true, count: logs.length, logs });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+app.post('/api/agri/coldchain', telemetryLimiter, async (req, res) => {
+  try {
+    const {
+      batch_id,
+      stage_node,
+      vehicle_id,
+      gps,
+      temperature,
+      humidity,
+      ethylene,
+      is_breached,
+      note
+    } = req.body || {};
+
+    const result = await logColdChainTelemetry(
+      batch_id,
+      stage_node,
+      vehicle_id,
+      gps,
+      temperature,
+      humidity,
+      ethylene,
+      is_breached,
+      note
+    );
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+app.post('/api/agri/verify-scan', generalLimiter, async (req, res) => {
+  try {
+    const { batch_id, qr_code, channel, location, fair_trade_tip } = req.body || {};
+    const result = await logConsumerScan(batch_id, qr_code, channel, location, 1, fair_trade_tip);
+    res.json({
+      success: true,
+      verified: true,
+      provenance: {
+        produce: 'Organic Alphonso Mango (GI Tagged)',
+        origin: 'Shinde Organic Orchards, Ratnagiri',
+        farmer: 'Santosh Shinde',
+        organic_cert: 'NPOP/NAB/0019/2026/8912',
+        grade: 'GRADE A+ EXPORT CERTIFIED',
+        mrl_status: 'ZERO CHEMICAL DETECTED (<0.005 ppm)',
+        carbon_footprint: '0.18 kg CO2e / kg',
+        cold_chain: '100% COMPLIANT (12.4°C - 13.1°C)'
+      },
+      ...result
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+// 8. Full Database Export API (JSON with parsed Latitude, Longitude, and Timestamps)
 app.get('/api/export/all', generalLimiter, async (req, res) => {
   try {
     const data = await getAllDatabaseRecords();
     res.json({
       success: true,
-      platform: 'KisanTrace 3D Provenance Platform',
+      platform: 'KisanTrace Spatial Farm-to-Fork Platform',
       timestamp: new Date().toISOString(),
       counts: {
-        telemetry: data.telemetry.length,
-        batches: data.batches.length,
-        custody: data.custody.length,
-        dbt: data.dbt.length,
-        reverse_flow: data.reverse_flow.length,
-        packaging: data.packaging.length
+        clicks: data.clicks?.length || 0,
+        timeline: data.timeline?.length || 0,
+        agri_batches: data.agri_batches?.length || 0,
+        cv_grading: data.cv_grading?.length || 0,
+        coldchain_telemetry: data.coldchain_telemetry?.length || 0,
+        farm_custody: data.farm_custody?.length || 0,
+        consumer_scans: data.consumer_scans?.length || 0,
+        telemetry: data.telemetry?.length || 0,
+        batches: data.batches?.length || 0,
+        custody: data.custody?.length || 0,
+        dbt: data.dbt?.length || 0,
+        reverse_flow: data.reverse_flow?.length || 0,
+        packaging: data.packaging?.length || 0
       },
       data
     });
