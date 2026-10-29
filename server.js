@@ -596,6 +596,11 @@ app.get('/api/export/csv', generalLimiter, async (req, res) => {
   }
 });
 
+// Scrollytelling Apple-Style Product Sequence Route
+app.get('/scrollytelling', (req, res) => {
+  res.sendFile(path.join(__dirname, 'scrollytelling_preview.html'));
+});
+
 // Custom 404 Page Route
 app.get('/404', (req, res) => {
   res.status(404).sendFile(path.join(__dirname, '404.html'));

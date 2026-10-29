@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>KisanTrace Diorama 3.0 — Provenance, Perfected (Apple Scrollytelling)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Ultra-premium physical-digital farm-to-fork traceability diorama and edge blockchain consensus platform.">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%230050FF'/%3E%3Cstop offset='100%25' stop-color='%2300D6FF'/%3E%3C/defs%3E%3Crect width='32' height='32' rx='8' fill='%23050505'/%3E%3Ccircle cx='16' cy='16' r='8' fill='none' stroke='url(%23g)' stroke-width='3'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #050505;
+      --card-bg: #0A0A0C;
+      --sony-blue: #0050FF;
+      --cyan: #00D6FF;
+      --text: rgba(255, 255, 255, 0.9);
+      --text-muted: rgba(255, 255, 255, 0.6);
+      --text-subtle: rgba(255, 255, 255, 0.4);
+      --font: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Navbar */
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 44px;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      background: rgba(5, 5, 5, 0);
+      border-bottom: 1px solid transparent;
+      transition: background 0.3s ease, border-color 0.3s ease;
+    }
+    .navbar.scrolled {
+      background: rgba(5, 5, 5, 0.85);
+      border-bottom-color: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text);
+      text-decoration: none;
+    }
+    .nav-badge {
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      background: rgba(255, 255, 255, 0.1);
+      color: var(--text-muted);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+    .nav-link {
+      font-size: 12px;
+      color: var(--text-muted);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    .nav-link:hover {
+      color: #ffffff;
+      text-decoration: underline;
+      text-decoration-color: var(--cyan);
+      text-underline-offset: 4px;
+    }
+    .nav-cta {
+      position: relative;
+      padding: 1px;
+      border-radius: 9999px;
+      background: linear-gradient(135deg, var(--sony-blue), var(--cyan));
+      text-decoration: none;
+      display: inline-block;
+      transition: transform 0.2s ease;
+    }
+    .nav-cta:hover { transform: scale(1.02); }
+    .nav-cta span {
+      display: block;
+      background: #050505;
+      padding: 5px 14px;
+      border-radius: 9999px;
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 500;
+      transition: background 0.2s;
+    }
+    .nav-cta:hover span { background: rgba(5, 5, 5, 0.8); }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+    }
+
+    /* Sticky Scroll Container */
+    .scroll-container {
+      position: relative;
+      width: 100%;
+      height: 400vh;
+      background: #050505;
+    }
+
+    .sticky-viewport {
+      position: sticky;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      background: #050505;
+    }
+
+    canvas#diorama-canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      background-color: #050505;
+    }
+
+    /* Floating Copy Overlays */
+    .copy-overlays-wrap {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .copy-inner {
+      max-width: 1140px;
+      margin: 0 auto;
+      width: 100%;
+      padding: 0 24px;
+      position: relative;
+    }
+
+    .beat-card {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .beat-card.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(-50%);
+    }
+
+    .beat-card.center {
+      left: 50%;
+      transform: translate(-50%, -50%) translateY(20px);
+      text-align: center;
+      max-width: 680px;
+      width: 90%;
+    }
+    .beat-card.center.active {
+      transform: translate(-50%, -50%);
+    }
+
+    .beat-card.left {
+      left: 24px;
+      text-align: left;
+      max-width: 500px;
+      transform: translateY(calc(-50% + 20px));
+    }
+    .beat-card.left.active {
+      transform: translateY(-50%);
+    }
+
+    .beat-card.right {
+      right: 24px;
+      text-align: left;
+      max-width: 500px;
+      transform: translateY(calc(-50% + 20px));
+    }
+    .beat-card.right.active {
+      transform: translateY(-50%);
+    }
+
+    .beat-eyebrow {
+      font-size: 11.5px;
+      font-family: monospace;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--cyan);
+      margin-bottom: 8px;
+      display: block;
+    }
+    .beat-title {
+      font-size: clamp(28px, 5vw, 54px);
+      font-weight: 700;
+      letter-spacing: -1px;
+      color: #ffffff;
+      line-height: 1.15;
+      margin-bottom: 16px;
+    }
+    .beat-desc {
+      font-size: clamp(15px, 2vw, 18px);
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .btn-gradient {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 28px;
+      border-radius: 9999px;
+      background: linear-gradient(135deg, var(--sony-blue), var(--cyan));
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 20px rgba(0, 80, 255, 0.3);
+    }
+    .btn-gradient:hover {
+      box-shadow: 0 6px 30px rgba(0, 214, 255, 0.5);
+      transform: scale(1.02);
+    }
+
+    /* Below Canvas Sections */
+    .section {
+      width: 100%;
+      background: #050505;
+      padding: 96px 24px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .section-inner {
+      max-width: 1140px;
+      margin: 0 auto;
+    }
+
+    /* Feature Grid */
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 48px;
+    }
+    @media (max-width: 900px) {
+      .feature-grid { grid-template-columns: 1fr; }
+    }
+    .feature-card {
+      background: var(--card-bg);
+      border-top: 2px solid var(--sony-blue);
+      border-radius: 12px;
+      padding: 32px;
+      transition: border-color 0.3s ease;
+    }
+    .feature-card:hover {
+      border-top-color: var(--cyan);
+    }
+    .feature-icon-box {
+      width: 42px;
+      height: 42px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 24px;
+    }
+    .feature-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+    .feature-desc {
+      font-size: 14px;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* Specs Table */
+    .specs-wrap {
+      max-width: 860px;
+      margin: 40px auto 0 auto;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .spec-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      font-size: 14px;
+    }
+    .spec-row:last-child { border-bottom: none; }
+    .spec-label { color: var(--text-subtle); }
+    .spec-val { color: var(--text); font-family: monospace; font-weight: 500; text-align: right; }
+
+    /* Final CTA */
+    .final-cta-box {
+      position: relative;
+      text-align: center;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 60px 0;
+    }
+    .cta-radial-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 500px;
+      height: 300px;
+      background: radial-gradient(ellipse at center, rgba(0, 80, 255, 0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    /* Footer */
+    footer {
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 32px 24px;
+      font-size: 12px;
+      color: var(--text-subtle);
+    }
+    .footer-inner {
+      max-width: 1140px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .footer-links a {
+      color: var(--text-subtle);
+      text-decoration: none;
+      margin-left: 20px;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--text-muted); }
+  </style>
+</head>
+<body>
+  <!-- Fixed Apple-Style Navbar -->
+  <header class="navbar" id="navbar">
+    <a href="#" class="nav-brand">
+      <span>KisanTrace Diorama 3.0</span>
+      <span class="nav-badge">Digital Twin</span>
+    </a>
+
+    <nav class="nav-links">
+      <a href="#overview" class="nav-link">Overview</a>
+      <a href="#technology" class="nav-link">Technology</a>
+      <a href="#specs" class="nav-link">Specs</a>
+      <a href="#deploy" class="nav-link">Deploy</a>
+    </nav>
+
+    <a href="#deploy" class="nav-cta">
+      <span>Experience KisanTrace</span>
+    </a>
+  </header>
+
+  <!-- Sticky Scrollytelling Sequence Container (~400vh) -->
+  <div class="scroll-container" id="scroll-container">
+    <div class="sticky-viewport">
+      <canvas id="diorama-canvas"></canvas>
+
+      <!-- Scroll Storytelling Overlays (5 Beats) -->
+      <div class="copy-overlays-wrap">
+        <div class="copy-inner">
+          <!-- Beat 1: Hero (0–15%) -->
+          <div class="beat-card center active" id="beat-1">
+            <span class="beat-eyebrow">KisanTrace 3.0 Platform</span>
+            <h1 class="beat-title">Provenance, perfected.</h1>
+            <p class="beat-desc">
+              Flagship farm-to-fork physical-digital diorama and cryptographic quality certification for agricultural produce.
+            </p>
+            <span style="font-size:12px; color:rgba(255,255,255,0.4);">
+              Scroll down to disassemble the diorama architecture ↓
+            </span>
+          </div>
+
+          <!-- Beat 2: Engineering Reveal (15–40%) -->
+          <div class="beat-card left" id="beat-2">
+            <span class="beat-eyebrow">01 / Farm Origin Genesis</span>
+            <h2 class="beat-title">Precision-engineered at the source.</h2>
+            <p class="beat-desc">
+              Tiered organic strata, geo-fenced orchard furrowing, and NPOP organic stamps deliver immutable origin genesis — harvest after harvest.
+            </p>
+          </div>
+
+          <!-- Beat 3: Edge AI & Cold-Chain (40–65%) -->
+          <div class="beat-card right" id="beat-3">
+            <span class="beat-eyebrow">02 / Autonomous AI & Cold Logistics</span>
+            <h2 class="beat-title">Adaptive inspection, redefined.</h2>
+            <p class="beat-desc">
+              · Overhead neural camera inspects caliber, brix, and surface purity.<br>
+              · IoT reefer telemetry tracks 12.8°C thermal envelope in real time.<br>
+              · Spoilage and broken paper chains fade away. Freshness stays verified.
+            </p>
+          </div>
+
+          <!-- Beat 4: Consumer Trust & Fair-Trade (65–85%) -->
+          <div class="beat-card left" id="beat-4">
+            <span class="beat-eyebrow">03 / Consumer Verification & Fair-Trade</span>
+            <h2 class="beat-title">Provable authenticity in every scan.</h2>
+            <p class="beat-desc">
+              Interactive smartphone PWA resolves full provenance from orchard tree to supermarket shelf. Transparent smart contracts disburse a <strong style="color:#34d399;">+28.5% premium</strong> directly to farmer accounts.
+            </p>
+          </div>
+
+          <!-- Beat 5: Reassembly & CTA (85–100%) -->
+          <div class="beat-card center" id="beat-5">
+            <span class="beat-eyebrow">Full Reassembly</span>
+            <h2 class="beat-title">Trace everything. Trust every harvest.</h2>
+            <p class="beat-desc">
+              KisanTrace Diorama 3.0. Designed for radical transparency, crafted for farmers and conscious buyers.
+            </p>
+            <div style="display:flex; gap:16px; justify-content:center; align-items:center; margin-bottom:12px;">
+              <a href="#deploy" class="btn-gradient">Deploy KisanTrace Ecosystem</a>
+              <a href="#specs" style="color:var(--text-muted); text-decoration:none; font-size:14px;">See full specs →</a>
+            </div>
+            <span style="font-size:11px; color:rgba(255,255,255,0.4);">
+              Engineered for orchards, APMC mandis, reefer fleets, and global export corridors.
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section 1: Feature Grid -->
+  <section class="section" id="technology">
+    <div class="section-inner">
+      <div style="text-align:center; max-width:600px; margin:0 auto;">
+        <span style="font-size:11px; font-family:monospace; color:var(--cyan); text-transform:uppercase; letter-spacing:1px;">
+          Core Architecture
+        </span>
+        <h2 style="font-size:36px; font-weight:700; color:#fff; margin-top:8px;">
+          Engineered for zero-loss traceability.
+        </h2>
+        <p style="font-size:15px; color:var(--text-muted); margin-top:8px;">
+          Three foundational pillars uniting physical agriculture with verifiable cryptographic consensus.
+        </p>
+      </div>
+
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-icon-box">
+            <span style="color:var(--cyan); font-size:20px;">🔬</span>
+          </div>
+          <h3 class="feature-title">Sub-15ms AI Inspection Camera</h3>
+          <p class="feature-desc">
+            YOLOv8 edge neural vision analyzes caliber mm, brix sugar ratings, and surface defects directly at mandi packhouses.
+          </p>
+        </div>
+
+        <div class="feature-card" style="border-top-color:var(--sony-blue);">
+          <div class="feature-icon-box">
+            <span style="color:var(--sony-blue); font-size:20px;">❄️</span>
+          </div>
+          <h3 class="feature-title">Autonomous IoT Reefer Cold-Chain</h3>
+          <p class="feature-desc">
+            Continuous 12.8°C climate monitoring across highway corridors with instant smart contract SLA breach quarantine.
+          </p>
+        </div>
+
+        <div class="feature-card" style="border-top-color:#34d399;">
+          <div class="feature-icon-box">
+            <span style="color:#34d399; font-size:20px;">🌾</span>
+          </div>
+          <h3 class="feature-title">Zero-Knowledge Fair-Trade Payout</h3>
+          <p class="feature-desc">
+            +28.5% premium disbursed directly to verified farmer accounts, preserving Aadhaar identity with zero-knowledge proofs.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 2: Specs Strip -->
+  <section class="section" id="specs">
+    <div class="section-inner">
+      <div style="margin-bottom:32px;">
+        <span style="font-size:11px; font-family:monospace; color:var(--cyan); text-transform:uppercase; letter-spacing:1px;">
+          Technical Specifications
+        </span>
+        <h2 style="font-size:32px; font-weight:700; color:#fff; margin-top:6px;">
+          System Specifications
+        </h2>
+      </div>
+
+      <div class="specs-wrap">
+        <div class="spec-row">
+          <span class="spec-label">Computer Vision Architecture</span>
+          <span class="spec-val">YOLOv8 Edge Neural Sorter (14.2 ms inference)</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">Caliber Measurement Precision</span>
+          <span class="spec-val">Equatorial diameter (±0.5 mm precision)</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">Sugar Refractometer Range</span>
+          <span class="spec-val">Optical Brix 0° – 32° (Alphonso Export >18.5°)</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">Cold-Chain SLA Envelope</span>
+          <span class="spec-val">12.0°C – 13.5°C, 85%–95% Relative Humidity</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">Blockchain Ledger Engine</span>
+          <span class="spec-val">Serverless libSQL Edge Replica (Turso Cloud Mumbai)</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">Cryptographic Protocol</span>
+          <span class="spec-val">Ed25519 Asymmetric Signatures (Offline-first)</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">Packaging Serialization</span>
+          <span class="spec-val">GS1 Digital Link URI, SSCC-18, GRAI RFID</span>
+        </div>
+        <div class="spec-row">
+          <span class="spec-label">Farmer Direct Payout Premium</span>
+          <span class="spec-val">+28.5% over conventional APMC floor rate</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 3: Final CTA -->
+  <section class="section" id="deploy">
+    <div class="section-inner">
+      <div class="final-cta-box">
+        <div class="cta-radial-glow"></div>
+        <span style="font-size:11px; font-family:monospace; color:var(--cyan); text-transform:uppercase; letter-spacing:1px;">
+          Enterprise Deployment
+        </span>
+        <h2 style="font-size:clamp(32px, 5vw, 48px); font-weight:700; color:#fff; margin:16px 0;">
+          Ready to verify your agricultural supply chain?
+        </h2>
+        <p style="font-size:16px; color:var(--text-muted); line-height:1.6; margin-bottom:36px;">
+          Deploy the KisanTrace physical-digital diorama twin, edge computer vision grading, and zero-knowledge ledger in less than 48 hours.
+        </p>
+        <div style="display:flex; justify-content:center; gap:16px; flex-wrap:wrap;">
+          <a href="mailto:deploy@kisantrace.org" class="btn-gradient">
+            Deploy KisanTrace Enterprise Platform
+          </a>
+          <a href="tel:+918005472687" style="padding:13px 24px; border-radius:9999px; background:rgba(255,255,255,0.06); color:#fff; text-decoration:none; font-size:14px; border:1px solid rgba(255,255,255,0.12);">
+            📞 +91 800-KISAN-TR
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Minimal Footer -->
+  <footer>
+    <div class="footer-inner">
+      <div>
+        &copy; 2026 KisanTrace Technologies Inc. All rights reserved. Interoperable with NPOP, APEDA, and GS1 Digital Link.
+      </div>
+      <div class="footer-links">
+        <a href="#overview">Privacy Policy</a>
+        <a href="#specs">Terms of Service</a>
+        <a href="mailto:contact@kisantrace.org">Contact</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Canvas Animation & Scroll Link Controller -->
+  <script>
+    (function() {
+      const canvas = document.getElementById('diorama-canvas');
+      const ctx = canvas.getContext('2d');
+      const scrollContainer = document.getElementById('scroll-container');
+      const navbar = document.getElementById('navbar');
+
+      const beats = [
+        { el: document.getElementById('beat-1'), start: 0.0, enter: 0.04, exit: 0.13, end: 0.17 },
+        { el: document.getElementById('beat-2'), start: 0.15, enter: 0.22, exit: 0.35, end: 0.42 },
+        { el: document.getElementById('beat-3'), start: 0.40, enter: 0.47, exit: 0.60, end: 0.67 },
+        { el: document.getElementById('beat-4'), start: 0.65, enter: 0.70, exit: 0.80, end: 0.87 },
+        { el: document.getElementById('beat-5'), start: 0.84, enter: 0.90, exit: 1.00, end: 1.05 }
+      ];
+
+      function resize() {
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = window.innerWidth * dpr;
+        canvas.height = window.innerHeight * dpr;
+      }
+      window.addEventListener('resize', resize);
+      resize();
+
+      let currentProgress = 0;
+
+      function updateScroll() {
+        const rect = scrollContainer.getBoundingClientRect();
+        const totalScrollable = rect.height - window.innerHeight;
+        const currentScrolled = Math.max(0, -rect.top);
+        currentProgress = Math.min(1, Math.max(0, currentScrolled / totalScrollable));
+
+        // Navbar blur toggle
+        if (window.scrollY > 40) {
+          navbar.classList.add('scrolled');
+        } else {
+          navbar.classList.remove('scrolled');
+        }
+
+        // Copy beat visibility
+        beats.forEach(b => {
+          if (!b.el) return;
+          if (currentProgress >= b.start && currentProgress <= b.end) {
+            b.el.classList.add('active');
+          } else {
+            b.el.classList.remove('active');
+          }
+        });
+      }
+
+      window.addEventListener('scroll', updateScroll, { passive: true });
+      updateScroll();
+
+      // Procedural Isometric Farm-to-Fork Diorama Drawing Engine
+      function drawFrame(progress) {
+        const w = canvas.width;
+        const h = canvas.height;
+
+        ctx.fillStyle = '#050505';
+        ctx.fillRect(0, 0, w, h);
+
+        const cx = w / 2;
+        const cy = h / 2;
+
+        // Subtle ambient radial glow
+        const glow = ctx.createRadialGradient(cx, cy, 40, cx, cy, w * 0.45);
+        glow.addColorStop(0, 'rgba(0, 80, 255, 0.09)');
+        glow.addColorStop(0.5, 'rgba(0, 214, 255, 0.03)');
+        glow.addColorStop(1, 'rgba(5, 5, 5, 0)');
+        ctx.fillStyle = glow;
+        ctx.fillRect(0, 0, w, h);
+
+        // Disassembly factor
+        let factor = 0;
+        if (progress <= 0.15) {
+          factor = 0;
+        } else if (progress <= 0.50) {
+          factor = (progress - 0.15) / 0.35;
+        } else if (progress <= 0.85) {
+          factor = 1 - (progress - 0.50) / 0.35;
+        } else {
+          factor = 0;
+        }
+
+        // Cubic bezier easing
+        const ease = factor < 0.5 ? 2 * factor * factor : -1 + (4 - 2 * factor) * factor;
+
+        const scale = Math.min(w / 1100, h / 850) * 1.15;
+        ctx.save();
+        ctx.translate(cx, cy + 25);
+        ctx.scale(scale, scale);
+
+        // LAYER 8: Foundation Plinth (Terracotta)
+        ctx.save();
+        ctx.translate(0, ease * 70);
+        ctx.fillStyle = '#C87D55';
+        ctx.beginPath();
+        ctx.ellipse(0, 110, 360, 140, -0.05, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#A85D38';
+        ctx.beginPath();
+        ctx.ellipse(0, 128, 360, 130, -0.05, 0, Math.PI);
+        ctx.fill();
+        ctx.restore();
+
+        // LAYER 7: Middle Deck (Cream Stone)
+        ctx.save();
+        ctx.translate(0, ease * 35);
+        ctx.fillStyle = '#F5EBE1';
+        ctx.beginPath();
+        ctx.ellipse(-10, 65, 345, 130, -0.06, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#E5D6C5';
+        ctx.beginPath();
+        ctx.ellipse(-10, 80, 345, 125, -0.06, 0, Math.PI);
+        ctx.fill();
+        ctx.restore();
+
+        // LAYER 6: Biome Deck (Sage Green) & Cabbages
+        ctx.save();
+        ctx.translate(0, -ease * 10);
+        ctx.fillStyle = '#8FA98F';
+        ctx.beginPath();
+        ctx.ellipse(-15, 20, 330, 120, -0.06, 0, Math.PI * 2);
+        ctx.fill();
+        // Soil Plot
+        ctx.fillStyle = '#734A30';
+        ctx.beginPath();
+        ctx.ellipse(-170, 0, 100, 55, 0.25, 0, Math.PI * 2);
+        ctx.fill();
+        // Crop Sprouts
+        ctx.fillStyle = '#3E6B48';
+        for (let rx = -230; rx <= -110; rx += 28) {
+          for (let ry = -25; ry <= 25; ry += 16) {
+            ctx.beginPath();
+            ctx.ellipse(rx, ry + (rx + 170) * 0.15, 7, 5, 0, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
+        ctx.restore();
+
+        // LAYER 5: Provenance S-Curve Rail & Neon Nodes
+        ctx.save();
+        ctx.translate(0, -ease * 45);
+        ctx.strokeStyle = '#5E8B70';
+        ctx.lineWidth = 32;
+        ctx.lineCap = 'round';
+        ctx.beginPath();
+        ctx.moveTo(-150, 45);
+        ctx.bezierCurveTo(-50, 100, 20, -10, 140, 25);
+        ctx.stroke();
+
+        ctx.strokeStyle = '#85E3B3';
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        ctx.moveTo(-150, 45);
+        ctx.bezierCurveTo(-50, 100, 20, -10, 140, 25);
+        ctx.stroke();
+
+        // Neon Waypoint Nodes
+        const nodes = [
+          { x: -145, y: 45 }, { x: -95, y: 65 }, { x: -40, y: 45 },
+          { x: 30, y: 15 }, { x: 85, y: 18 }, { x: 135, y: 25 }
+        ];
+        nodes.forEach(nd => {
+          ctx.fillStyle = '#00FF9D';
+          ctx.shadowColor = '#00FF9D';
+          ctx.shadowBlur = 12;
+          ctx.beginPath();
+          ctx.arc(nd.x, nd.y, 7, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.shadowBlur = 0;
+        });
+
+        // Floating Glass Blocks
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.45)';
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.85)';
+        ctx.lineWidth = 1.5;
+        [-70, 55].forEach(bx => {
+          ctx.strokeRect(bx, 15, 18, 18);
+          ctx.fillRect(bx, 15, 18, 18);
+        });
+        ctx.restore();
+
+        // LAYER 4: Foreground Smartphone
+        ctx.save();
+        ctx.translate(90, 80 - ease * 80);
+        ctx.rotate(-0.35);
+        ctx.fillStyle = '#4D6B57';
+        ctx.beginPath();
+        ctx.roundRect(-45, -85, 90, 170, 14);
+        ctx.fill();
+        ctx.fillStyle = '#FAF7F2';
+        ctx.beginPath();
+        ctx.roundRect(-40, -80, 80, 160, 10);
+        ctx.fill();
+        // UI
+        ctx.fillStyle = '#E5533D';
+        ctx.beginPath();
+        ctx.arc(-10, -50, 10, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#5A9E6E';
+        [-20, 0, 20, 40].forEach((cy, idx) => {
+          ctx.beginPath();
+          ctx.arc(-20, cy, 6, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = '#D4DDD6';
+          ctx.fillRect(-8, cy - 3, 38, 6);
+          ctx.fillStyle = '#5A9E6E';
+        });
+        ctx.fillStyle = '#85E3B3';
+        ctx.shadowColor = 'rgba(0, 255, 157, 0.4)';
+        ctx.shadowBlur = 8;
+        ctx.beginPath();
+        ctx.arc(26, 42, 12, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+        ctx.restore();
+
+        // LAYER 3: Crates & QR Codes
+        ctx.save();
+        ctx.translate(10, 85 - ease * 115);
+        ctx.fillStyle = '#D9A566';
+        ctx.fillRect(-45, -25, 90, 46);
+        ctx.fillStyle = '#B88246';
+        ctx.fillRect(-45, -25, 90, 6);
+        ctx.fillRect(-45, -3, 90, 5);
+        // Produce in crate
+        ctx.fillStyle = '#E5533D';
+        [-25, -5, 15].forEach(tx => {
+          ctx.beginPath();
+          ctx.arc(tx, -24, 9, 0, Math.PI * 2);
+          ctx.fill();
+        });
+        ctx.fillStyle = '#E87A30';
+        [5, 25].forEach(cx => {
+          ctx.beginPath();
+          ctx.ellipse(cx, -28, 5, 14, 0.4, 0, Math.PI * 2);
+          ctx.fill();
+        });
+        // QR Code
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillRect(32, -18, 22, 22);
+        ctx.fillStyle = '#111111';
+        ctx.fillRect(35, -15, 6, 6);
+        ctx.fillRect(45, -15, 6, 6);
+        ctx.fillRect(35, -5, 6, 6);
+        ctx.fillRect(44, -6, 4, 4);
+        ctx.restore();
+
+        // LAYER 2: Reefer Truck & Grocery Stall
+        ctx.save();
+        ctx.translate(0, -ease * 155);
+        // Truck
+        ctx.save();
+        ctx.translate(45, -55);
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillRect(-35, -35, 60, 36);
+        ctx.fillStyle = '#A3BFAB';
+        ctx.fillRect(25, -22, 24, 23);
+        ctx.fillStyle = '#3B82F6';
+        ctx.fillRect(36, -18, 11, 10);
+        ctx.fillStyle = '#333333';
+        [-15, 15, 38].forEach(wx => {
+          ctx.beginPath();
+          ctx.arc(wx, 5, 7, 0, Math.PI * 2);
+          ctx.fill();
+        });
+        ctx.restore();
+        // Grocery Stall
+        ctx.save();
+        ctx.translate(155, -45);
+        ctx.fillStyle = '#8B5A2B';
+        ctx.fillRect(-35, -10, 70, 35);
+        ctx.fillStyle = '#4D7C5E';
+        ctx.beginPath();
+        ctx.moveTo(-42, -35);
+        ctx.lineTo(42, -35);
+        ctx.lineTo(38, -18);
+        ctx.lineTo(-38, -18);
+        ctx.closePath();
+        ctx.fill();
+        ctx.fillStyle = '#FFFFFF';
+        ctx.font = 'bold 8px Inter, sans-serif';
+        ctx.fillText('GROCERY', -18, -24);
+        ctx.restore();
+        // Farmer
+        ctx.save();
+        ctx.translate(-160, -45);
+        ctx.fillStyle = '#D9A566';
+        ctx.beginPath();
+        ctx.ellipse(0, -22, 10, 5, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.fillStyle = '#3E6B48';
+        ctx.fillRect(-5, -16, 10, 18);
+        ctx.restore();
+        ctx.restore();
+
+        // LAYER 1: Inspection Camera & Shield Badges
+        ctx.save();
+        ctx.translate(0, -ease * 200);
+        ctx.save();
+        ctx.translate(-25, -35);
+        ctx.strokeStyle = '#6E9882';
+        ctx.lineWidth = 6;
+        ctx.beginPath();
+        ctx.moveTo(-15, 20);
+        ctx.lineTo(-15, -45);
+        ctx.lineTo(15, -45);
+        ctx.stroke();
+        ctx.fillStyle = '#446655';
+        ctx.beginPath();
+        ctx.arc(15, -45, 9, 0, Math.PI * 2);
+        ctx.fill();
+        // Light cone
+        const cone = ctx.createLinearGradient(15, -36, 15, 25);
+        cone.addColorStop(0, 'rgba(0, 214, 255, 0.45)');
+        cone.addColorStop(1, 'rgba(0, 214, 255, 0)');
+        ctx.fillStyle = cone;
+        ctx.beginPath();
+        ctx.moveTo(15, -36);
+        ctx.lineTo(-15, 20);
+        ctx.lineTo(45, 20);
+        ctx.closePath();
+        ctx.fill();
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.85)';
+        ctx.font = '600 11px Inter, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('inspection', 15, -64);
+        ctx.fillText('camera', 15, -52);
+        ctx.restore();
+
+        // Floating Shield Badges
+        [-100, 60].forEach((sx, idx) => {
+          ctx.fillStyle = 'rgba(133, 227, 179, 0.75)';
+          ctx.beginPath();
+          ctx.arc(sx, -70 + idx * 30, 9, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.fillStyle = '#050505';
+          ctx.font = 'bold 8px Inter, sans-serif';
+          ctx.fillText('✓', sx, -67 + idx * 30);
+        });
+        ctx.restore();
+
+        ctx.restore();
+      }
+
+      function loop() {
+        drawFrame(currentProgress);
+        requestAnimationFrame(loop);
+      }
+      requestAnimationFrame(loop);
+    })();
+  </script>
+</body>
+</html>
