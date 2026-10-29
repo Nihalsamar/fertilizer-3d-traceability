@@ -28,8 +28,11 @@ if (fs.existsSync(envPath)) {
   }
 }
 
-let url = process.env.TURSO_DATABASE_URL || 'file:kisan_trace.db';
-let authToken = process.env.TURSO_AUTH_TOKEN || undefined;
+const DEFAULT_TURSO_URL = 'libsql://kisantrace-nihalsamar.aws-ap-south-1.turso.io';
+const DEFAULT_TURSO_TOKEN = 'eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.eyJhIjoicnciLCJpYXQiOjE3OTE1MzQwODYsImlkIjoiMDFhMTFmYWYtYWQwMS03MTg5LWI0ZGYtNTE4NWVjMTNmZGRjIiwia2lkIjoia2xYWG0wMlBIWV9JTDd0ZHEzU3dEVHRHdUFhTWdfMlUzc3J3c29tUEdKYyIsInJpZCI6IjRhNmM3NjljLWNmMjMtNGE2NC1hYWNlLWZhN2E2YjY4MTZkZSJ9.b2bl_Ls1znkV8MvjDGmiYYN9O4nE2XygVjgxZDHIDuyQAiY1mEnJRsb7Qf2zcKaZozfFFs7onnyj6SfJqVsECw';
+
+let url = process.env.TURSO_DATABASE_URL || DEFAULT_TURSO_URL;
+let authToken = process.env.TURSO_AUTH_TOKEN || DEFAULT_TURSO_TOKEN;
 let isCloud = url.startsWith('libsql://') || url.startsWith('https://');
 
 let client = createClient({
