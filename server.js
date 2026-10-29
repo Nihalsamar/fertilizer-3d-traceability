@@ -596,9 +596,26 @@ app.get('/api/export/csv', generalLimiter, async (req, res) => {
   }
 });
 
-// Fallback to index.html for SPA routes (with safety check against dotfile paths)
+// Custom 404 Page Route
+app.get('/404', (req, res) => {
+  res.status(404).sendFile(path.join(__dirname, '404.html'));
+});
+
+// Unmatched API routes return JSON 404
+app.all('/api/*', (req, res) => {
+  res.status(404).json({ success: false, error: 'API route not found on KisanTrace blockchain ledger' });
+});
+
+// Fallback: Valid roots serve index.html or fertilizer.html; others return custom 404 page
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'index.html'));
+  const normalized = req.path.toLowerCase().replace(/\/+$/, '') || '/';
+  if (normalized === '/' || normalized === '/index.html') {
+    return res.sendFile(path.join(__dirname, 'index.html'));
+  }
+  if (normalized === '/fertilizer' || normalized === '/fertilizer.html') {
+    return res.sendFile(path.join(__dirname, 'fertilizer.html'));
+  }
+  res.status(404).sendFile(path.join(__dirname, '404.html'));
 });
 
 // Start server with resilient retry

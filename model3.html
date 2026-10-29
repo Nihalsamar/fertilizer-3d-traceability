@@ -2,28 +2,49 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>KisanTrace Spatial 3D — Farm-to-Fork Traceability &amp; Quality Certification</title>
+  <title>KisanTrace — Blockchain Farm-to-Fork Traceability &amp; AI Quality Certification</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Enterprise blockchain-enabled farm-to-fork traceability platform for agricultural produce. Features edge YOLOv8 computer vision AI quality grading, real-time reefer IoT telemetry, and zero-knowledge fair-trade farmer payouts.">
+  <meta name="keywords" content="blockchain agricultural traceability, farm to fork, computer vision grading, YOLOv8, Brix sugar rating, cold chain telemetry, Ratnagiri Alphonso mango, Turso database">
+  <meta name="theme-color" content="#090d16">
+  <meta property="og:title" content="KisanTrace — Blockchain Farm-to-Fork Traceability & AI Quality Certification">
+  <meta property="og:description" content="Decentralized agricultural provenance, optical AI quality grading, and autonomous cold-chain telemetry on a high-throughput edge ledger.">
+  <meta property="og:type" content="website">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23a855f7'/%3E%3Cstop offset='50%25' stop-color='%236366f1'/%3E%3Cstop offset='100%25' stop-color='%2338bdf8'/%3E%3C/defs%3E%3Crect width='32' height='32' rx='8' fill='%230f172a'/%3E%3Cpath d='M16 6 L26 12 L26 22 L16 28 L6 22 L6 12 Z' fill='none' stroke='url(%23g)' stroke-width='2'/%3E%3Ccircle cx='16' cy='17' r='4' fill='url(%23g)'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
   <style>
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap');
+
 /* ==========================================================================
-   KISAN-TRACE 3D: Model 3 (Full Controls, Humidity, Packets & Reverse Flow)
+   KISAN-TRACE SPATIAL: Farm-to-Fork Traceability & AI Quality Certification
+   Aesthetic: Purple-to-Blue Gradients, VisionOS Glass, Space Grotesk + Instrument Serif
    ========================================================================== */
 
 :root {
-  --bg: #09101d;
-  --panel: rgba(15, 23, 42, 0.94);
-  --panel-border: rgba(255, 255, 255, 0.14);
+  --bg: #090d16;
+  --panel: rgba(15, 23, 42, 0.78);
+  --panel-border: rgba(255, 255, 255, 0.12);
   --text: #f8fafc;
   --muted: #94a3b8;
   --ok: #10b981;
   --bad: #ef4444;
   --warning: #f59e0b;
   --blue: #3b82f6;
+  --purple: #a855f7;
+  --indigo: #6366f1;
+  --cyan: #38bdf8;
+  --emerald: #10b981;
   --accent: #8b5cf6;
-  --chip: rgba(30, 41, 59, 0.88);
+  --chip: rgba(30, 41, 59, 0.85);
   --chip-hover: rgba(51, 65, 85, 0.95);
-  --font: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans Devanagari", sans-serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-display: 'Space Grotesk', -apple-system, sans-serif;
+  --font-serif: 'Instrument Serif', Georgia, serif;
+  --font: var(--font-sans);
   --mono: 'JetBrains Mono', monospace;
+  --purple-blue-grad: linear-gradient(135deg, #c084fc 0%, #818cf8 35%, #38bdf8 80%);
 }
 
 *, *::before, *::after {
@@ -34,20 +55,51 @@
 
 html, body {
   width: 100%;
-  height: 100%;
-  overflow: hidden;
-  background: var(--bg);
+  min-height: 100vh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-color: var(--bg);
+  background-image: 
+    radial-gradient(ellipse at 50% -10%, rgba(120, 119, 198, 0.22) 0%, transparent 60%),
+    radial-gradient(circle at 10% 85%, rgba(168, 85, 247, 0.12) 0%, transparent 40%),
+    radial-gradient(circle at 90% 15%, rgba(56, 189, 248, 0.12) 0%, transparent 40%);
+  background-attachment: fixed;
   color: var(--text);
-  font-family: var(--font);
-  user-select: none;
+  font-family: var(--font-sans);
+  user-select: auto;
   -webkit-font-smoothing: antialiased;
 }
 
 #app {
   position: relative;
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Digital Twin 3D Viewport Container */
+.twin-viewport-container {
+  position: relative;
+  width: 100%;
+  height: 82vh;
+  min-height: 580px;
+  max-height: 900px;
   overflow: hidden;
+  border-radius: 24px;
+  margin: 10px auto 40px auto;
+  max-width: 1400px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
+  background: #090d16;
+}
+
+@media (max-width: 768px) {
+  .twin-viewport-container {
+    height: 72vh;
+    min-height: 480px;
+    border-radius: 16px;
+    margin: 8px auto 28px auto;
+  }
 }
 
 canvas#c {
@@ -55,6 +107,10 @@ canvas#c {
   inset: 0;
   width: 100%;
   height: 100%;
+  touch-action: none;
+  cursor: grab;
+  z-index: 1;
+}
   touch-action: none;
   cursor: grab;
   z-index: 1;
@@ -1463,12 +1519,890 @@ table.details-table tr:hover td {
   border-radius: 6px;
 }
 
+/* ==========================================================================
+   ENHANCED LANDING & SPATIAL SUITE: HERO, BENTO, ICONS, FOOOTER & MOBILE
+   ========================================================================== */
+
+/* 1. Grain Texture Overlay */
+.grain-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 999;
+}
+
+/* 2. Interactive Cursor Following Canvas */
+#cursor-trail-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* 3. Site Navigation Header */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+  background: rgba(9, 13, 22, 0.82);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 12px 24px;
+}
+
+.site-nav-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.brand-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: #ffffff;
+  cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.brand-logo:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.brand-logo-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #a855f7, #6366f1, #38bdf8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  box-shadow: 0 4px 16px rgba(168, 85, 247, 0.4);
+}
+
+.brand-logo-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.brand-title {
+  font-family: var(--font-display);
+  font-size: 17px;
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  background: var(--purple-blue-grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.brand-tagline {
+  font-size: 10.5px;
+  color: var(--muted);
+  font-weight: 500;
+  letter-spacing: 0.2px;
+}
+
+.desktop-nav-links {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.nav-link {
+  color: #cbd5e1;
+  text-decoration: none;
+  font-size: 13.5px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  padding: 6px 10px;
+  border-radius: 8px;
+}
+.nav-link:hover {
+  color: #38bdf8;
+  background: rgba(255, 255, 255, 0.05);
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.nav-actions-group {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.mobile-menu-toggle {
+  display: none;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #ffffff;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+@media (max-width: 1024px) {
+  .desktop-nav-links { display: none; }
+  .mobile-menu-toggle { display: flex; }
+}
+
+/* 4. Mobile Menu Drawer */
+.mobile-drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.mobile-drawer-backdrop.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.mobile-drawer {
+  position: fixed;
+  top: 0;
+  right: -320px;
+  width: min(320px, 85vw);
+  height: 100vh;
+  background: rgba(15, 23, 42, 0.96);
+  backdrop-filter: blur(28px);
+  border-left: 1px solid rgba(255, 255, 255, 0.15);
+  z-index: 1001;
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  transition: right 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  overflow-y: auto;
+}
+.mobile-drawer.open {
+  right: 0;
+}
+
+.mobile-drawer-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mobile-drawer-close {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.mobile-drawer-links {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.mobile-drawer-link {
+  color: #f1f5f9;
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mobile-contact-pill {
+  color: #38bdf8;
+  text-decoration: none;
+  font-size: 13.5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: rgba(56, 189, 248, 0.08);
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  border-radius: 10px;
+}
+
+/* 5. Hero Section (Gradient text, badge, buzzwords, em-dashes) */
+.hero-section {
+  position: relative;
+  z-index: 10;
+  max-width: 1200px;
+  margin: 40px auto 30px auto;
+  padding: 0 24px;
+  text-align: center;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 18px;
+  border-radius: 9999px;
+  background: rgba(168, 85, 247, 0.12);
+  border: 1px solid rgba(168, 85, 247, 0.35);
+  color: #e9d5ff;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 22px;
+  backdrop-filter: blur(16px);
+  box-shadow: 0 0 20px rgba(168, 85, 247, 0.22);
+}
+.badge-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #c084fc;
+  box-shadow: 0 0 8px #c084fc;
+  animation: pulseDot 2s infinite ease-in-out;
+}
+@keyframes pulseDot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+.hero-headline {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 6vw, 56px);
+  font-weight: 800;
+  letter-spacing: -1.5px;
+  line-height: 1.15;
+  color: #ffffff;
+  margin-bottom: 18px;
+}
+
+.gradient-text {
+  background: var(--purple-blue-grad);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  filter: drop-shadow(0 6px 18px rgba(99, 102, 241, 0.3));
+}
+
+.accent-serif {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  color: #cbd5e1;
+}
+
+.hero-subtitle {
+  max-width: 820px;
+  margin: 0 auto 32px auto;
+  color: var(--muted);
+  font-size: clamp(15px, 2.2vw, 17px);
+  line-height: 1.65;
+}
+
+.hero-cta-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 48px;
+}
+
+.btn-hero-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #7c3aed, #4f46e5);
+  color: #ffffff;
+  padding: 13px 26px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 14.5px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 6px 24px rgba(124, 58, 237, 0.35);
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-hero-primary:hover {
+  opacity: 0.88;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 32px rgba(124, 58, 237, 0.5);
+}
+
+.btn-hero-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(16, 185, 129, 0.16);
+  border: 1px solid rgba(16, 185, 129, 0.45);
+  color: #34d399;
+  padding: 13px 24px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 14.5px;
+  text-decoration: none;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-hero-secondary:hover {
+  background: rgba(16, 185, 129, 0.28);
+  opacity: 0.88;
+  transform: translateY(-2px);
+}
+
+.btn-hero-tertiary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #cbd5e1;
+  padding: 13px 22px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 14.5px;
+  text-decoration: none;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.btn-hero-tertiary:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  opacity: 0.88;
+  transform: translateY(-2px);
+}
+
+/* 6. Three Icon Boxes in a Row (Coloured Left Border & Glassmorphism) */
+.three-icon-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto 40px auto;
+  padding: 0 24px;
+}
+
+@media (max-width: 900px) {
+  .three-icon-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+.three-icon-card {
+  background: rgba(15, 23, 42, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-radius: 18px;
+  padding: 24px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4);
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+}
+.three-icon-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.55);
+}
+
+.border-card-cyan {
+  border-left: 4px solid var(--cyan) !important;
+}
+.border-card-purple {
+  border-left: 4px solid var(--purple) !important;
+}
+.border-card-emerald {
+  border-left: 4px solid var(--emerald) !important;
+}
+.border-card-amber {
+  border-left: 4px solid var(--amber) !important;
+}
+
+.icon-box-badge {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+.icon-badge-cyan {
+  background: rgba(6, 182, 212, 0.15);
+  color: #38bdf8;
+  border: 1px solid rgba(6, 182, 212, 0.3);
+}
+.icon-badge-purple {
+  background: rgba(168, 85, 247, 0.15);
+  color: #c084fc;
+  border: 1px solid rgba(168, 85, 247, 0.3);
+}
+.icon-badge-emerald {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.three-icon-card h3 {
+  font-family: var(--font-display);
+  font-size: 16.5px;
+  font-weight: 700;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.three-icon-card p {
+  font-size: 13.5px;
+  color: var(--muted);
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* 7. Bento Grid Sections Fading In On Scroll (Inconsistent Spacing Editorial Layout) */
+.bento-section {
+  max-width: 1400px;
+  margin: 60px auto;
+  padding: 0 24px;
+}
+
+.section-head {
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.section-eyebrow {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 700;
+  color: #38bdf8;
+  margin-bottom: 8px;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(26px, 4vw, 38px);
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 12px;
+}
+
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal-on-scroll.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 20px;
+}
+
+.bento-col-8 {
+  grid-column: span 8;
+}
+.bento-col-4 {
+  grid-column: span 4;
+}
+.bento-col-6 {
+  grid-column: span 6;
+}
+.bento-col-12 {
+  grid-column: span 12;
+}
+
+@media (max-width: 900px) {
+  .bento-col-8, .bento-col-4, .bento-col-6, .bento-col-12 {
+    grid-column: span 12;
+  }
+}
+
+.bento-card {
+  background: rgba(15, 23, 42, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border-radius: 20px;
+  padding: 28px;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.bento-card-compact {
+  padding: 20px;
+}
+
+.bento-card h4 {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.bento-card p {
+  font-size: 13.5px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* 8. Shadcn Toast Notification Container */
+#toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+  max-width: 380px;
+  width: calc(100vw - 48px);
+}
+
+.toast {
+  pointer-events: auto;
+  background: rgba(15, 23, 42, 0.94);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(20px);
+  border-radius: 12px;
+  padding: 12px 16px;
+  color: #ffffff;
+  font-size: 13.5px;
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  animation: slideInToast 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: opacity 0.25s, transform 0.25s;
+}
+
+@keyframes slideInToast {
+  from { opacity: 0; transform: translateY(20px) scale(0.96); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.toast-exit {
+  opacity: 0;
+  transform: translateY(12px) scale(0.96);
+}
+
+.toast-success { border-left: 4px solid var(--emerald); }
+.toast-error { border-left: 4px solid var(--bad); }
+.toast-warning { border-left: 4px solid var(--warning); }
+.toast-info { border-left: 4px solid var(--cyan); }
+
+.toast-icon { width: 18px; height: 18px; flex-shrink: 0; }
+.toast-success .toast-icon { color: var(--emerald); }
+.toast-error .toast-icon { color: var(--bad); }
+.toast-warning .toast-icon { color: var(--warning); }
+.toast-info .toast-icon { color: var(--cyan); }
+
+.toast-text { flex: 1; line-height: 1.4; }
+.toast-close {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  font-size: 16px;
+  cursor: pointer;
+  padding: 2px;
+}
+
+/* 9. Enterprise Footer */
+.site-footer {
+  position: relative;
+  z-index: 10;
+  background: rgba(9, 13, 22, 0.95);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 60px 24px 30px 24px;
+  margin-top: 80px;
+}
+
+.footer-grid {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1.5fr;
+  gap: 36px;
+  margin-bottom: 40px;
+}
+
+@media (max-width: 900px) {
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+}
+
+.footer-brand p {
+  color: var(--muted);
+  font-size: 13.5px;
+  line-height: 1.6;
+  margin-top: 12px;
+  max-width: 320px;
+}
+
+.footer-col h5 {
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 16px;
+  letter-spacing: 0.3px;
+}
+
+.footer-col ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-col a {
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 13px;
+  transition: color 0.2s ease;
+}
+.footer-col a:hover {
+  color: #38bdf8;
+}
+
+.footer-contact-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #cbd5e1 !important;
+  font-size: 13px;
+  word-break: break-all;
+}
+.footer-contact-link:hover {
+  color: #38bdf8 !important;
+}
+
+.footer-bottom {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 12.5px;
+  color: #64748b;
+}
+
+/* 10. Buttons Fade on Hover Micro-Animation */
+.btn, .chip, .project-switch-btn, .action-btn {
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+.btn:hover, .chip:hover, .project-switch-btn:hover, .action-btn:hover {
+  opacity: 0.88;
+  transform: translateY(-1px);
+}
+
+
 </style>
+  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
+  <!-- Authentic Subtle Film Grain Overlay -->
+  <div class="grain-overlay" aria-hidden="true"></div>
+
+  <!-- Interactive Dynamic Cursor-Following Particle Trail Canvas -->
+  <canvas id="cursor-trail-canvas" aria-hidden="true"></canvas>
+
+  <!-- Mobile Navigation Glass Drawer & Backdrop -->
+  <div class="mobile-drawer-backdrop" id="mobile-menu-backdrop"></div>
+  <aside class="mobile-drawer" id="mobile-menu-drawer" aria-label="Mobile Navigation Drawer">
+    <div class="mobile-drawer-head">
+      <div class="brand-logo" style="cursor:default;">
+        <div class="brand-logo-icon"><i data-lucide="layers"></i></div>
+        <div class="brand-logo-text">
+          <span class="brand-title">KisanTrace</span>
+          <span class="brand-tagline">Spatial Provenance</span>
+        </div>
+      </div>
+      <button class="mobile-drawer-close" id="mobile-menu-close" aria-label="Close menu">&times;</button>
+    </div>
+
+    <div class="mobile-drawer-links">
+      <a href="#twin-section" class="mobile-drawer-link" onclick="closeMobileMenu()"><i data-lucide="box"></i> 3D Digital Twin</a>
+      <a href="#features-section" class="mobile-drawer-link" onclick="closeMobileMenu()"><i data-lucide="cpu"></i> Core Determinants</a>
+      <a href="#cv-section" class="mobile-drawer-link" onclick="closeMobileMenu()"><i data-lucide="scan-line"></i> Edge AI Vision Lab</a>
+      <a href="#coldchain-section" class="mobile-drawer-link" onclick="closeMobileMenu()"><i data-lucide="thermometer-snowflake"></i> IoT Cold-Chain</a>
+      <a href="#excel-section" class="mobile-drawer-link" onclick="closeMobileMenu()"><i data-lucide="file-spreadsheet"></i> 1-Click Excel Hub</a>
+      <a href="/fertilizer" class="mobile-drawer-link" style="color:#fbbf24;"><i data-lucide="zap"></i> Fertilizer Model 3 (Safe)</a>
+    </div>
+
+    <div style="margin-top:auto; display:flex; flex-direction:column; gap:10px;">
+      <a href="tel:+918005472687" class="mobile-contact-pill"><i data-lucide="phone"></i> <span>+91 800-KISAN-TR</span></a>
+      <a href="mailto:contact@kisantrace.org" class="mobile-contact-pill"><i data-lucide="mail"></i> <span>contact@kisantrace.org</span></a>
+    </div>
+  </aside>
+
   <div id="app">
-    <!-- 3D WebGL Canvas -->
-    <canvas id="c" aria-label="Spatial 3D Model of Blockchain Farm-to-Fork Traceability for Agricultural Produce"></canvas>
+    <!-- Top Modern Glass Navigation Header -->
+    <header class="site-header">
+      <div class="site-nav-container">
+        <!-- Clickable Brand Logo -->
+        <a href="/" class="brand-logo" title="KisanTrace — Enterprise Farm-to-Fork Traceability">
+          <div class="brand-logo-icon"><i data-lucide="layers"></i></div>
+          <div class="brand-logo-text">
+            <span class="brand-title">KisanTrace</span>
+            <span class="brand-tagline">Farm-to-Fork 3.0</span>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation Links -->
+        <nav class="desktop-nav-links" aria-label="Main Navigation">
+          <a href="#twin-section" class="nav-link">3D Spatial Twin</a>
+          <a href="#features-section" class="nav-link">Capabilities</a>
+          <a href="#cv-section" class="nav-link">Edge AI Vision</a>
+          <a href="#coldchain-section" class="nav-link">IoT Cold-Chain</a>
+          <a href="#excel-section" class="nav-link">Excel Hub</a>
+        </nav>
+
+        <!-- Navigation Actions & Project Switcher -->
+        <div class="nav-actions-group">
+          <!-- Dual Project Switcher (Ensures Previous Fertilizer Project is 100% Safe & Accessible) -->
+          <div class="project-switcher" title="Switch between Active Farm-to-Fork Produce and Safe Fertilizer Project">
+            <button class="project-switch-btn active" id="btn-project-agri">
+              <span>🌿</span>
+              <span>Farm-to-Fork</span>
+            </button>
+            <a href="/fertilizer" class="project-switch-btn legacy-btn" id="btn-project-fertilizer" title="Open Previous Fertilizer Model 3 Traceability">
+              <span>⚡</span>
+              <span>Fertilizer Model 3 (Safe)</span>
+            </a>
+          </div>
+
+          <!-- Quick 1-Click Excel Download CTA -->
+          <button class="chip" id="btn-quick-excel" title="Download all Turso DB records &amp; clicks to Excel with 1 click" style="background: linear-gradient(135deg, #059669, #10b981); color:#ffffff; font-weight:700; border:none; box-shadow:0 2px 8px rgba(16,185,129,0.35);">
+            <i data-lucide="file-spreadsheet" style="width:14px; height:14px;"></i>
+            <span>⚡ 1-Click Excel</span>
+          </button>
+
+          <!-- Mobile Hamburger Toggle -->
+          <button class="mobile-menu-toggle" id="mobile-menu-btn" aria-label="Open mobile menu">
+            <i data-lucide="menu"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero Showcase Section (Purple-to-Blue Gradients, Badge, Space Grotesk + Instrument Serif, 3 Icon Boxes) -->
+    <section class="hero-section">
+      <!-- Badge Above Headline -->
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        <i data-lucide="sparkles" style="width:14px; height:14px;"></i>
+        <span>Next-Gen Farm-to-Fork 3.0 — The Verifiable Supply Chain Consensus</span>
+      </div>
+
+      <!-- Hero Headline with Space Grotesk & Instrument Serif Italics -->
+      <h1 class="hero-headline">
+        Decentralized <span class="gradient-text">Farm-to-Fork</span> Provenance — <span class="accent-serif">Provable</span> Freshness &amp; Purity
+      </h1>
+
+      <!-- Subtitle with Tech Buzzwords & Em-Dashes -->
+      <p class="hero-subtitle">
+        Enterprise-grade cryptographic consensus — linking orchard harvest genesis, edge YOLOv8 computer vision grading, real-time reefer IoT telemetry, and zero-knowledge fair-trade farmer payouts on a hyper-scalable edge libSQL ledger.
+      </p>
+
+      <!-- Action Buttons (Fade on Hover) -->
+      <div class="hero-cta-group">
+        <a href="#twin-section" class="btn-hero-primary" id="hero-btn-explore">
+          <i data-lucide="play" style="width:16px; height:16px;"></i>
+          <span>Launch 3D Spatial Twin</span>
+        </a>
+        <button class="btn-hero-secondary" id="hero-btn-excel">
+          <i data-lucide="file-spreadsheet" style="width:16px; height:16px;"></i>
+          <span>⚡ 1-Click Excel Extraction</span>
+        </button>
+        <a href="/fertilizer" class="btn-hero-tertiary">
+          <i data-lucide="zap" style="width:16px; height:16px;"></i>
+          <span>⚡ Fertilizer Model 3 (Safe)</span>
+        </a>
+      </div>
+
+      <!-- Three Icon Boxes in a Row (Lucide Icons, Coloured Left Borders, Glassmorphism) -->
+      <div class="three-icon-grid" id="features-section">
+        <!-- Box 1 (Cyan Border) -->
+        <div class="three-icon-card border-card-cyan">
+          <div class="icon-box-badge icon-badge-cyan">
+            <i data-lucide="scan-line"></i>
+          </div>
+          <h3>🌱 Orchard Genesis &amp; NPOP Claim</h3>
+          <p>
+            Geo-fenced perimeter registration with immutable soil assay logs and GI Ratnagiri Alphonso authentication — eliminating paper-based fraud.
+          </p>
+        </div>
+
+        <!-- Box 2 (Purple Border) -->
+        <div class="three-icon-card border-card-purple">
+          <div class="icon-box-badge icon-badge-purple">
+            <i data-lucide="cpu"></i>
+          </div>
+          <h3>🔬 Edge YOLOv8 AI Quality Grading</h3>
+          <p>
+            Millimeter caliber sizing, optical refractometer Brix rating (19.2°), and surface defect masking with APEDA export certification.
+          </p>
+        </div>
+
+        <!-- Box 3 (Emerald Border) -->
+        <div class="three-icon-card border-card-emerald">
+          <div class="icon-box-badge icon-badge-emerald">
+            <i data-lucide="thermometer-snowflake"></i>
+          </div>
+          <h3>❄️ Autonomous IoT Cold-Chain SLA</h3>
+          <p>
+            Continuous reefer climate monitoring (12.8°C / 90% RH). Automatic smart contract quarantine upon detecting thermal breach &gt;16.0°C.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Digital Twin 3D Viewport Section (Interactive Three.js Spatial Environment) -->
+    <section class="twin-viewport-container" id="twin-section">
+      <!-- 3D WebGL Canvas -->
+      <canvas id="c" aria-label="Spatial 3D Model of Blockchain Farm-to-Fork Traceability for Agricultural Produce"></canvas>
 
     <!-- Top Spatial Navigation Bar (VisionOS Floating Glass Island) -->
     <div id="top-bar">
@@ -1622,6 +2556,160 @@ table.details-table tr:hover td {
         <span id="reverse-status-msg" style="color:#a7f3d0; font-weight:600;">Status: Cold-Chain Intact (12.8°C) ✓</span>
       </div>
     </div>
+  </section>
+
+  <!-- Bento-Grid Deep-Dive Capabilities (Reveal on Scroll, Emojis, Coloured Left Borders, Inconsistent Spacing) -->
+  <section class="bento-section reveal-on-scroll" id="cv-section">
+    <div class="section-head">
+      <div class="section-eyebrow">Enterprise Module 01</div>
+      <h2 class="section-title">🔬 Edge AI Vision Quality Grading — <span class="accent-serif">APEDA Export</span> Standard</h2>
+      <p style="color:var(--muted); max-width:680px; margin:0 auto; font-size:14.5px;">
+        High-throughput optical computer vision neural networks operating at mandi aggregators and packhouses — verifying physical caliber, internal sugar brix, and surface purity.
+      </p>
+    </div>
+
+    <div class="bento-grid">
+      <!-- Card 1: YOLOv8 Millimeter Caliber (Span 8) -->
+      <div class="bento-card bento-col-8 border-card-purple">
+        <h4>
+          <span>🔬 YOLOv8 Neural Object Detection &amp; Caliber Sizing</span>
+          <span class="det-badge det-badge-blue">Edge Sub-15ms</span>
+        </h4>
+        <p>
+          Real-time inference on edge cameras calculating diameter along equatorial axes with &plusmn;0.5mm precision. Produces conforming to the APEDA Grade A+ export threshold (&gt;70mm caliber) are cryptographically tagged and batched into export clamshells.
+        </p>
+        <div style="display:flex; gap:16px; flex-wrap:wrap; margin-top:8px;">
+          <div style="background:rgba(255,255,255,0.04); padding:10px 14px; border-radius:10px; border:1px solid rgba(255,255,255,0.08);">
+            <div style="font-size:11px; color:#94a3b8;">Caliber Range</div>
+            <div style="font-size:16px; font-weight:700; color:#38bdf8;">72.4 mm &plusmn; 0.5mm</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.04); padding:10px 14px; border-radius:10px; border:1px solid rgba(255,255,255,0.08);">
+            <div style="font-size:11px; color:#94a3b8;">Export Grade</div>
+            <div style="font-size:16px; font-weight:700; color:#34d399;">GRADE A+ EXPORT</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.04); padding:10px 14px; border-radius:10px; border:1px solid rgba(255,255,255,0.08);">
+            <div style="font-size:11px; color:#94a3b8;">Inference Latency</div>
+            <div style="font-size:16px; font-weight:700; color:#c084fc;">14.2 ms / fruit</div>
+          </div>
+        </div>
+        <button class="btn btn-hero-secondary" style="align-self:flex-start; margin-top:10px;" onclick="document.getElementById('btn-open-cv-scanner').click()">
+          <i data-lucide="camera" style="width:15px; height:15px;"></i> <span>Launch Live AI Optical Scanner Simulation</span>
+        </button>
+      </div>
+
+      <!-- Card 2: Optical Brix & Ripeness (Span 4) -->
+      <div class="bento-card bento-col-4 border-card-cyan bento-card-compact">
+        <h4>
+          <span>🍯 Optical Brix Sugar Assay</span>
+          <span class="det-badge det-badge-green">19.2° Brix</span>
+        </h4>
+        <p>
+          Near-infrared (NIR) spectral estimation correlates fruit surface reflectance with internal dissolved solids. Guarantees sweet culinary flavor before shipping.
+        </p>
+        <div style="margin-top:auto; font-size:12px; color:#34d399; font-weight:600; display:flex; align-items:center; gap:6px;">
+          <i data-lucide="check-circle-2" style="width:14px; height:14px;"></i> <span>Zero Artificial Carbide Ripening</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bento Module 02: Cold-Chain Telemetry -->
+  <section class="bento-section reveal-on-scroll" id="coldchain-section">
+    <div class="section-head">
+      <div class="section-eyebrow">Enterprise Module 02</div>
+      <h2 class="section-title">❄️ Autonomous IoT Cold-Chain — <span class="accent-serif">Smart Contract</span> Guardrails</h2>
+      <p style="color:var(--muted); max-width:680px; margin:0 auto; font-size:14.5px;">
+        Multi-node sensor arrays in reefer trucks transmitting temperature, humidity, and ethylene gas directly to the Turso libSQL ledger — enforcing automated insurance quarantines.
+      </p>
+    </div>
+
+    <div class="bento-grid">
+      <!-- Card 3: Dynamic Cold-Chain SLA (Span 4) -->
+      <div class="bento-card bento-col-4 border-card-amber bento-card-compact">
+        <h4>
+          <span>🌡️ Thermal Envelope SLA</span>
+          <span class="det-badge det-badge-amber">12.0°C – 13.5°C</span>
+        </h4>
+        <p>
+          Alphonso mangoes require strict temperature containment. Breaching 16.0°C triggers smart contract quarantine and notifies distributor nodes.
+        </p>
+        <button class="chip danger-chip" style="margin-top:auto; align-self:flex-start;" onclick="document.getElementById('btn-reverse-trigger').click()">
+          <i data-lucide="alert-octagon" style="width:14px; height:14px;"></i> <span>Simulate 17.2°C Thermal Breach</span>
+        </button>
+      </div>
+
+      <!-- Card 4: Arrhenius Kinetic Shelf-Life Decay (Span 8) -->
+      <div class="bento-card bento-col-8 border-card-emerald">
+        <h4>
+          <span>⏱️ Arrhenius Shelf-Life Predictive Decay Engine</span>
+          <span class="det-badge det-badge-green">AI Kinetic Modeling</span>
+        </h4>
+        <p>
+          Continuous kinetic rate equations compute dynamic remaining shelf-life days based on thermal exposure integrals. Real-time telemetry ensures retailers discount or accelerate sales prior to spoilage, reducing food waste by 34%.
+        </p>
+        <div style="display:flex; gap:16px; flex-wrap:wrap; margin-top:8px;">
+          <div style="background:rgba(255,255,255,0.04); padding:10px 14px; border-radius:10px; border:1px solid rgba(255,255,255,0.08);">
+            <div style="font-size:11px; color:#94a3b8;">Ethylene Gas (C2H4)</div>
+            <div style="font-size:16px; font-weight:700; color:#34d399;">&lt; 0.02 ppm (Nominal)</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.04); padding:10px 14px; border-radius:10px; border:1px solid rgba(255,255,255,0.08);">
+            <div style="font-size:11px; color:#94a3b8;">Relative Humidity</div>
+            <div style="font-size:16px; font-weight:700; color:#38bdf8;">90 % (Anti-Desiccation)</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.04); padding:10px 14px; border-radius:10px; border:1px solid rgba(255,255,255,0.08);">
+            <div style="font-size:11px; color:#94a3b8;">Remaining Shelf Life</div>
+            <div style="font-size:16px; font-weight:700; color:#c084fc;">14 Days (Optimal)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bento Module 03: Fair-Trade Farmer Payouts & Database Hub -->
+  <section class="bento-section reveal-on-scroll" id="excel-section">
+    <div class="section-head">
+      <div class="section-eyebrow">Enterprise Module 03</div>
+      <h2 class="section-title">🌾 Fair-Trade Farmer Payouts &amp; <span class="accent-serif">1-Click Excel</span> Hub</h2>
+      <p style="color:var(--muted); max-width:680px; margin:0 auto; font-size:14.5px;">
+        Direct transparency rewards sustainable farmers with +28.5% price premiums, while 1-click multi-sheet Excel extraction delivers separated Latitude and Longitude coordinates for GIS analysis.
+      </p>
+    </div>
+
+    <div class="bento-grid">
+      <!-- Card 5: Fair-Trade Payout (Span 6) -->
+      <div class="bento-card bento-col-6 border-card-emerald">
+        <h4>
+          <span>💰 Farmer Fair-Trade Payout Breakdown</span>
+          <span class="det-badge det-badge-green">+28.5% Premium</span>
+        </h4>
+        <p>
+          Farmer Santosh Shinde receives ₹165.00/kg (compared to conventional unverified mandi floor rates of ₹85/kg). Aadhaar identity is protected with zero-knowledge cryptographic hashes.
+        </p>
+        <button class="btn btn-hero-secondary" style="align-self:flex-start; margin-top:auto;" onclick="document.getElementById('btn-open-fork-modal').click()">
+          <i data-lucide="qr-code" style="width:15px; height:15px;"></i> <span>View GS1 Consumer Verification &amp; Payout</span>
+        </button>
+      </div>
+
+      <!-- Card 6: Multi-Sheet Excel Engine (Span 6) -->
+      <div class="bento-card bento-col-6 border-card-purple" id="database-section">
+        <h4>
+          <span>📊 1-Click Multi-Sheet Excel &amp; Turso DB</span>
+          <span class="det-badge det-badge-purple">8 Complete Sheets</span>
+        </h4>
+        <p>
+          Extract every single click, AI grading event, GPS coordinate (separated into dedicated Latitude and Longitude columns), and reefer sensor log into a production `.xlsx` workbook.
+        </p>
+        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:auto;">
+          <button class="btn btn-hero-primary" onclick="document.getElementById('btn-quick-excel').click()">
+            <i data-lucide="file-spreadsheet" style="width:15px; height:15px;"></i> <span>⚡ 1-Click Excel Download</span>
+          </button>
+          <button class="btn btn-hero-tertiary" onclick="document.getElementById('btn-open-excel').click()">
+            <i data-lucide="database" style="width:15px; height:15px;"></i> <span>Open Excel Grid Hub</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
 
     <!-- Modal 1: Computer Vision AI Quality Grading Portal -->
     <div class="modal-backdrop" id="modal-cv-scanner">
@@ -2059,7 +3147,86 @@ table.details-table tr:hover td {
         <p style="color:#94a3b8;">This browser does not support WebGL or hardware acceleration is disabled.</p>
       </div>
     </div>
+
+    <!-- Enterprise Production Footer -->
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <!-- Brand Info -->
+        <div class="footer-brand">
+          <a href="/" class="brand-logo" title="KisanTrace Home">
+            <div class="brand-logo-icon"><i data-lucide="layers"></i></div>
+            <div class="brand-logo-text">
+              <span class="brand-title">KisanTrace</span>
+              <span class="brand-tagline">Farm-to-Fork 3.0</span>
+            </div>
+          </a>
+          <p>
+            Enterprise-grade decentralized agricultural provenance platform linking organic farmers, APMC mandis, AI grading labs, and consumers on a tamper-resistant edge libSQL consensus ledger.
+          </p>
+        </div>
+
+        <!-- Column 1: Platform -->
+        <div class="footer-col">
+          <h5>Platform</h5>
+          <ul>
+            <li><a href="#twin-section">3D Spatial Twin</a></li>
+            <li><a href="#cv-section">AI Vision Lab</a></li>
+            <li><a href="#coldchain-section">IoT Cold-Chain</a></li>
+            <li><a href="#excel-section">Excel Extraction Hub</a></li>
+            <li><a href="javascript:void(0)" onclick="document.getElementById('btn-open-fork-modal').click()">GS1 Consumer Portal</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 2: Technology -->
+        <div class="footer-col">
+          <h5>Technology</h5>
+          <ul>
+            <li><a href="javascript:void(0)" onclick="document.getElementById('btn-open-turso').click()">Turso Edge libSQL</a></li>
+            <li><a href="javascript:void(0)" onclick="document.getElementById('btn-open-cv-scanner').click()">YOLOv8 Edge Vision</a></li>
+            <li><a href="javascript:void(0)" onclick="document.getElementById('btn-open-determinants').click()">Arrhenius Shelf Life</a></li>
+            <li><a href="/fertilizer">Fertilizer Model 3 (Safe)</a></li>
+            <li><a href="/api/status" target="_blank">System API Health</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 3: Contact & Inquiries -->
+        <div class="footer-col">
+          <h5>Direct Inquiries</h5>
+          <ul>
+            <li>
+              <a href="tel:+918005472687" class="footer-contact-link">
+                <i data-lucide="phone" style="width:14px; height:14px;"></i>
+                <span>📞 +91 800-KISAN-TR (1800-547-2687)</span>
+              </a>
+            </li>
+            <li>
+              <a href="mailto:contact@kisantrace.org" class="footer-contact-link">
+                <i data-lucide="mail" style="width:14px; height:14px;"></i>
+                <span>✉️ contact@kisantrace.org</span>
+              </a>
+            </li>
+            <li style="color:#64748b; font-size:12px; margin-top:4px;">
+              📍 BKC Agritech Centre, Mumbai, MH 400051
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>
+          &copy; <span id="copyright-year">2026</span> KisanTrace Technologies Inc. All rights reserved. Interoperable with APEDA, NPOP, and GS1 Digital Link.
+        </div>
+        <div style="display:flex; gap:16px;">
+          <a href="javascript:void(0)" style="color:#94a3b8; text-decoration:none;">Privacy Policy</a>
+          <a href="javascript:void(0)" style="color:#94a3b8; text-decoration:none;">Terms of Service</a>
+          <a href="/404" style="color:#94a3b8; text-decoration:none;">Security Audit</a>
+        </div>
+      </div>
+    </footer>
   </div>
+
+  <!-- Shadcn Toast Notification Container -->
+  <div id="toast-container" aria-live="polite"></div>
 
   <!-- Three.js Library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
@@ -2942,6 +4109,9 @@ table.details-table tr:hover td {
         window.XLSX.writeFile(wb, fileName);
         sfx.celebrate();
         if (statusMsg) statusMsg.textContent = `✅ Successfully exported multi-sheet workbook: ${fileName}`;
+        if (typeof window !== 'undefined' && window.showToast) {
+          window.showToast(`✅ Successfully exported 8-sheet Excel workbook: ${fileName}`, 'success');
+        }
         return;
       } catch (err) {
         console.warn('[Excel Export] SheetJS export fallback:', err.message);
@@ -2956,6 +4126,9 @@ table.details-table tr:hover td {
     link.click();
     document.body.removeChild(link);
     sfx.celebrate();
+    if (typeof window !== 'undefined' && window.showToast) {
+      window.showToast('📥 Downloading multi-sheet Excel workbook from server...', 'info');
+    }
   }
 
   // --- Computer Vision Live Canvas Simulation ---
@@ -3189,6 +4362,9 @@ table.details-table tr:hover td {
     if ($('#T')) $('#T').value = 18.5;
     updateUiReadings();
     trackClick('COLD_CHAIN_BREACH_TRIGGER', 'Manual Cold Breach Simulation', { temp: 18.5, reason: 'Temperature breach >16.0°C' });
+    if (typeof window !== 'undefined' && window.showToast) {
+      window.showToast('❄️ Smart Contract Alert: Temperature exceeded 16.0°C! Consignment quarantined.', 'error');
+    }
   }
 
   // --- Details Modal Table Population ---
@@ -3499,7 +4675,11 @@ table.details-table tr:hover td {
       } catch (e) {}
 
       trackClick('CV_COMMIT_BLOCKCHAIN', 'Committed AI Grade to Blockchain', sampleData);
-      alert('✅ AI Quality Grade Committed to Blockchain & Turso Database: ' + sampleData.assigned_grade);
+      if (typeof window !== 'undefined' && window.showToast) {
+        window.showToast(`✅ YOLOv8 Grade A+ Export committed to blockchain & Turso DB: ${sampleData.assigned_grade}`, 'success');
+      } else {
+        alert('✅ AI Quality Grade Committed to Blockchain & Turso Database: ' + sampleData.assigned_grade);
+      }
     };
   }
 
@@ -3911,6 +5091,150 @@ table.details-table tr:hover td {
     cam.lookAt(new V(cur.x, 2, 0));
 
     if (R && R.render) R.render(sc, cam);
+  }
+
+  // --- Modern Production Toast Notification System ---
+  if (typeof window !== 'undefined') {
+    window.showToast = function (message, type = 'info', duration = 3800) {
+      if (typeof document === 'undefined') return;
+      const container = $('#toast-container');
+      if (!container) return;
+      const toast = document.createElement('div');
+      toast.className = `toast toast-${type}`;
+      let icon = 'info';
+      if (type === 'success') icon = 'check-circle-2';
+      else if (type === 'error') icon = 'alert-triangle';
+      else if (type === 'warning') icon = 'alert-circle';
+      toast.innerHTML = `
+        <i data-lucide="${icon}" class="toast-icon"></i>
+        <span class="toast-text">${message}</span>
+        <button class="toast-close" aria-label="Close notification">&times;</button>
+      `;
+      container.appendChild(toast);
+      if (window.lucide && typeof window.lucide.createIcons === 'function') {
+        try { window.lucide.createIcons(); } catch (e) {}
+      }
+      const closeBtn = toast.querySelector ? toast.querySelector('.toast-close') : null;
+      const removeToast = () => {
+        if (toast.classList) toast.classList.add('toast-exit');
+        setTimeout(() => { if (toast.parentNode) toast.remove(); }, 250);
+      };
+      if (closeBtn && closeBtn.addEventListener) closeBtn.onclick = removeToast;
+      setTimeout(removeToast, duration);
+    };
+
+    // Mobile Drawer Handlers
+    window.openMobileMenu = function () {
+      const d = $('#mobile-menu-drawer');
+      const b = $('#mobile-menu-backdrop');
+      if (d && d.classList) d.classList.add('open');
+      if (b && b.classList) b.classList.add('open');
+    };
+    window.closeMobileMenu = function () {
+      const d = $('#mobile-menu-drawer');
+      const b = $('#mobile-menu-backdrop');
+      if (d && d.classList) d.classList.remove('open');
+      if (b && b.classList) b.classList.remove('open');
+    };
+  }
+
+  // Mobile Menu Button Binding
+  const mobileBtn = $('#mobile-menu-btn');
+  const mobileClose = $('#mobile-menu-close');
+  const mobileBackdrop = $('#mobile-menu-backdrop');
+  if (mobileBtn) mobileBtn.onclick = () => window.openMobileMenu && window.openMobileMenu();
+  if (mobileClose) mobileClose.onclick = () => window.closeMobileMenu && window.closeMobileMenu();
+  if (mobileBackdrop) mobileBackdrop.onclick = () => window.closeMobileMenu && window.closeMobileMenu();
+
+  // Hero Section CTA Button Wiring
+  const heroBtnExplore = $('#hero-btn-explore');
+  if (heroBtnExplore) {
+    heroBtnExplore.onclick = () => {
+      sfx.step();
+      trackClick('HERO_CTA_EXPLORE', 'Launch 3D Spatial Twin Button');
+    };
+  }
+  const heroBtnExcel = $('#hero-btn-excel');
+  if (heroBtnExcel) {
+    heroBtnExcel.onclick = () => {
+      const qBtn = $('#btn-quick-excel');
+      if (qBtn && qBtn.click) qBtn.click();
+    };
+  }
+
+  // Dynamic Copyright Year
+  const copyYear = $('#copyright-year');
+  if (copyYear) copyYear.textContent = new Date().getFullYear();
+
+  // Reveal On Scroll via IntersectionObserver
+  if (typeof IntersectionObserver !== 'undefined' && typeof document !== 'undefined') {
+    try {
+      const scrollObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && entry.target && entry.target.classList) {
+            entry.target.classList.add('in-view');
+          }
+        });
+      }, { threshold: 0.1 });
+      document.querySelectorAll('.reveal-on-scroll').forEach(el => scrollObserver.observe(el));
+    } catch (e) {}
+  }
+
+  // Interactive Cursor-Following Trail Canvas
+  (function initCursorTrail() {
+    if (typeof document === 'undefined') return;
+    const trailCanvas = $('#cursor-trail-canvas');
+    if (!trailCanvas || !trailCanvas.getContext) return;
+    const ctx = trailCanvas.getContext('2d');
+    if (!ctx) return;
+    let width = trailCanvas.width = (typeof window !== 'undefined' && window.innerWidth) || 1200;
+    let height = trailCanvas.height = (typeof window !== 'undefined' && window.innerHeight) || 800;
+
+    if (typeof window !== 'undefined' && window.addEventListener) {
+      window.addEventListener('resize', () => {
+        width = trailCanvas.width = window.innerWidth;
+        height = trailCanvas.height = window.innerHeight;
+      });
+    }
+
+    const points = [];
+    const maxPoints = 16;
+
+    if (typeof window !== 'undefined' && window.addEventListener) {
+      window.addEventListener('pointermove', e => {
+        points.push({ x: e.clientX, y: e.clientY });
+        if (points.length > maxPoints) points.shift();
+      });
+    }
+
+    function renderTrail() {
+      if (typeof requestAnimationFrame !== 'undefined') {
+        requestAnimationFrame(renderTrail);
+      }
+      ctx.clearRect(0, 0, width, height);
+      if (points.length > 2) {
+        ctx.beginPath();
+        ctx.moveTo(points[0].x, points[0].y);
+        for (let i = 1; i < points.length; i++) {
+          const xc = (points[i].x + points[i - 1].x) / 2;
+          const yc = (points[i].y + points[i - 1].y) / 2;
+          ctx.quadraticCurveTo(points[i - 1].x, points[i - 1].y, xc, yc);
+        }
+        ctx.strokeStyle = 'rgba(168, 85, 247, 0.45)';
+        ctx.lineWidth = 1.8;
+        ctx.stroke();
+      }
+    }
+    if (typeof requestAnimationFrame !== 'undefined') {
+      requestAnimationFrame(renderTrail);
+    }
+  })();
+
+  // Lucide Icons Activation
+  if (typeof window !== 'undefined' && window.lucide && typeof window.lucide.createIcons === 'function') {
+    try {
+      window.lucide.createIcons();
+    } catch (e) {}
   }
 
   // --- Bootstrap ---

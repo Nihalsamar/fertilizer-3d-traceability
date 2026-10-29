@@ -2,8 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Hybrid Fertilizer Traceability — Model 3 (Complete Controls)</title>
+  <title>KisanTrace — Hybrid Fertilizer Traceability (Model 3 Safe)</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Preserved Hybrid Fertilizer Supply Chain Provenance Model 3. Complete manufacturer to farmer digital twin with DBT subsidy verification and reverse-flow recall.">
+  <meta name="theme-color" content="#09101d">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23a855f7'/%3E%3Cstop offset='50%25' stop-color='%236366f1'/%3E%3Cstop offset='100%25' stop-color='%2338bdf8'/%3E%3C/defs%3E%3Crect width='32' height='32' rx='8' fill='%230f172a'/%3E%3Cpath d='M16 6 L26 12 L26 22 L16 28 L6 22 L6 12 Z' fill='none' stroke='url(%23g)' stroke-width='2'/%3E%3Ccircle cx='16' cy='17' r='4' fill='url(%23g)'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
   <style>
 /* ==========================================================================
    KISAN-TRACE 3D: Model 3 (Full Controls, Humidity, Packets & Reverse Flow)
@@ -1121,8 +1127,12 @@ table.details-table tr:hover td {
 }
 
 </style>
+  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
+  <!-- Authentic Subtle Film Grain Overlay -->
+  <div class="grain-overlay" aria-hidden="true" style="position:fixed; inset:0; width:100%; height:100%; background-image:url('data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.85\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\' opacity=\'0.04\'/%3E%3C/svg%3E'); pointer-events:none; z-index:999;"></div>
+
   <div id="app">
     <!-- 3D Canvas -->
     <canvas id="c" aria-label="3D model of fertilizer supply chain from manufacturer to farmer"></canvas>
@@ -1130,6 +1140,10 @@ table.details-table tr:hover td {
     <!-- Top View & Presets Bar -->
     <div id="top-bar">
       <div class="top-left">
+        <a href="/" class="brand-logo" title="KisanTrace Home" style="text-decoration:none; display:flex; align-items:center; gap:8px; margin-right:8px;">
+          <div style="width:30px; height:30px; border-radius:8px; background:linear-gradient(135deg, #a855f7, #6366f1); display:flex; align-items:center; justify-content:center; color:#fff; font-size:14px;">⚡</div>
+          <span style="font-family:'Space Grotesk', sans-serif; font-size:15px; font-weight:800; color:#fff;">KisanTrace</span>
+        </a>
         <div class="project-switcher" title="Switch between Active Farm-to-Fork Produce and Safe Fertilizer Project">
           <a href="/" class="project-switch-btn" style="text-decoration:none;">
             <span>🌿</span>
@@ -1546,6 +1560,15 @@ table.details-table tr:hover td {
           </div>
         </div>
       </div>
+    </div>
+
+    <!-- Contact & Status Footnote Bar -->
+    <div style="position:fixed; bottom:8px; right:12px; z-index:30; display:flex; align-items:center; gap:12px; font-size:11.5px; background:rgba(15,23,42,0.85); padding:6px 12px; border-radius:999px; border:1px solid rgba(255,255,255,0.1); backdrop-filter:blur(10px);">
+      <a href="tel:+918005472687" style="color:#38bdf8; text-decoration:none;">📞 +91 800-KISAN-TR</a>
+      <span style="color:#64748b;">&bull;</span>
+      <a href="mailto:contact@kisantrace.org" style="color:#cbd5e1; text-decoration:none;">✉️ contact@kisantrace.org</a>
+      <span style="color:#64748b;">&bull;</span>
+      <span style="color:#94a3b8;">&copy; 2026 KisanTrace</span>
     </div>
 
     <!-- WebGL Fallback -->

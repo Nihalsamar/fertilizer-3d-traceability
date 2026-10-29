@@ -871,6 +871,9 @@
         window.XLSX.writeFile(wb, fileName);
         sfx.celebrate();
         if (statusMsg) statusMsg.textContent = `✅ Successfully exported multi-sheet workbook: ${fileName}`;
+        if (typeof window !== 'undefined' && window.showToast) {
+          window.showToast(`✅ Successfully exported 8-sheet Excel workbook: ${fileName}`, 'success');
+        }
         return;
       } catch (err) {
         console.warn('[Excel Export] SheetJS export fallback:', err.message);
@@ -885,6 +888,9 @@
     link.click();
     document.body.removeChild(link);
     sfx.celebrate();
+    if (typeof window !== 'undefined' && window.showToast) {
+      window.showToast('📥 Downloading multi-sheet Excel workbook from server...', 'info');
+    }
   }
 
   // --- Computer Vision Live Canvas Simulation ---
@@ -1118,6 +1124,9 @@
     if ($('#T')) $('#T').value = 18.5;
     updateUiReadings();
     trackClick('COLD_CHAIN_BREACH_TRIGGER', 'Manual Cold Breach Simulation', { temp: 18.5, reason: 'Temperature breach >16.0°C' });
+    if (typeof window !== 'undefined' && window.showToast) {
+      window.showToast('❄️ Smart Contract Alert: Temperature exceeded 16.0°C! Consignment quarantined.', 'error');
+    }
   }
 
   // --- Details Modal Table Population ---
@@ -1428,7 +1437,11 @@
       } catch (e) {}
 
       trackClick('CV_COMMIT_BLOCKCHAIN', 'Committed AI Grade to Blockchain', sampleData);
-      alert('✅ AI Quality Grade Committed to Blockchain & Turso Database: ' + sampleData.assigned_grade);
+      if (typeof window !== 'undefined' && window.showToast) {
+        window.showToast(`✅ YOLOv8 Grade A+ Export committed to blockchain & Turso DB: ${sampleData.assigned_grade}`, 'success');
+      } else {
+        alert('✅ AI Quality Grade Committed to Blockchain & Turso Database: ' + sampleData.assigned_grade);
+      }
     };
   }
 
@@ -1840,6 +1853,150 @@
     cam.lookAt(new V(cur.x, 2, 0));
 
     if (R && R.render) R.render(sc, cam);
+  }
+
+  // --- Modern Production Toast Notification System ---
+  if (typeof window !== 'undefined') {
+    window.showToast = function (message, type = 'info', duration = 3800) {
+      if (typeof document === 'undefined') return;
+      const container = $('#toast-container');
+      if (!container) return;
+      const toast = document.createElement('div');
+      toast.className = `toast toast-${type}`;
+      let icon = 'info';
+      if (type === 'success') icon = 'check-circle-2';
+      else if (type === 'error') icon = 'alert-triangle';
+      else if (type === 'warning') icon = 'alert-circle';
+      toast.innerHTML = `
+        <i data-lucide="${icon}" class="toast-icon"></i>
+        <span class="toast-text">${message}</span>
+        <button class="toast-close" aria-label="Close notification">&times;</button>
+      `;
+      container.appendChild(toast);
+      if (window.lucide && typeof window.lucide.createIcons === 'function') {
+        try { window.lucide.createIcons(); } catch (e) {}
+      }
+      const closeBtn = toast.querySelector ? toast.querySelector('.toast-close') : null;
+      const removeToast = () => {
+        if (toast.classList) toast.classList.add('toast-exit');
+        setTimeout(() => { if (toast.parentNode) toast.remove(); }, 250);
+      };
+      if (closeBtn && closeBtn.addEventListener) closeBtn.onclick = removeToast;
+      setTimeout(removeToast, duration);
+    };
+
+    // Mobile Drawer Handlers
+    window.openMobileMenu = function () {
+      const d = $('#mobile-menu-drawer');
+      const b = $('#mobile-menu-backdrop');
+      if (d && d.classList) d.classList.add('open');
+      if (b && b.classList) b.classList.add('open');
+    };
+    window.closeMobileMenu = function () {
+      const d = $('#mobile-menu-drawer');
+      const b = $('#mobile-menu-backdrop');
+      if (d && d.classList) d.classList.remove('open');
+      if (b && b.classList) b.classList.remove('open');
+    };
+  }
+
+  // Mobile Menu Button Binding
+  const mobileBtn = $('#mobile-menu-btn');
+  const mobileClose = $('#mobile-menu-close');
+  const mobileBackdrop = $('#mobile-menu-backdrop');
+  if (mobileBtn) mobileBtn.onclick = () => window.openMobileMenu && window.openMobileMenu();
+  if (mobileClose) mobileClose.onclick = () => window.closeMobileMenu && window.closeMobileMenu();
+  if (mobileBackdrop) mobileBackdrop.onclick = () => window.closeMobileMenu && window.closeMobileMenu();
+
+  // Hero Section CTA Button Wiring
+  const heroBtnExplore = $('#hero-btn-explore');
+  if (heroBtnExplore) {
+    heroBtnExplore.onclick = () => {
+      sfx.step();
+      trackClick('HERO_CTA_EXPLORE', 'Launch 3D Spatial Twin Button');
+    };
+  }
+  const heroBtnExcel = $('#hero-btn-excel');
+  if (heroBtnExcel) {
+    heroBtnExcel.onclick = () => {
+      const qBtn = $('#btn-quick-excel');
+      if (qBtn && qBtn.click) qBtn.click();
+    };
+  }
+
+  // Dynamic Copyright Year
+  const copyYear = $('#copyright-year');
+  if (copyYear) copyYear.textContent = new Date().getFullYear();
+
+  // Reveal On Scroll via IntersectionObserver
+  if (typeof IntersectionObserver !== 'undefined' && typeof document !== 'undefined') {
+    try {
+      const scrollObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && entry.target && entry.target.classList) {
+            entry.target.classList.add('in-view');
+          }
+        });
+      }, { threshold: 0.1 });
+      document.querySelectorAll('.reveal-on-scroll').forEach(el => scrollObserver.observe(el));
+    } catch (e) {}
+  }
+
+  // Interactive Cursor-Following Trail Canvas
+  (function initCursorTrail() {
+    if (typeof document === 'undefined') return;
+    const trailCanvas = $('#cursor-trail-canvas');
+    if (!trailCanvas || !trailCanvas.getContext) return;
+    const ctx = trailCanvas.getContext('2d');
+    if (!ctx) return;
+    let width = trailCanvas.width = (typeof window !== 'undefined' && window.innerWidth) || 1200;
+    let height = trailCanvas.height = (typeof window !== 'undefined' && window.innerHeight) || 800;
+
+    if (typeof window !== 'undefined' && window.addEventListener) {
+      window.addEventListener('resize', () => {
+        width = trailCanvas.width = window.innerWidth;
+        height = trailCanvas.height = window.innerHeight;
+      });
+    }
+
+    const points = [];
+    const maxPoints = 16;
+
+    if (typeof window !== 'undefined' && window.addEventListener) {
+      window.addEventListener('pointermove', e => {
+        points.push({ x: e.clientX, y: e.clientY });
+        if (points.length > maxPoints) points.shift();
+      });
+    }
+
+    function renderTrail() {
+      if (typeof requestAnimationFrame !== 'undefined') {
+        requestAnimationFrame(renderTrail);
+      }
+      ctx.clearRect(0, 0, width, height);
+      if (points.length > 2) {
+        ctx.beginPath();
+        ctx.moveTo(points[0].x, points[0].y);
+        for (let i = 1; i < points.length; i++) {
+          const xc = (points[i].x + points[i - 1].x) / 2;
+          const yc = (points[i].y + points[i - 1].y) / 2;
+          ctx.quadraticCurveTo(points[i - 1].x, points[i - 1].y, xc, yc);
+        }
+        ctx.strokeStyle = 'rgba(168, 85, 247, 0.45)';
+        ctx.lineWidth = 1.8;
+        ctx.stroke();
+      }
+    }
+    if (typeof requestAnimationFrame !== 'undefined') {
+      requestAnimationFrame(renderTrail);
+    }
+  })();
+
+  // Lucide Icons Activation
+  if (typeof window !== 'undefined' && window.lucide && typeof window.lucide.createIcons === 'function') {
+    try {
+      window.lucide.createIcons();
+    } catch (e) {}
   }
 
   // --- Bootstrap ---

@@ -2,14 +2,183 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>KisanTrace Spatial 3D — Farm-to-Fork Traceability &amp; Quality Certification</title>
+  <title>KisanTrace — Blockchain Farm-to-Fork Traceability &amp; AI Quality Certification</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Enterprise blockchain-enabled farm-to-fork traceability platform for agricultural produce. Features edge YOLOv8 computer vision AI quality grading, real-time reefer IoT telemetry, and zero-knowledge fair-trade farmer payouts.">
+  <meta name="keywords" content="blockchain agricultural traceability, farm to fork, computer vision grading, YOLOv8, Brix sugar rating, cold chain telemetry, Ratnagiri Alphonso mango, Turso database">
+  <meta name="theme-color" content="#090d16">
+  <meta property="og:title" content="KisanTrace — Blockchain Farm-to-Fork Traceability & AI Quality Certification">
+  <meta property="og:description" content="Decentralized agricultural provenance, optical AI quality grading, and autonomous cold-chain telemetry on a high-throughput edge ledger.">
+  <meta property="og:type" content="website">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23a855f7'/%3E%3Cstop offset='50%25' stop-color='%236366f1'/%3E%3Cstop offset='100%25' stop-color='%2338bdf8'/%3E%3C/defs%3E%3Crect width='32' height='32' rx='8' fill='%230f172a'/%3E%3Cpath d='M16 6 L26 12 L26 22 L16 28 L6 22 L6 12 Z' fill='none' stroke='url(%23g)' stroke-width='2'/%3E%3Ccircle cx='16' cy='17' r='4' fill='url(%23g)'/%3E%3C/svg%3E">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body>
+  <!-- Authentic Subtle Film Grain Overlay -->
+  <div class="grain-overlay" aria-hidden="true"></div>
+
+  <!-- Interactive Dynamic Cursor-Following Particle Trail Canvas -->
+  <canvas id="cursor-trail-canvas" aria-hidden="true"></canvas>
+
+  <!-- Mobile Navigation Glass Drawer & Backdrop -->
+  <div class="mobile-drawer-backdrop" id="mobile-menu-backdrop"></div>
+  <aside class="mobile-drawer" id="mobile-menu-drawer" aria-label="Mobile Navigation Drawer">
+    <div class="mobile-drawer-head">
+      <div class="brand-logo" style="cursor:default;">
+        <div class="brand-logo-icon"><i data-lucide="layers"></i></div>
+        <div class="brand-logo-text">
+          <span class="brand-title">KisanTrace</span>
+          <span class="brand-tagline">Spatial Provenance</span>
+        </div>
+      </div>
+      <button class="mobile-drawer-close" id="mobile-menu-close" aria-label="Close menu">&times;</button>
+    </div>
+
+    <div class="mobile-drawer-links">
+      <a href="#twin-section" class="mobile-drawer-link" onclick="closeMobileMenu()"><i data-lucide="box"></i> 3D Digital Twin</a>
+      <a href="#features-section" class="mobile-drawer-link" onclick="closeMobileMenu()"><i data-lucide="cpu"></i> Core Determinants</a>
+      <a href="#cv-section" class="mobile-drawer-link" onclick="closeMobileMenu()"><i data-lucide="scan-line"></i> Edge AI Vision Lab</a>
+      <a href="#coldchain-section" class="mobile-drawer-link" onclick="closeMobileMenu()"><i data-lucide="thermometer-snowflake"></i> IoT Cold-Chain</a>
+      <a href="#excel-section" class="mobile-drawer-link" onclick="closeMobileMenu()"><i data-lucide="file-spreadsheet"></i> 1-Click Excel Hub</a>
+      <a href="/fertilizer" class="mobile-drawer-link" style="color:#fbbf24;"><i data-lucide="zap"></i> Fertilizer Model 3 (Safe)</a>
+    </div>
+
+    <div style="margin-top:auto; display:flex; flex-direction:column; gap:10px;">
+      <a href="tel:+918005472687" class="mobile-contact-pill"><i data-lucide="phone"></i> <span>+91 800-KISAN-TR</span></a>
+      <a href="mailto:contact@kisantrace.org" class="mobile-contact-pill"><i data-lucide="mail"></i> <span>contact@kisantrace.org</span></a>
+    </div>
+  </aside>
+
   <div id="app">
-    <!-- 3D WebGL Canvas -->
-    <canvas id="c" aria-label="Spatial 3D Model of Blockchain Farm-to-Fork Traceability for Agricultural Produce"></canvas>
+    <!-- Top Modern Glass Navigation Header -->
+    <header class="site-header">
+      <div class="site-nav-container">
+        <!-- Clickable Brand Logo -->
+        <a href="/" class="brand-logo" title="KisanTrace — Enterprise Farm-to-Fork Traceability">
+          <div class="brand-logo-icon"><i data-lucide="layers"></i></div>
+          <div class="brand-logo-text">
+            <span class="brand-title">KisanTrace</span>
+            <span class="brand-tagline">Farm-to-Fork 3.0</span>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation Links -->
+        <nav class="desktop-nav-links" aria-label="Main Navigation">
+          <a href="#twin-section" class="nav-link">3D Spatial Twin</a>
+          <a href="#features-section" class="nav-link">Capabilities</a>
+          <a href="#cv-section" class="nav-link">Edge AI Vision</a>
+          <a href="#coldchain-section" class="nav-link">IoT Cold-Chain</a>
+          <a href="#excel-section" class="nav-link">Excel Hub</a>
+        </nav>
+
+        <!-- Navigation Actions & Project Switcher -->
+        <div class="nav-actions-group">
+          <!-- Dual Project Switcher (Ensures Previous Fertilizer Project is 100% Safe & Accessible) -->
+          <div class="project-switcher" title="Switch between Active Farm-to-Fork Produce and Safe Fertilizer Project">
+            <button class="project-switch-btn active" id="btn-project-agri">
+              <span>🌿</span>
+              <span>Farm-to-Fork</span>
+            </button>
+            <a href="/fertilizer" class="project-switch-btn legacy-btn" id="btn-project-fertilizer" title="Open Previous Fertilizer Model 3 Traceability">
+              <span>⚡</span>
+              <span>Fertilizer Model 3 (Safe)</span>
+            </a>
+          </div>
+
+          <!-- Quick 1-Click Excel Download CTA -->
+          <button class="chip" id="btn-quick-excel" title="Download all Turso DB records &amp; clicks to Excel with 1 click" style="background: linear-gradient(135deg, #059669, #10b981); color:#ffffff; font-weight:700; border:none; box-shadow:0 2px 8px rgba(16,185,129,0.35);">
+            <i data-lucide="file-spreadsheet" style="width:14px; height:14px;"></i>
+            <span>⚡ 1-Click Excel</span>
+          </button>
+
+          <!-- Mobile Hamburger Toggle -->
+          <button class="mobile-menu-toggle" id="mobile-menu-btn" aria-label="Open mobile menu">
+            <i data-lucide="menu"></i>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero Showcase Section (Purple-to-Blue Gradients, Badge, Space Grotesk + Instrument Serif, 3 Icon Boxes) -->
+    <section class="hero-section">
+      <!-- Badge Above Headline -->
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        <i data-lucide="sparkles" style="width:14px; height:14px;"></i>
+        <span>Next-Gen Farm-to-Fork 3.0 — The Verifiable Supply Chain Consensus</span>
+      </div>
+
+      <!-- Hero Headline with Space Grotesk & Instrument Serif Italics -->
+      <h1 class="hero-headline">
+        Decentralized <span class="gradient-text">Farm-to-Fork</span> Provenance — <span class="accent-serif">Provable</span> Freshness &amp; Purity
+      </h1>
+
+      <!-- Subtitle with Tech Buzzwords & Em-Dashes -->
+      <p class="hero-subtitle">
+        Enterprise-grade cryptographic consensus — linking orchard harvest genesis, edge YOLOv8 computer vision grading, real-time reefer IoT telemetry, and zero-knowledge fair-trade farmer payouts on a hyper-scalable edge libSQL ledger.
+      </p>
+
+      <!-- Action Buttons (Fade on Hover) -->
+      <div class="hero-cta-group">
+        <a href="#twin-section" class="btn-hero-primary" id="hero-btn-explore">
+          <i data-lucide="play" style="width:16px; height:16px;"></i>
+          <span>Launch 3D Spatial Twin</span>
+        </a>
+        <button class="btn-hero-secondary" id="hero-btn-excel">
+          <i data-lucide="file-spreadsheet" style="width:16px; height:16px;"></i>
+          <span>⚡ 1-Click Excel Extraction</span>
+        </button>
+        <a href="/fertilizer" class="btn-hero-tertiary">
+          <i data-lucide="zap" style="width:16px; height:16px;"></i>
+          <span>⚡ Fertilizer Model 3 (Safe)</span>
+        </a>
+      </div>
+
+      <!-- Three Icon Boxes in a Row (Lucide Icons, Coloured Left Borders, Glassmorphism) -->
+      <div class="three-icon-grid" id="features-section">
+        <!-- Box 1 (Cyan Border) -->
+        <div class="three-icon-card border-card-cyan">
+          <div class="icon-box-badge icon-badge-cyan">
+            <i data-lucide="scan-line"></i>
+          </div>
+          <h3>🌱 Orchard Genesis &amp; NPOP Claim</h3>
+          <p>
+            Geo-fenced perimeter registration with immutable soil assay logs and GI Ratnagiri Alphonso authentication — eliminating paper-based fraud.
+          </p>
+        </div>
+
+        <!-- Box 2 (Purple Border) -->
+        <div class="three-icon-card border-card-purple">
+          <div class="icon-box-badge icon-badge-purple">
+            <i data-lucide="cpu"></i>
+          </div>
+          <h3>🔬 Edge YOLOv8 AI Quality Grading</h3>
+          <p>
+            Millimeter caliber sizing, optical refractometer Brix rating (19.2°), and surface defect masking with APEDA export certification.
+          </p>
+        </div>
+
+        <!-- Box 3 (Emerald Border) -->
+        <div class="three-icon-card border-card-emerald">
+          <div class="icon-box-badge icon-badge-emerald">
+            <i data-lucide="thermometer-snowflake"></i>
+          </div>
+          <h3>❄️ Autonomous IoT Cold-Chain SLA</h3>
+          <p>
+            Continuous reefer climate monitoring (12.8°C / 90% RH). Automatic smart contract quarantine upon detecting thermal breach &gt;16.0°C.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Digital Twin 3D Viewport Section (Interactive Three.js Spatial Environment) -->
+    <section class="twin-viewport-container" id="twin-section">
+      <!-- 3D WebGL Canvas -->
+      <canvas id="c" aria-label="Spatial 3D Model of Blockchain Farm-to-Fork Traceability for Agricultural Produce"></canvas>
 
     <!-- Top Spatial Navigation Bar (VisionOS Floating Glass Island) -->
     <div id="top-bar">
@@ -163,6 +332,160 @@
         <span id="reverse-status-msg" style="color:#a7f3d0; font-weight:600;">Status: Cold-Chain Intact (12.8°C) ✓</span>
       </div>
     </div>
+  </section>
+
+  <!-- Bento-Grid Deep-Dive Capabilities (Reveal on Scroll, Emojis, Coloured Left Borders, Inconsistent Spacing) -->
+  <section class="bento-section reveal-on-scroll" id="cv-section">
+    <div class="section-head">
+      <div class="section-eyebrow">Enterprise Module 01</div>
+      <h2 class="section-title">🔬 Edge AI Vision Quality Grading — <span class="accent-serif">APEDA Export</span> Standard</h2>
+      <p style="color:var(--muted); max-width:680px; margin:0 auto; font-size:14.5px;">
+        High-throughput optical computer vision neural networks operating at mandi aggregators and packhouses — verifying physical caliber, internal sugar brix, and surface purity.
+      </p>
+    </div>
+
+    <div class="bento-grid">
+      <!-- Card 1: YOLOv8 Millimeter Caliber (Span 8) -->
+      <div class="bento-card bento-col-8 border-card-purple">
+        <h4>
+          <span>🔬 YOLOv8 Neural Object Detection &amp; Caliber Sizing</span>
+          <span class="det-badge det-badge-blue">Edge Sub-15ms</span>
+        </h4>
+        <p>
+          Real-time inference on edge cameras calculating diameter along equatorial axes with &plusmn;0.5mm precision. Produces conforming to the APEDA Grade A+ export threshold (&gt;70mm caliber) are cryptographically tagged and batched into export clamshells.
+        </p>
+        <div style="display:flex; gap:16px; flex-wrap:wrap; margin-top:8px;">
+          <div style="background:rgba(255,255,255,0.04); padding:10px 14px; border-radius:10px; border:1px solid rgba(255,255,255,0.08);">
+            <div style="font-size:11px; color:#94a3b8;">Caliber Range</div>
+            <div style="font-size:16px; font-weight:700; color:#38bdf8;">72.4 mm &plusmn; 0.5mm</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.04); padding:10px 14px; border-radius:10px; border:1px solid rgba(255,255,255,0.08);">
+            <div style="font-size:11px; color:#94a3b8;">Export Grade</div>
+            <div style="font-size:16px; font-weight:700; color:#34d399;">GRADE A+ EXPORT</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.04); padding:10px 14px; border-radius:10px; border:1px solid rgba(255,255,255,0.08);">
+            <div style="font-size:11px; color:#94a3b8;">Inference Latency</div>
+            <div style="font-size:16px; font-weight:700; color:#c084fc;">14.2 ms / fruit</div>
+          </div>
+        </div>
+        <button class="btn btn-hero-secondary" style="align-self:flex-start; margin-top:10px;" onclick="document.getElementById('btn-open-cv-scanner').click()">
+          <i data-lucide="camera" style="width:15px; height:15px;"></i> <span>Launch Live AI Optical Scanner Simulation</span>
+        </button>
+      </div>
+
+      <!-- Card 2: Optical Brix & Ripeness (Span 4) -->
+      <div class="bento-card bento-col-4 border-card-cyan bento-card-compact">
+        <h4>
+          <span>🍯 Optical Brix Sugar Assay</span>
+          <span class="det-badge det-badge-green">19.2° Brix</span>
+        </h4>
+        <p>
+          Near-infrared (NIR) spectral estimation correlates fruit surface reflectance with internal dissolved solids. Guarantees sweet culinary flavor before shipping.
+        </p>
+        <div style="margin-top:auto; font-size:12px; color:#34d399; font-weight:600; display:flex; align-items:center; gap:6px;">
+          <i data-lucide="check-circle-2" style="width:14px; height:14px;"></i> <span>Zero Artificial Carbide Ripening</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bento Module 02: Cold-Chain Telemetry -->
+  <section class="bento-section reveal-on-scroll" id="coldchain-section">
+    <div class="section-head">
+      <div class="section-eyebrow">Enterprise Module 02</div>
+      <h2 class="section-title">❄️ Autonomous IoT Cold-Chain — <span class="accent-serif">Smart Contract</span> Guardrails</h2>
+      <p style="color:var(--muted); max-width:680px; margin:0 auto; font-size:14.5px;">
+        Multi-node sensor arrays in reefer trucks transmitting temperature, humidity, and ethylene gas directly to the Turso libSQL ledger — enforcing automated insurance quarantines.
+      </p>
+    </div>
+
+    <div class="bento-grid">
+      <!-- Card 3: Dynamic Cold-Chain SLA (Span 4) -->
+      <div class="bento-card bento-col-4 border-card-amber bento-card-compact">
+        <h4>
+          <span>🌡️ Thermal Envelope SLA</span>
+          <span class="det-badge det-badge-amber">12.0°C – 13.5°C</span>
+        </h4>
+        <p>
+          Alphonso mangoes require strict temperature containment. Breaching 16.0°C triggers smart contract quarantine and notifies distributor nodes.
+        </p>
+        <button class="chip danger-chip" style="margin-top:auto; align-self:flex-start;" onclick="document.getElementById('btn-reverse-trigger').click()">
+          <i data-lucide="alert-octagon" style="width:14px; height:14px;"></i> <span>Simulate 17.2°C Thermal Breach</span>
+        </button>
+      </div>
+
+      <!-- Card 4: Arrhenius Kinetic Shelf-Life Decay (Span 8) -->
+      <div class="bento-card bento-col-8 border-card-emerald">
+        <h4>
+          <span>⏱️ Arrhenius Shelf-Life Predictive Decay Engine</span>
+          <span class="det-badge det-badge-green">AI Kinetic Modeling</span>
+        </h4>
+        <p>
+          Continuous kinetic rate equations compute dynamic remaining shelf-life days based on thermal exposure integrals. Real-time telemetry ensures retailers discount or accelerate sales prior to spoilage, reducing food waste by 34%.
+        </p>
+        <div style="display:flex; gap:16px; flex-wrap:wrap; margin-top:8px;">
+          <div style="background:rgba(255,255,255,0.04); padding:10px 14px; border-radius:10px; border:1px solid rgba(255,255,255,0.08);">
+            <div style="font-size:11px; color:#94a3b8;">Ethylene Gas (C2H4)</div>
+            <div style="font-size:16px; font-weight:700; color:#34d399;">&lt; 0.02 ppm (Nominal)</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.04); padding:10px 14px; border-radius:10px; border:1px solid rgba(255,255,255,0.08);">
+            <div style="font-size:11px; color:#94a3b8;">Relative Humidity</div>
+            <div style="font-size:16px; font-weight:700; color:#38bdf8;">90 % (Anti-Desiccation)</div>
+          </div>
+          <div style="background:rgba(255,255,255,0.04); padding:10px 14px; border-radius:10px; border:1px solid rgba(255,255,255,0.08);">
+            <div style="font-size:11px; color:#94a3b8;">Remaining Shelf Life</div>
+            <div style="font-size:16px; font-weight:700; color:#c084fc;">14 Days (Optimal)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Bento Module 03: Fair-Trade Farmer Payouts & Database Hub -->
+  <section class="bento-section reveal-on-scroll" id="excel-section">
+    <div class="section-head">
+      <div class="section-eyebrow">Enterprise Module 03</div>
+      <h2 class="section-title">🌾 Fair-Trade Farmer Payouts &amp; <span class="accent-serif">1-Click Excel</span> Hub</h2>
+      <p style="color:var(--muted); max-width:680px; margin:0 auto; font-size:14.5px;">
+        Direct transparency rewards sustainable farmers with +28.5% price premiums, while 1-click multi-sheet Excel extraction delivers separated Latitude and Longitude coordinates for GIS analysis.
+      </p>
+    </div>
+
+    <div class="bento-grid">
+      <!-- Card 5: Fair-Trade Payout (Span 6) -->
+      <div class="bento-card bento-col-6 border-card-emerald">
+        <h4>
+          <span>💰 Farmer Fair-Trade Payout Breakdown</span>
+          <span class="det-badge det-badge-green">+28.5% Premium</span>
+        </h4>
+        <p>
+          Farmer Santosh Shinde receives ₹165.00/kg (compared to conventional unverified mandi floor rates of ₹85/kg). Aadhaar identity is protected with zero-knowledge cryptographic hashes.
+        </p>
+        <button class="btn btn-hero-secondary" style="align-self:flex-start; margin-top:auto;" onclick="document.getElementById('btn-open-fork-modal').click()">
+          <i data-lucide="qr-code" style="width:15px; height:15px;"></i> <span>View GS1 Consumer Verification &amp; Payout</span>
+        </button>
+      </div>
+
+      <!-- Card 6: Multi-Sheet Excel Engine (Span 6) -->
+      <div class="bento-card bento-col-6 border-card-purple" id="database-section">
+        <h4>
+          <span>📊 1-Click Multi-Sheet Excel &amp; Turso DB</span>
+          <span class="det-badge det-badge-purple">8 Complete Sheets</span>
+        </h4>
+        <p>
+          Extract every single click, AI grading event, GPS coordinate (separated into dedicated Latitude and Longitude columns), and reefer sensor log into a production `.xlsx` workbook.
+        </p>
+        <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:auto;">
+          <button class="btn btn-hero-primary" onclick="document.getElementById('btn-quick-excel').click()">
+            <i data-lucide="file-spreadsheet" style="width:15px; height:15px;"></i> <span>⚡ 1-Click Excel Download</span>
+          </button>
+          <button class="btn btn-hero-tertiary" onclick="document.getElementById('btn-open-excel').click()">
+            <i data-lucide="database" style="width:15px; height:15px;"></i> <span>Open Excel Grid Hub</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
 
     <!-- Modal 1: Computer Vision AI Quality Grading Portal -->
     <div class="modal-backdrop" id="modal-cv-scanner">
@@ -600,7 +923,86 @@
         <p style="color:#94a3b8;">This browser does not support WebGL or hardware acceleration is disabled.</p>
       </div>
     </div>
+
+    <!-- Enterprise Production Footer -->
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <!-- Brand Info -->
+        <div class="footer-brand">
+          <a href="/" class="brand-logo" title="KisanTrace Home">
+            <div class="brand-logo-icon"><i data-lucide="layers"></i></div>
+            <div class="brand-logo-text">
+              <span class="brand-title">KisanTrace</span>
+              <span class="brand-tagline">Farm-to-Fork 3.0</span>
+            </div>
+          </a>
+          <p>
+            Enterprise-grade decentralized agricultural provenance platform linking organic farmers, APMC mandis, AI grading labs, and consumers on a tamper-resistant edge libSQL consensus ledger.
+          </p>
+        </div>
+
+        <!-- Column 1: Platform -->
+        <div class="footer-col">
+          <h5>Platform</h5>
+          <ul>
+            <li><a href="#twin-section">3D Spatial Twin</a></li>
+            <li><a href="#cv-section">AI Vision Lab</a></li>
+            <li><a href="#coldchain-section">IoT Cold-Chain</a></li>
+            <li><a href="#excel-section">Excel Extraction Hub</a></li>
+            <li><a href="javascript:void(0)" onclick="document.getElementById('btn-open-fork-modal').click()">GS1 Consumer Portal</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 2: Technology -->
+        <div class="footer-col">
+          <h5>Technology</h5>
+          <ul>
+            <li><a href="javascript:void(0)" onclick="document.getElementById('btn-open-turso').click()">Turso Edge libSQL</a></li>
+            <li><a href="javascript:void(0)" onclick="document.getElementById('btn-open-cv-scanner').click()">YOLOv8 Edge Vision</a></li>
+            <li><a href="javascript:void(0)" onclick="document.getElementById('btn-open-determinants').click()">Arrhenius Shelf Life</a></li>
+            <li><a href="/fertilizer">Fertilizer Model 3 (Safe)</a></li>
+            <li><a href="/api/status" target="_blank">System API Health</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 3: Contact & Inquiries -->
+        <div class="footer-col">
+          <h5>Direct Inquiries</h5>
+          <ul>
+            <li>
+              <a href="tel:+918005472687" class="footer-contact-link">
+                <i data-lucide="phone" style="width:14px; height:14px;"></i>
+                <span>📞 +91 800-KISAN-TR (1800-547-2687)</span>
+              </a>
+            </li>
+            <li>
+              <a href="mailto:contact@kisantrace.org" class="footer-contact-link">
+                <i data-lucide="mail" style="width:14px; height:14px;"></i>
+                <span>✉️ contact@kisantrace.org</span>
+              </a>
+            </li>
+            <li style="color:#64748b; font-size:12px; margin-top:4px;">
+              📍 BKC Agritech Centre, Mumbai, MH 400051
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div>
+          &copy; <span id="copyright-year">2026</span> KisanTrace Technologies Inc. All rights reserved. Interoperable with APEDA, NPOP, and GS1 Digital Link.
+        </div>
+        <div style="display:flex; gap:16px;">
+          <a href="javascript:void(0)" style="color:#94a3b8; text-decoration:none;">Privacy Policy</a>
+          <a href="javascript:void(0)" style="color:#94a3b8; text-decoration:none;">Terms of Service</a>
+          <a href="/404" style="color:#94a3b8; text-decoration:none;">Security Audit</a>
+        </div>
+      </div>
+    </footer>
   </div>
+
+  <!-- Shadcn Toast Notification Container -->
+  <div id="toast-container" aria-live="polite"></div>
 
   <!-- Three.js Library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
