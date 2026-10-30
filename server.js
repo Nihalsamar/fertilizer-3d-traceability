@@ -620,6 +620,9 @@ app.get('*', (req, res) => {
   if (normalized === '/fertilizer' || normalized === '/fertilizer.html') {
     return res.sendFile(path.join(__dirname, 'fertilizer.html'));
   }
+  if (normalized === '/sentry' || normalized === '/sentry-upi' || normalized === '/sentry.html') {
+    return res.sendFile(path.join(__dirname, 'sentry.html'));
+  }
   res.status(404).sendFile(path.join(__dirname, '404.html'));
 });
 
