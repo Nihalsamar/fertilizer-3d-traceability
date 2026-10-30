@@ -23,28 +23,33 @@
    ========================================================================== */
 
 :root {
-  --bg: #090d16;
-  --panel: rgba(15, 23, 42, 0.78);
-  --panel-border: rgba(255, 255, 255, 0.12);
-  --text: #f8fafc;
-  --muted: #94a3b8;
-  --ok: #10b981;
-  --bad: #ef4444;
-  --warning: #f59e0b;
-  --blue: #3b82f6;
-  --purple: #a855f7;
-  --indigo: #6366f1;
-  --cyan: #38bdf8;
-  --emerald: #10b981;
-  --accent: #8b5cf6;
-  --chip: rgba(30, 41, 59, 0.85);
-  --chip-hover: rgba(51, 65, 85, 0.95);
+  --bg: #F5EFE6;
+  --bg-gradient: radial-gradient(ellipse at 50% -10%, rgba(212, 163, 115, 0.16) 0%, transparent 60%),
+                 radial-gradient(circle at 10% 85%, rgba(158, 182, 158, 0.16) 0%, transparent 40%),
+                 radial-gradient(circle at 90% 15%, rgba(199, 118, 81, 0.12) 0%, transparent 40%);
+  --panel: rgba(255, 255, 255, 0.90);
+  --panel-border: rgba(45, 30, 20, 0.08);
+  --panel-shadow: 0 16px 36px -4px rgba(45, 30, 20, 0.08), 0 4px 12px rgba(45, 30, 20, 0.04);
+  --text: #0F172A;
+  --muted: #526071;
+  --ok: #059669;
+  --bad: #DC2626;
+  --warning: #D97706;
+  --blue: #2563EB;
+  --purple: #7C3AED;
+  --indigo: #4F46E5;
+  --cyan: #0284C7;
+  --emerald: #059669;
+  --accent: #15803D;
+  --chip: rgba(255, 255, 255, 0.88);
+  --chip-hover: #FFFFFF;
+  --chip-border: rgba(45, 30, 20, 0.10);
   --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-display: 'Space Grotesk', -apple-system, sans-serif;
   --font-serif: 'Instrument Serif', Georgia, serif;
   --font: var(--font-sans);
   --mono: 'JetBrains Mono', monospace;
-  --purple-blue-grad: linear-gradient(135deg, #c084fc 0%, #818cf8 35%, #38bdf8 80%);
+  --purple-blue-grad: linear-gradient(135deg, #166534 0%, #059669 45%, #0284C7 90%);
 }
 
 *, *::before, *::after {
@@ -59,10 +64,7 @@ html, body {
   overflow-x: hidden;
   overflow-y: auto;
   background-color: var(--bg);
-  background-image: 
-    radial-gradient(ellipse at 50% -10%, rgba(120, 119, 198, 0.22) 0%, transparent 60%),
-    radial-gradient(circle at 10% 85%, rgba(168, 85, 247, 0.12) 0%, transparent 40%),
-    radial-gradient(circle at 90% 15%, rgba(56, 189, 248, 0.12) 0%, transparent 40%);
+  background-image: var(--bg-gradient);
   background-attachment: fixed;
   color: var(--text);
   font-family: var(--font-sans);
@@ -88,9 +90,9 @@ html, body {
   border-radius: 24px;
   margin: 10px auto 40px auto;
   max-width: 1400px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.6);
-  background: #090d16;
+  border: 1px solid rgba(45, 30, 20, 0.08);
+  box-shadow: 0 24px 60px rgba(45, 30, 20, 0.08);
+  background: #F5EFE6;
 }
 
 @media (max-width: 768px) {
@@ -110,10 +112,7 @@ canvas#c {
   touch-action: none;
   cursor: grab;
   z-index: 1;
-}
-  touch-action: none;
-  cursor: grab;
-  z-index: 1;
+  background: #F5EFE6;
 }
 
 canvas#c:active {
@@ -159,32 +158,35 @@ canvas#c:active {
 }
 
 .chip, .btn {
-  border: 1px solid var(--panel-border);
+  border: 1px solid var(--chip-border);
   background: var(--chip);
   color: var(--text);
   border-radius: 999px;
   padding: 8px 14px;
   font: 600 12.5px/1 var(--font);
   cursor: pointer;
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
   transition: all 0.2s ease;
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  box-shadow: 0 2px 8px rgba(45, 30, 20, 0.04);
 }
 
 .chip:hover, .btn:hover {
   background: var(--chip-hover);
-  border-color: rgba(255, 255, 255, 0.25);
+  border-color: rgba(45, 30, 20, 0.20);
   transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(45, 30, 20, 0.08);
 }
 
 .chip.active, .chip[aria-pressed="true"] {
-  background: #ffffff;
-  color: #0f172a;
-  border-color: #ffffff;
+  background: #0F172A;
+  color: #FFFFFF;
+  border-color: #0F172A;
   font-weight: 700;
-  box-shadow: 0 2px 10px rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.25);
 }
 
 .chip.danger-chip {
@@ -241,14 +243,16 @@ canvas#c:active {
   width: min(880px, calc(100vw - 24px));
   background: var(--panel);
   backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   border: 1px solid var(--panel-border);
   border-radius: 20px;
   padding: 12px 18px;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  box-shadow: 0 16px 45px rgba(0, 0, 0, 0.65);
+  box-shadow: 0 16px 45px rgba(45, 30, 20, 0.10);
   z-index: 25;
+  color: var(--text);
 }
 
 .dock-top-row {
@@ -270,7 +274,7 @@ canvas#c:active {
   grid-template-columns: 1fr 1fr;
   gap: 16px;
   padding-top: 6px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(45, 30, 20, 0.08);
 }
 
 .slider-unit {
@@ -288,7 +292,7 @@ canvas#c:active {
 
 .slider-meta-head b {
   font-family: var(--mono);
-  color: #ffffff;
+  color: #0F172A;
   font-weight: 700;
 }
 
@@ -306,7 +310,7 @@ input[type="range"].dock-slider {
   width: 100%;
   height: 6px;
   border-radius: 3px;
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(45, 30, 20, 0.12);
   outline: none;
   cursor: pointer;
   -webkit-appearance: none;
@@ -341,17 +345,19 @@ input[type="range"].dock-slider.danger-slider::-webkit-slider-thumb {
   transform: translateX(-50%);
   bottom: 120px;
   width: min(880px, calc(100vw - 24px));
-  background: rgba(15, 23, 42, 0.92);
-  backdrop-filter: blur(20px);
+  background: var(--panel);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   border: 1px solid var(--panel-border);
   border-radius: 18px;
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.6);
+  box-shadow: var(--panel-shadow);
   display: flex;
   flex-direction: column;
   max-height: 48%;
   z-index: 20;
   overflow: hidden;
   transition: max-height 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  color: var(--text);
 }
 
 #card.min {
@@ -363,7 +369,7 @@ input[type="range"].dock-slider.danger-slider::-webkit-slider-thumb {
   align-items: center;
   gap: 12px;
   padding: 10px 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(45, 30, 20, 0.08);
   cursor: pointer;
 }
 
@@ -391,6 +397,7 @@ input[type="range"].dock-slider.danger-slider::-webkit-slider-thumb {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  color: #0F172A;
 }
 
 #ttl small {
@@ -424,7 +431,8 @@ input[type="range"].dock-slider.danger-slider::-webkit-slider-thumb {
 
 #body p {
   margin: 0;
-  color: #cbd5e1;
+  color: #334155;
+  font-size: 13.5px;
 }
 
 #rdg {
@@ -432,19 +440,20 @@ input[type="range"].dock-slider.danger-slider::-webkit-slider-thumb {
   font-family: var(--mono);
   border-left: 4px solid var(--blue);
   padding: 6px 12px;
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(45, 30, 20, 0.03);
   border-radius: 0 6px 6px 0;
 }
 
 #rdg.ok {
   border-color: var(--ok);
-  color: #a7f3d0;
+  color: #047857;
+  background: rgba(5, 150, 105, 0.08);
 }
 
 #rdg.bad {
   border-color: var(--bad);
-  background: rgba(239, 68, 68, 0.12);
-  color: #fca5a5;
+  background: rgba(220, 38, 38, 0.08);
+  color: #B91C1C;
   font-weight: 700;
 }
 
@@ -459,14 +468,15 @@ input[type="range"].dock-slider.danger-slider::-webkit-slider-thumb {
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  color: #38bdf8;
+  color: #059669;
+  font-weight: 700;
 }
 
 .cols ul {
   margin: 0;
   padding-left: 16px;
   font-size: 11.5px;
-  color: #94a3b8;
+  color: #475569;
   display: flex;
   flex-direction: column;
   gap: 3px;
@@ -479,16 +489,18 @@ input[type="range"].dock-slider.danger-slider::-webkit-slider-thumb {
   right: 14px;
   top: 60px;
   width: min(320px, 85vw);
-  background: rgba(15, 23, 42, 0.96);
-  backdrop-filter: blur(20px);
-  border: 2px solid #10b981;
+  background: var(--panel);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 2px solid #059669;
   border-radius: 22px;
   padding: 16px;
   font-size: 12.5px;
   line-height: 1.45;
   max-height: 55vh;
   overflow-y: auto;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7), 0 0 16px rgba(16, 185, 129, 0.25);
+  box-shadow: 0 16px 40px rgba(45, 30, 20, 0.12), 0 0 16px rgba(5, 150, 105, 0.15);
+  color: #0F172A;
   z-index: 35;
   animation: pop-phone 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -768,23 +780,23 @@ table.details-table {
 }
 
 table.details-table th {
-  background: rgba(255, 255, 255, 0.06);
+  background: rgba(45, 30, 20, 0.04);
   padding: 10px 12px;
-  color: #38bdf8;
+  color: #0F172A;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(45, 30, 20, 0.08);
 }
 
 table.details-table td {
   padding: 9px 12px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
-  color: #cbd5e1;
+  border-bottom: 1px solid rgba(45, 30, 20, 0.06);
+  color: #334155;
 }
 
 table.details-table tr:hover td {
-  background: rgba(255, 255, 255, 0.03);
+  background: rgba(45, 30, 20, 0.02);
 }
 
 .tag-badge {
@@ -2420,12 +2432,12 @@ table.details-table tr:hover td {
         </div>
 
         <!-- Spatial Camera Perspectives -->
-        <button class="chip active" data-v="auto" aria-pressed="true" title="Spatial Panoramic Orbit">👁️ Orbit</button>
-        <button class="chip" data-v="farm" aria-pressed="false" title="Stage 1: Shinde Organic Orchard">🌱 Farm</button>
-        <button class="chip" data-v="mandi" aria-pressed="false" title="Stage 2: APMC Mandi Aggregator">⚖️ Mandi</button>
-        <button class="chip" data-v="lab" aria-pressed="false" title="Stage 3: Packhouse & Computer Vision AI Lab">🔬 AI Lab</button>
-        <button class="chip" data-v="transit" aria-pressed="false" title="Stage 4: Cold-Chain Reefer Truck Corridor">❄️ Reefer</button>
-        <button class="chip" data-v="fork" aria-pressed="false" title="Stage 5: Consumer Dining & Fork Verification">🍽️ Fork</button>
+        <button class="chip active" data-v="auto" aria-pressed="true" title="Spatial Panoramic Diorama Overview">👁️ Orbit</button>
+        <button class="chip" data-v="farm" aria-pressed="false" title="Stage 1: Shinde Organic Farm & Farmer Figurine">🌱 Farmer</button>
+        <button class="chip" data-v="camera" aria-pressed="false" title="Stage 2: AI Inspection Camera & Quality Spotlight">🔬 Inspection</button>
+        <button class="chip" data-v="truck" aria-pressed="false" title="Stage 3: IoT Refrigerated Reefer Truck">🚚 Reefer Truck</button>
+        <button class="chip" data-v="grocery" aria-pressed="false" title="Stage 4: GROCERY Retail Market Stall & Shopkeeper">🏪 Grocery</button>
+        <button class="chip" data-v="phone" aria-pressed="false" title="Stage 5: Verification Smartphone & GS1 QR Crate">📱 Smartphone</button>
         <button class="chip" id="dataBtn" aria-pressed="true" title="Toggle 3D Blockchain Ledger Laser Streams">📡 Ledger Data</button>
 
         <!-- Dedicated Interactive Action Modals -->
@@ -3338,11 +3350,27 @@ table.details-table tr:hover td {
   const sc = new THREE.Scene();
   const cam = new THREE.PerspectiveCamera(45, 1, 0.1, 600);
 
-  // Spatial Ambient & Directional Sun Lighting
-  sc.add(new THREE.AmbientLight(0xffffff, 0.82));
-  const sun = new THREE.DirectionalLight(0xfff5e6, 0.85);
-  sun.position.set(-20, 35, 25);
+  // Set warm studio cream background matching the reference image (#F5EFE6)
+  if (typeof THREE !== 'undefined' && THREE.Color) {
+    sc.background = new THREE.Color(0xF5EFE6);
+  }
+  if (R && R.setClearColor) {
+    R.setClearColor(0xF5EFE6, 1.0);
+  }
+
+  // Soft diffused studio illumination
+  sc.add(new THREE.AmbientLight(0xFFF9F2, 0.95));
+  const sun = new THREE.DirectionalLight(0xFFFFFF, 0.92);
+  sun.position.set(18, 34, 22);
   sc.add(sun);
+
+  const fillLight = new THREE.DirectionalLight(0xE0F2FE, 0.35);
+  fillLight.position.set(-18, 18, 20);
+  sc.add(fillLight);
+
+  const rimLight = new THREE.DirectionalLight(0xFDE68A, 0.30);
+  rimLight.position.set(-20, 22, -22);
+  sc.add(rimLight);
 
   const mat = c => new THREE.MeshLambertMaterial({ color: c });
   const B = (g, w, h, d, c, x = 0, y = 0, z = 0) => {
@@ -3352,7 +3380,7 @@ table.details-table tr:hover td {
     return m;
   };
   const C = (g, rt, rb, h, c, x = 0, y = 0, z = 0) => {
-    const m = new THREE.Mesh(new THREE.CylinderGeometry(rt, rb, h, 16), mat(c));
+    const m = new THREE.Mesh(new THREE.CylinderGeometry(rt, rb, h, 20), mat(c));
     m.position.set(x, y + h / 2, z);
     g.add(m);
     return m;
@@ -3364,90 +3392,322 @@ table.details-table tr:hover td {
     return m;
   };
 
-  // --- System Constants & Farm-to-Fork Determinants ---
-  const COLD_MAX = 16.0; // Critical Cold-Chain SLA Limit (°C)
-  const COLD_MIN = 8.0;
-  const HUM_MAX = 95.0;
-  const HUM_MIN = 80.0;
-  const OK_COLOR = '#10b981';
-  const BAD_COLOR = '#ef4444';
+  // --- Procedural Canvas Texture Generators for Diorama Elements ---
+  function createGroceryAwningTexture() {
+    if (typeof document === 'undefined' || !document.createElement) return null;
+    try {
+      const canvas = document.createElement('canvas');
+      canvas.width = 512;
+      canvas.height = 256;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return null;
+      // Green and white stripes
+      const numStripes = 10;
+      const stripeWidth = 512 / numStripes;
+      for (let i = 0; i < numStripes; i++) {
+        ctx.fillStyle = i % 2 === 0 ? '#27522D' : '#F8F9FA';
+        ctx.fillRect(i * stripeWidth, 0, stripeWidth, 180);
+      }
+      // Scalloped bottom edge & valance
+      ctx.fillStyle = '#27522D';
+      ctx.fillRect(0, 175, 512, 81);
+      // Bold GROCERY text in center
+      ctx.fillStyle = '#FFFFFF';
+      ctx.font = 'bold 54px "Space Grotesk", Arial, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('GROCERY', 256, 215);
+      return new THREE.CanvasTexture(canvas);
+    } catch (e) {
+      return null;
+    }
+  }
 
+  function createTruckLogoTexture() {
+    if (typeof document === 'undefined' || !document.createElement) return null;
+    try {
+      const canvas = document.createElement('canvas');
+      canvas.width = 512;
+      canvas.height = 256;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return null;
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillRect(0, 0, 512, 256);
+      ctx.strokeStyle = '#27522D';
+      if (ctx.lineWidth) ctx.lineWidth = 8;
+      ctx.strokeRect(12, 12, 488, 232);
+
+      // Vegetable crate illustration
+      ctx.fillStyle = '#C49261';
+      ctx.fillRect(40, 110, 100, 60);
+      ctx.fillStyle = '#E11D48';
+      ctx.fillRect(55, 80, 30, 30);
+      ctx.fillStyle = '#F97316';
+      ctx.fillRect(95, 75, 25, 35);
+      ctx.fillStyle = '#22C55E';
+      ctx.fillRect(60, 65, 20, 15);
+
+      ctx.fillStyle = '#1E3A8A';
+      ctx.font = 'bold 36px "Space Grotesk", Arial, sans-serif';
+      ctx.fillText('COLD-CHAIN IOT', 160, 105);
+      ctx.fillStyle = '#10B981';
+      ctx.font = 'bold 26px "Space Grotesk", Arial, sans-serif';
+      ctx.fillText('FARM FRESH PRODUCE', 160, 155);
+      return new THREE.CanvasTexture(canvas);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function createInspectionLabelTexture() {
+    if (typeof document === 'undefined' || !document.createElement) return null;
+    try {
+      const canvas = document.createElement('canvas');
+      canvas.width = 256;
+      canvas.height = 128;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return null;
+      ctx.fillStyle = '#264A2F';
+      ctx.font = 'bold 36px "Space Grotesk", Arial, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText('inspection', 128, 42);
+      ctx.fillText('camera', 128, 86);
+      return new THREE.CanvasTexture(canvas);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function createQrTexture() {
+    if (typeof document === 'undefined' || !document.createElement) return null;
+    try {
+      const canvas = document.createElement('canvas');
+      canvas.width = 256;
+      canvas.height = 256;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return null;
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillRect(0, 0, 256, 256);
+      ctx.fillStyle = '#0F172A';
+      const drawCorner = (ox, oy) => {
+        ctx.fillRect(ox, oy, 56, 56);
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillRect(ox + 8, oy + 8, 40, 40);
+        ctx.fillStyle = '#0F172A';
+        ctx.fillRect(ox + 16, oy + 16, 24, 24);
+      };
+      drawCorner(16, 16);
+      drawCorner(184, 16);
+      drawCorner(16, 184);
+
+      for (let r = 0; r < 14; r++) {
+        for (let c = 0; c < 14; c++) {
+          if ((r < 5 && c < 5) || (r < 5 && c > 8) || (r > 8 && c < 5)) continue;
+          if ((r * 7 + c * 13 + (r % 3)) % 2 === 0) {
+            ctx.fillRect(24 + c * 15, 24 + r * 15, 12, 12);
+          }
+        }
+      }
+      return new THREE.CanvasTexture(canvas);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function createPhoneScreenTexture() {
+    if (typeof document === 'undefined' || !document.createElement) return null;
+    try {
+      const canvas = document.createElement('canvas');
+      canvas.width = 300;
+      canvas.height = 600;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return null;
+      ctx.fillStyle = '#FAFAF9';
+      ctx.fillRect(0, 0, 300, 600);
+
+      // Header
+      ctx.fillStyle = '#F5F5F4';
+      ctx.fillRect(16, 20, 268, 90);
+      ctx.fillStyle = '#E11D48';
+      ctx.fillRect(36, 42, 45, 45);
+      ctx.fillStyle = '#10B981';
+      ctx.fillRect(48, 30, 20, 14);
+      ctx.fillStyle = '#0F172A';
+      ctx.font = 'bold 20px "Space Grotesk", Arial, sans-serif';
+      ctx.fillText('BATCH #AGRI-8821', 95, 55);
+      ctx.fillStyle = '#10B981';
+      ctx.font = 'bold 15px "Space Grotesk", Arial, sans-serif';
+      ctx.fillText('✓ 100% Provenance Verified', 95, 82);
+
+      // Timeline
+      ctx.strokeStyle = '#10B981';
+      if (ctx.lineWidth) ctx.lineWidth = 4;
+      ctx.beginPath();
+      ctx.moveTo(55, 160);
+      ctx.lineTo(55, 460);
+      ctx.stroke();
+
+      const timelineSteps = [
+        { title: 'Farm Harvest', sub: 'Santosh Shinde • GI Tagged', y: 160 },
+        { title: 'AI Quality Grade', sub: 'YOLOv8 Grade A+ • 19.2° Brix', y: 260 },
+        { title: 'IoT Cold Corridor', sub: 'Reefer MH-08 • 12.8°C SLA', y: 360 },
+        { title: 'Consumer Fork', sub: 'Fair-Trade Farmer Premium', y: 460 }
+      ];
+
+      timelineSteps.forEach(st => {
+        ctx.fillStyle = '#10B981';
+        ctx.fillRect(40, st.y - 15, 30, 30);
+        ctx.fillStyle = '#FFFFFF';
+        ctx.font = 'bold 18px Arial, sans-serif';
+        ctx.fillText('✓', 48, st.y + 7);
+
+        ctx.fillStyle = '#0F172A';
+        ctx.font = 'bold 18px "Space Grotesk", Arial, sans-serif';
+        ctx.fillText(st.title, 88, st.y - 2);
+        ctx.fillStyle = '#64748B';
+        ctx.font = '13px "Inter", Arial, sans-serif';
+        ctx.fillText(st.sub, 88, st.y + 18);
+      });
+
+      ctx.fillStyle = '#ECFDF5';
+      ctx.fillRect(16, 510, 268, 65);
+      ctx.fillStyle = '#065F46';
+      ctx.font = 'bold 15px "Space Grotesk", Arial, sans-serif';
+      ctx.fillText('🛡️ Cryptographically Sealed on Turso', 28, 548);
+
+      return new THREE.CanvasTexture(canvas);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  // --- Helper to build a wooden slatted produce crate with tomatoes & carrots ---
+  function createSlattedProduceCrate(w = 2.4, h = 1.1, d = 1.6) {
+    const cg = new THREE.Group();
+    // Base
+    B(cg, w, 0.10, d, 0xC49261, 0, 0, 0);
+    // 4 Corner posts
+    [-w/2 + 0.1, w/2 - 0.1].forEach(px => {
+      [-d/2 + 0.1, d/2 - 0.1].forEach(pz => {
+        B(cg, 0.16, h, 0.16, 0xB48255, px, 0, pz);
+      });
+    });
+    // Slats
+    [0.15, 0.52, 0.88].forEach(sy => {
+      B(cg, w, 0.24, 0.06, 0xD4A373, 0, sy, d / 2);
+      B(cg, w, 0.24, 0.06, 0xD4A373, 0, sy, -d / 2);
+      B(cg, 0.06, 0.24, d, 0xD4A373, w / 2, sy, 0);
+      B(cg, 0.06, 0.24, d, 0xD4A373, -w / 2, sy, 0);
+    });
+    // Tomatoes
+    for (let tx = -w/2 + 0.4; tx <= w/2 - 0.4; tx += 0.4) {
+      for (let tz = -d/2 + 0.4; tz <= d/2 - 0.4; tz += 0.4) {
+        S_(cg, 0.18, 0xE11D48, tx, h * 0.75, tz);
+        C(cg, 0.05, 0.05, 0.04, 0x22C55E, tx, h * 0.75 + 0.18, tz);
+      }
+    }
+    // Carrots
+    for (let ci = 0; ci < 4; ci++) {
+      const crt = new THREE.Group();
+      crt.position.set(-w/4 + ci * 0.35, h * 0.85, 0);
+      crt.rotation.z = -0.3 + ci * 0.15;
+      C(crt, 0.10, 0.03, 0.85, 0xF97316, 0, 0, 0);
+      C(crt, 0.04, 0.14, 0.45, 0x22C55E, 0, 0.55, 0);
+      cg.add(crt);
+    }
+    return cg;
+  }
+
+  // --- 6 Farm-to-Fork Stations matching the Diorama Architecture ---
   const STATIONS = [
-    { name: '1. Shinde Organic Orchard', role: 'Farm Origin', gps: '16.9944°N 73.3000°E', x: -25, temp: 24.5, hum: 78, eth: 0.01 },
-    { name: '2. Sahyadri FPO Mandi Hub', role: 'Mandi Aggregator', gps: '17.3100°N 73.5500°E', x: -15, temp: 22.0, hum: 75, eth: 0.02 },
-    { name: '3. Packhouse & AI Vision Lab', role: 'CV Quality Grading', gps: '17.6800°N 73.7800°E', x: -5, temp: 18.0, hum: 65, eth: 0.02 },
-    { name: '4. Cold Logistics Pre-Cooling', role: 'Cold Storage SLA', gps: '18.1500°N 73.8000°E', x: 5, temp: 12.4, hum: 91, eth: 0.03 },
-    { name: '5. IoT Reefer Truck (NH-48)', role: 'Cold Transit Corridor', gps: '18.5204°N 73.8567°E', x: 15, temp: 12.8, hum: 90, eth: 0.04 },
-    { name: '6. Gourmet Supermarket / Fork', role: 'Consumer Verification', gps: '18.9220°N 72.8347°E', x: 25, temp: 21.5, hum: 60, eth: 0.02 }
+    { name: '1. Shinde Organic Farm Plot', role: 'Farm Origin & Farmer Figurine', gps: '16.9944°N 73.3000°E', x: -8.5, z: -3.5, y: 2.8, temp: 24.5, hum: 78, eth: 0.01 },
+    { name: '2. "inspection camera" Station', role: 'Computer Vision AI Stanchion', gps: '17.3100°N 73.5500°E', x: -2.8, z: -2.0, y: 2.8, temp: 22.0, hum: 75, eth: 0.02 },
+    { name: '3. S-Curve Blockchain Highway', role: 'Cryptographic LED Waypoints', gps: '17.6800°N 73.7800°E', x: 0.5, z: -1.2, y: 2.8, temp: 18.0, hum: 65, eth: 0.02 },
+    { name: '4. Refrigerated Reefer Truck', role: 'IoT Cold Transit Corridor', gps: '18.1500°N 73.8000°E', x: 4.2, z: -3.8, y: 2.8, temp: 12.8, hum: 90, eth: 0.04 },
+    { name: '5. "GROCERY" Fresh Market Stall', role: 'Retail Awning & Produce Bins', gps: '18.5204°N 73.8567°E', x: 9.2, z: -3.5, y: 2.8, temp: 21.0, hum: 65, eth: 0.02 },
+    { name: '6. Verification Smartphone & QR Crate', role: 'Consumer Provenance Portal', gps: '18.9220°N 72.8347°E', x: 3.5, z: 3.5, y: 1.2, temp: 21.5, hum: 60, eth: 0.02 }
   ];
 
   const NM = STATIONS.map(s => s.name);
   const GPS = STATIONS.map(s => s.gps);
   const X = STATIONS.map(s => s.x);
 
-  // --- 8 Farm-to-Fork Narrative Steps ---
+  // 3D Station Trajectory for Moving Produce Crate
+  const STATIONS_3D = [
+    new V(-7.5, 3.1, -1.2),  // Step 0: Farm gate next to farmer
+    new V(-4.8, 3.1, -1.0),  // Step 1: Handover road
+    new V(-2.8, 3.1, -1.8),  // Step 2: Under inspection camera spotlight
+    new V(-2.8, 3.1, -1.8),  // Step 3: CV Quality grading
+    new V( 0.5, 3.1, -1.4),  // Step 4: S-curve blockchain waypoint
+    new V( 4.2, 3.6, -3.8),  // Step 5: Inside refrigerated reefer truck
+    new V( 7.8, 3.5, -2.2),  // Step 6: On "GROCERY" market counter
+    new V( 0.8, 1.4,  3.8)   // Step 7: Foreground GS1 QR crate
+  ];
+
+  // --- 8 Farm-to-Fork Narrative Steps with High-Fidelity Camera Views ---
   const S = [
     {
-      en: '1 · Organic Farm Origin & Harvest Genesis',
+      en: '1 · Organic Farm Origin & Real Farmer Genesis',
       hi: 'जैविक खेत उत्पत्ति व डिजिटल उद्भव ब्लॉक',
-      f: 0, t: 0, rd: 0, v: [-26, 26], note: 'Organic GI Tagged ✓',
-      tx: 'Farmer Santosh Shinde harvests GI-tagged Ratnagiri Alphonso Mangoes at Shinde Organic Orchards. Soil health card (NPK 240-45-310), non-GMO seed lineage, Panchagavya inputs, and harvest timestamp are sealed into the genesis blockchain block.',
-      st: ['Farmer: Santosh Shinde (FARMER-MH-RTG-8821)', 'Geo-Fenced Orchard: 16.9944°N, 73.3000°E (4.2 Ha)', 'Soil Health: NPK 240-45-310 | pH 6.4 | OC 1.1%', 'Inputs: Panchagavya, Neem Oil, Drip Solar', 'NPOP Organic Cert: NPOP/NAB/0019/2026/8912'],
+      f: 0, t: 0, rd: 0, v: [-8.5, 13, -3.5, 3.0], note: 'Organic GI Tagged ✓',
+      tx: 'Farmer Santosh Shinde harvests pesticide-free organic produce at Shinde Organic Orchards. Soil health card, non-GMO seed lineage, and harvest timestamp are sealed into the genesis blockchain block.',
+      st: ['Farmer: Santosh Shinde (FARMER-MH-RTG-8821)', 'Straw Hat & Dungarees: Traditional Agro-Attire', 'Soil Health: NPK 240-45-310 | pH 6.4 | OC 1.1%', 'Inputs: Panchagavya, Neem Oil, Solar Drip', 'NPOP Organic Cert: NPOP/NAB/0019/2026/8912'],
       ac: ['Mint Genesis Batch BATCH-AGRI-2026-F2F-091', 'Generate GS1 Digital Link Dynamic QR', 'Anchor Farm Geolocation Polygon on Ledger']
     },
     {
       en: '2 · APMC Mandi Aggregation & e-NWR Handover',
       hi: 'एपीएमसी मंडी एकत्रीकरण व इलेक्ट्रॉनिक रसीद',
-      f: 0, t: 1, rd: 1, v: [-16, 24], note: 'e-NWR Handover ✓',
-      tx: '120 wooden crates (2,400 kg) arrive at Sahyadri FPO Mandi Hub. Crates are weighed on electronic scales. The farmer signs handover with an offline Ed25519 key, generating an Electronic Negotiable Warehouse Receipt (e-NWR #99104).',
+      f: 0, t: 1, rd: 1, v: [-5.5, 14, -2.5, 3.0], note: 'e-NWR Handover ✓',
+      tx: '120 wooden crates arrive at the regional Mandi aggregation hub. Produce is weighed and inspected. The farmer signs handover with an offline Ed25519 key, generating an Electronic Negotiable Warehouse Receipt (e-NWR #99104).',
       st: ['Aggregator: Sahyadri Farmers Producer Co.', 'Quantity Received: 120 Crates (2,400 kg)', 'e-NWR Receipt: eNWR-MH-2026-99104', 'Fair Trade Base Price: ₹165/kg (+28.5% premium)', 'Farmer Privacy: Zero-Knowledge Identity Mask'],
       ac: ['Transfer custody from Farmer to Mandi Aggregator', 'Verify offline Ed25519 signature', 'Record e-NWR warehouse balance on blockchain']
     },
     {
       en: '3 · Packhouse Intake & Hydro-Precooling',
       hi: 'पैकहाउस आगमन व हाइड्रो-प्रीकूलिंग कक्ष',
-      f: 1, t: 2, rd: 2, v: [-6, 24], note: 'Pre-cooled 12.4°C ✓',
-      tx: 'Produce enters the modern post-harvest cleanroom facility. Crates undergo controlled hydro-cooling, dropping core fruit pulp temperature from field heat (24°C) to 12.4°C, slowing respiration and extending shelf life by 14 days.',
+      f: 1, t: 2, rd: 2, v: [-2.8, 12, -2.0, 3.2], note: 'Pre-cooled 12.4°C ✓',
+      tx: 'Produce enters the modern post-harvest cleanroom facility. Crates undergo controlled hydro-cooling under the inspection arch, dropping core pulp temperature from field heat to 12.4°C.',
       st: ['Facility: Vashi Post-Harvest Cleanroom', 'Pre-Cooling Target: 12.0°C – 13.5°C', 'Core Pulp Temp: 12.4°C Achieved in 45 mins', 'Relative Humidity: 91% (Prevents fruit shrivel)', 'Washing: Ozone-enriched organic sterilization'],
       ac: ['Log thermal pull-down profile to blockchain', 'Verify organic post-harvest washing compliance', 'Queue crates for automated Computer Vision conveyor']
     },
     {
       en: '4 · Computer Vision AI Quality Grading & Sizing',
       hi: 'कंप्यूटर विज़न एआई गुणवत्ता ग्रेडिंग व छंटाई',
-      f: 2, t: 2, rd: 2, v: [-5, 20], note: 'Grade A+ Export Certified ✓',
-      tx: 'Optical conveyor carries fruit under high-speed multi-spectral cameras running YOLOv8. AI evaluates caliber diameter (72.4mm), ripeness color (88.2% saffron hue), sugar Brix rating (19.2°), and surface defect area (0.0%), stamping Grade A+ Export Certificate.',
+      f: 2, t: 2, rd: 2, v: [-2.8, 10, -2.0, 3.2], note: 'Grade A+ Export Certified ✓',
+      tx: 'Under the arched "inspection camera" spotlight, multi-spectral cameras run YOLOv8. AI evaluates caliber diameter (72.4mm), ripeness color, sugar Brix rating (19.2°), and defect area (0.0%), stamping Grade A+ Export Certificate.',
       st: ['AI Model: AgriVision-YOLOv8-FruitGrading-v3', 'Detection Confidence: 99.4%', 'Caliber Size: 72.4 mm (Export Threshold >70mm)', 'Sugar Content: 19.2° Brix (Refractometer verified)', 'MRL Pesticide Residue: <0.005 ppm (Pesticide-Free)'],
       ac: ['Generate Cryptographic Quality Certificate 0xqc994', 'Sort into Grade A+ Export vs Domestic Clamshells', 'Attach Quality Hash to Merkle Root on Ledger']
     },
     {
-      en: '5 · Cold Storage & Ethylene Gas Management',
-      hi: 'कोल्ड स्टोरेज व एथिलीन गैस नियंत्रण',
-      f: 2, t: 3, rd: 3, v: [4, 26], note: 'Ethylene <0.04 ppm ✓',
-      tx: 'Graded clamshells are stacked in the cold storage warehouse under continuous environmental telemetry. Industrial scrubbers maintain Ethylene gas below 0.04 ppm to prevent premature over-ripening while relative humidity stays at 89.5%.',
-      st: ['Chamber: Cold Hub Staging Room #A1', 'Temperature: 12.8°C (Optimal envelope)', 'Relative Humidity: 89.5% (Ideal moisture retention)', 'Ethylene (C2H4): 0.04 ppm (Scrubber active)', 'Dynamic Shelf-Life Estimate: 14 Days Remaining'],
-      ac: ['Stream real-time environmental IoT hashes to Turso', 'Update inventory status to EXPORT_PACKAGED', 'Issue Cold Logistics Dispatch Clearance']
+      en: '5 · S-Curve Blockchain Transit Highway',
+      hi: 'एस-कर्व ब्लॉकचेन राजमार्ग व एलईडी चेकपॉइंट्स',
+      f: 2, t: 3, rd: 3, v: [0.5, 15, -1.2, 3.0], note: '6 Cryptographic Waypoints ✓',
+      tx: 'The produce moves along the glowing S-curve blockchain transit corridor. Translucent glass data cubes record immutable hash handovers across 6 glowing emerald LED checkpoints.',
+      st: ['Consensus: Proof-of-Authority (PoA) Consortium', 'Gas Cost per Batch: $0.00018 (Ultra-low overhead)', 'Checkpoint Nodes: 6 Validator Nodes Active', 'Data Cubes: Ed25519 Cryptographic Merkle Proofs', 'Block Confirmation Time: 450 ms'],
+      ac: ['Anchor waypoint hash on decentralized ledger', 'Update custodian multi-sig permissions', 'Broadcast batch status to network observers']
     },
     {
-      en: '6 · IoT Cold-Chain Reefer Truck Transit (NH-48)',
+      en: '6 · IoT Cold-Chain Reefer Truck Transit',
       hi: 'आईओटी रीफर ट्रक कोल्ड-चेन परिवहन',
-      f: 3, t: 4, rd: 4, v: [15, 26], note: 'Cold-Chain Intact 12.8°C ✓',
-      tx: 'Pallets travel inside dedicated IoT reefer truck MH-08-AG-9941 along NH-48 express corridor to the Mumbai export terminal. Dual temperature probes, humidity sensors, and GPS stream continuous telemetry. Smart contract trips if temperature breaches >16°C.',
-      st: ['Carrier: MH-08-AG-9941 (Dedicated Reefer)', 'Corridor: NH-48 Express Transit (Ratnagiri -> Mumbai)', 'Cold-Chain SLA: 12.0°C – 14.0°C (Breach >16.0°C)', 'Real-Time Telemetry: 12.8°C / 90% RH', 'Tamper Seal: Digital RFID Cryptographic E-Lock'],
+      f: 3, t: 4, rd: 4, v: [4.2, 12, -3.8, 3.2], note: 'Cold-Chain Intact 12.8°C ✓',
+      tx: 'Pallets travel inside the dedicated sage-green & white insulated reefer truck with rooftop cooling condenser. Dual temperature probes, humidity sensors, and GPS stream continuous telemetry.',
+      st: ['Carrier: MH-08-AG-9941 (Dedicated Reefer)', 'Corridor: NH-48 Express Transit Corridor', 'Cold-Chain SLA: 12.0°C – 14.0°C (Breach >16.0°C)', 'Real-Time Telemetry: 12.8°C / 90% RH', 'Tamper Seal: Digital RFID Cryptographic E-Lock'],
       ac: ['Record transit custody handover on ledger', 'Stream continuous GPS and thermal sensor hashes', 'Auto-execute insurance quarantine if SLA breached']
     },
     {
-      en: '7 · Gourmet Supermarket & Phytosanitary Seal',
+      en: '7 · "GROCERY" Market Stall & Phytosanitary Seal',
       hi: 'सुपरमार्केट शेल्फ व पादप-स्वच्छता मुहर',
-      f: 4, t: 5, rd: 5, v: [24, 24], note: 'APEDA Phytosanitary Approved ✓',
-      tx: 'Produce arrives at Nature\'s Basket Gourmet Hypermarket & Mumbai Cargo Export Terminal. Export phytosanitary inspectors scan GS1 Digital Link QR codes, verifying unbroken cold-chain history and organic pesticide-free certifications.',
-      st: ['Retailer: Nature\'s Basket Flagship / Export Cargo', 'Packaging: 4-Pack Clamshell (GS1 Digital Link)', 'Phytosanitary Clearance: APEDA Export Approved', 'Transit Distance: 342 km (Food Miles: 0.18 kg CO2e)', 'Shelf Status: Fresh / Optimal Ripeness for Consumer'],
+      f: 4, t: 5, rd: 5, v: [9.2, 13, -3.5, 3.4], note: 'APEDA Phytosanitary Approved ✓',
+      tx: 'Produce arrives at the "GROCERY" retail market stall with green and white striped awning. The shopkeeper displays red tomatoes, green peppers, and lemons in tiered wooden boxes with verified provenance tags.',
+      st: ['Retailer: "GROCERY" Market & Gourmet Stall', 'Awning: Traditional Green & White Striped Canopy', 'Produce Bins: Grade A+ Tomatoes, Apples, Lemons', 'Phytosanitary Clearance: APEDA Export Approved', 'Shelf Status: Fresh / Optimal Ripeness for Consumer'],
       ac: ['Confirm retailer inward stock receipt on blockchain', 'Bind individual clamshell QRs to retail inventory', 'Publish public provenance record for consumer scan']
     },
     {
       en: '8 · Consumer Fork Verification & Fair-Trade Premium',
       hi: 'उपभोक्ता सत्यापन व किसान पारदर्शी लाभ',
-      f: 5, t: 5, rd: 5, v: [25, 22], note: 'Farm-to-Fork Verified ✓',
-      tx: 'At the dining table, the consumer scans the clamshell QR code using any smartphone camera. The screen reveals the complete journey: farmer Santosh Shinde, soil health card, computer vision grade, chemical purity, and transparent fair-trade premium proof.',
+      f: 5, t: 5, rd: 5, v: [3.5, 11, 3.5, 1.5], note: 'Farm-to-Fork Verified ✓',
+      tx: 'At the foreground, the consumer scans the GS1 QR code on the wooden produce crate using the verification smartphone. The glossy screen reveals the complete journey with 4 green checkmarks and fair-trade premium proof.',
       st: ['Consumer Scan: GS1 Digital Link URI Resolved', 'Farmer Received: ₹165/kg (vs conventional ₹85/kg)', 'GI Provenance: Ratnagiri Hapus #124 Authenticated', 'HPLC Residue Test: 100% Pesticide-Free (<0.005 ppm)', 'Consumer Direct Tip: ₹50.00 transferred to farmer'],
       ac: ['Verify end-to-end cryptographic provenance chain', 'Execute fair-trade micro-incentive to farmer wallet', 'Log consumer verification event to public ledger']
     }
@@ -3467,185 +3727,462 @@ table.details-table tr:hover td {
   let dataOn = true;
   let flash = 0;
 
-  // --- World Ground, Farm Soils & Roads ---
-  // Lush agricultural terrain
-  B(sc, 110, 0.4, 46, 0x2d5a27, 0, -0.4, -2);
-  // Red Konkan soil farm area on left
-  B(sc, 28, 0.42, 28, 0x8b3a2b, -25, -0.38, -2);
-  // Highway road corridor
-  B(sc, 80, 0.35, 2.4, 0x334155, 0, 0, 2.0);
-  for (let rx = -38; rx <= 38; rx += 3.5) {
-    B(sc, 1.4, 0.37, 0.12, 0xfacc15, rx, 0, 2.0);
+  // --- 1. BUILD THE 3-TIER ORGANIC CLAY ISLAND DIORAMA ---
+  const islandGroup = new THREE.Group();
+  sc.add(islandGroup);
+
+  const COLOR_TERRACOTTA = 0xC77651; // Warm terracotta clay bottom
+  const COLOR_CREAM = 0xF1E9DC;       // Warm ivory cream stone middle
+  const COLOR_SAGE = 0x9EB69E;        // Soft sage-green meadow top
+
+  const islandLobes = [
+    { x: -7.5, z: -3.2, r: 6.8 }, // Left lobe (Farm field)
+    { x:  6.8, z: -3.0, r: 7.2 }, // Right lobe (Market & Truck)
+    { x: -0.4, z: -3.0, r: 5.6 }, // Central connecting neck
+    { x:  5.2, z:  2.8, r: 5.0 }, // Front right peninsula (Smartphone)
+    { x:  0.8, z:  2.6, r: 4.6 }, // Front center peninsula (QR Produce Crate)
+    { x: -4.2, z:  0.6, r: 4.8 }  // Front left curve
+  ];
+
+  // Layer 1: Terracotta Clay Base (Y: 0 to 1.2)
+  islandLobes.forEach(l => {
+    C(islandGroup, l.r, l.r * 1.02, 1.2, COLOR_TERRACOTTA, l.x, 0, l.z);
+  });
+  B(islandGroup, 14.5, 1.2, 7.5, COLOR_TERRACOTTA, -0.2, 0, -3.0);
+  B(islandGroup, 8.5, 1.2, 6.5, COLOR_TERRACOTTA, 2.8, 0, 1.8);
+
+  // Layer 2: Cream Stone Middle Tier (Y: 1.2 to 2.2)
+  islandLobes.forEach(l => {
+    C(islandGroup, l.r - 0.35, l.r - 0.25, 1.0, COLOR_CREAM, l.x, 1.2, l.z);
+  });
+  B(islandGroup, 13.8, 1.0, 6.8, COLOR_CREAM, -0.2, 1.2, -3.0);
+  B(islandGroup, 7.8, 1.0, 5.8, COLOR_CREAM, 2.8, 1.2, 1.8);
+
+  // Layer 3: Sage Green Top Turf (Y: 2.2 to 2.75)
+  islandLobes.forEach(l => {
+    C(islandGroup, l.r - 0.70, l.r - 0.60, 0.55, COLOR_SAGE, l.x, 2.2, l.z);
+  });
+  B(islandGroup, 13.0, 0.55, 6.0, COLOR_SAGE, -0.2, 2.2, -3.0);
+  B(islandGroup, 7.0, 0.55, 5.0, COLOR_SAGE, 2.8, 2.2, 1.8);
+
+  // Elevated Cream Plinth for Grocery Market Stall (Right side)
+  B(islandGroup, 5.8, 0.45, 5.2, COLOR_CREAM, 9.2, 2.75, -3.6);
+
+  // --- 2. STATION 1: FARM PLOT & REALISTIC FARMER FIGURINE ---
+  const farmGroup = new THREE.Group();
+  farmGroup.position.set(-8.5, 2.75, -3.5);
+  sc.add(farmGroup);
+
+  // Furrowed Soil Bed
+  B(farmGroup, 7.2, 0.3, 6.0, 0x543520, 0, 0, 0);
+
+  // 4 Raised Furrows running along Z
+  const furrowX = [-2.4, -0.8, 0.8, 2.4];
+  furrowX.forEach(fx => {
+    B(farmGroup, 0.85, 0.22, 5.6, 0x664126, fx, 0.25, 0);
+    for (let zIdx = -2.2; zIdx <= 2.2; zIdx += 1.1) {
+      const cabbage = new THREE.Group();
+      cabbage.position.set(fx, 0.45, zIdx);
+      C(cabbage, 0.36, 0.44, 0.08, 0x336D3A, 0, 0, 0);
+      C(cabbage, 0.26, 0.34, 0.12, 0x479453, 0, 0.06, 0);
+      S_(cabbage, 0.18, 0x6DB579, 0, 0.16, 0);
+      farmGroup.add(cabbage);
+    }
+  });
+
+  // REALISTIC FARMER FIGURINE
+  const farmerGroup = new THREE.Group();
+  farmerGroup.position.set(0.0, 0.25, 0.6);
+  farmerGroup.rotation.y = 0.35;
+  farmGroup.add(farmerGroup);
+
+  // Boots
+  B(farmerGroup, 0.24, 0.22, 0.44, 0x5C3A21, -0.22, 0, 0.06);
+  B(farmerGroup, 0.24, 0.22, 0.44, 0x5C3A21,  0.22, 0, 0.06);
+  // Dungarees Legs
+  C(farmerGroup, 0.15, 0.16, 0.85, 0x2E5A35, -0.22, 0.22, 0);
+  C(farmerGroup, 0.15, 0.16, 0.85, 0x2E5A35,  0.22, 0.22, 0);
+  // Dungarees Pelvis
+  B(farmerGroup, 0.74, 0.38, 0.48, 0x2E5A35, 0, 0.95, 0);
+  // White T-Shirt Torso
+  B(farmerGroup, 0.72, 0.58, 0.44, 0xF8F9FA, 0, 1.35, 0);
+  // Dungarees Front Bib & Straps
+  B(farmerGroup, 0.52, 0.45, 0.12, 0x2E5A35, 0, 1.35, 0.20);
+  B(farmerGroup, 0.10, 0.62, 0.08, 0x2E5A35, -0.20, 1.45, 0.02);
+  B(farmerGroup, 0.10, 0.62, 0.08, 0x2E5A35,  0.20, 1.45, 0.02);
+  B(farmerGroup, 0.08, 0.08, 0.04, 0xD97706, -0.20, 1.55, 0.22);
+  B(farmerGroup, 0.08, 0.08, 0.04, 0xD97706,  0.20, 1.55, 0.22);
+  // Arms
+  C(farmerGroup, 0.11, 0.11, 0.28, 0xF8F9FA, -0.44, 1.48, 0);
+  C(farmerGroup, 0.09, 0.09, 0.35, 0xF5C5A3, -0.45, 1.15, 0.12);
+  S_(farmerGroup, 0.10, 0xF5C5A3, -0.45, 1.0, 0.22);
+  C(farmerGroup, 0.11, 0.11, 0.28, 0xF8F9FA, 0.44, 1.48, 0);
+  C(farmerGroup, 0.09, 0.09, 0.35, 0xF5C5A3, 0.45, 1.15, 0.12);
+  S_(farmerGroup, 0.10, 0xF5C5A3, 0.45, 1.0, 0.22);
+  // Neck & Head
+  C(farmerGroup, 0.10, 0.10, 0.14, 0xF5C5A3, 0, 1.90, 0);
+  S_(farmerGroup, 0.26, 0xF5C5A3, 0, 2.14, 0);
+  B(farmerGroup, 0.20, 0.08, 0.06, 0x5C3A21, 0, 2.06, 0.22);
+  // Straw Hat
+  C(farmerGroup, 0.70, 0.70, 0.06, 0xDDB075, 0, 2.38, 0);
+  C(farmerGroup, 0.38, 0.40, 0.32, 0xDDB075, 0, 2.44, 0);
+  C(farmerGroup, 0.41, 0.41, 0.08, 0x4A2810, 0, 2.40, 0);
+
+  // --- 3. STATION 2: "INSPECTION CAMERA" ARCH & QUALITY SPOTLIGHT ---
+  const camStationGroup = new THREE.Group();
+  camStationGroup.position.set(-2.8, 2.75, -2.2);
+  sc.add(camStationGroup);
+
+  C(camStationGroup, 0.38, 0.42, 0.12, 0x8FA98E, 0, 0, -1.2);
+  C(camStationGroup, 0.11, 0.11, 3.8, 0x8FA98E, 0, 0.12, -1.2);
+  B(camStationGroup, 0.18, 0.18, 1.5, 0x8FA98E, 0, 3.8, -0.45);
+
+  C(camStationGroup, 0.40, 0.42, 0.46, 0x5A7D63, 0, 3.6, 0.3);
+  C(camStationGroup, 0.28, 0.28, 0.08, 0x0F172A, 0, 3.52, 0.3);
+  C(camStationGroup, 0.18, 0.18, 0.04, 0x38BDF8, 0, 3.50, 0.3);
+  S_(camStationGroup, 0.06, 0x00FF9D, 0.25, 3.85, 0.3);
+
+  const laserRing = new THREE.Mesh(
+    new THREE.RingGeometry(0.35, 0.48, 24),
+    new THREE.MeshBasicMaterial({ color: 0x00FF9D, side: THREE.DoubleSide })
+  );
+  laserRing.rotation.x = Math.PI / 2;
+  laserRing.position.set(0, 3.48, 0.3);
+  camStationGroup.add(laserRing);
+
+  const coneGeom = new THREE.CylinderGeometry(0.24, 1.45, 3.1, 24, 1, true);
+  const coneMat = new THREE.MeshLambertMaterial({
+    color: 0xE0F2FE,
+    transparent: true,
+    opacity: 0.32,
+    side: THREE.DoubleSide
+  });
+  const spotCone = new THREE.Mesh(coneGeom, coneMat);
+  spotCone.position.set(0, 1.85, 0.3);
+  camStationGroup.add(spotCone);
+
+  const labelTex = createInspectionLabelTexture();
+  if (labelTex) {
+    const labelMat = new THREE.MeshBasicMaterial({ map: labelTex, transparent: true, side: THREE.DoubleSide });
+    const labelPlane = new THREE.Mesh(new THREE.PlaneGeometry(1.8, 0.9), labelMat);
+    labelPlane.position.set(0, 4.45, 0.3);
+    camStationGroup.add(labelPlane);
   }
 
-  // --- Station 1: Organic Farmstead & Orchard (X = -25) ---
-  const farmGroup = new THREE.Group();
-  farmGroup.position.set(-25, 0, 0);
-  sc.add(farmGroup);
-  // Traditional Konkan farmhouse
-  B(farmGroup, 4.5, 2.8, 3.5, 0xd97706, -2, 0, -5);
-  // Terracotta roof
-  B(farmGroup, 4.8, 0.8, 3.8, 0xb45309, -2, 2.8, -5);
-  // Solar water pump panel
-  const solarPanel = B(farmGroup, 2.2, 0.1, 1.4, 0x1e3a8a, -5.5, 1.8, -3);
-  solarPanel.rotation.x = 0.4;
-  C(farmGroup, 0.08, 0.08, 1.8, 0x64748b, -5.5, 0, -3);
-  // Orchard Mango Trees
-  const makeTree = (gx, gz) => {
-    C(farmGroup, 0.25, 0.35, 2.2, 0x78350f, gx, 0, gz);
-    S_(farmGroup, 1.6, 0x15803d, gx, 2.8, gz);
-    // Golden mango fruits hanging
-    S_(farmGroup, 0.22, 0xf59e0b, gx - 0.7, 2.4, gz + 0.9);
-    S_(farmGroup, 0.22, 0xf59e0b, gx + 0.8, 2.2, gz - 0.8);
-    S_(farmGroup, 0.22, 0xf59e0b, gx + 0.3, 3.2, gz + 1.1);
-  };
-  makeTree(2.5, -4);
-  makeTree(5.5, -6);
-  makeTree(3.0, -9);
-  makeTree(-5.5, -8);
-  // Wooden produce crates at farm gate
-  B(farmGroup, 1.4, 0.6, 0.9, 0xb45309, 1.5, 0, 0.5);
-  B(farmGroup, 1.4, 0.6, 0.9, 0x9a3412, 1.5, 0.6, 0.5);
+  const spotCrate = createSlattedProduceCrate(1.8, 0.8, 1.3);
+  spotCrate.position.set(0, 0.0, 0.3);
+  camStationGroup.add(spotCrate);
 
-  // --- Station 2: Sahyadri FPO Mandi & Aggregator Hub (X = -15) ---
-  const mandiGroup = new THREE.Group();
-  mandiGroup.position.set(-15, 0, 0);
-  sc.add(mandiGroup);
-  // Covered Mandi Auction Shed
-  B(mandiGroup, 6.5, 0.2, 5.0, 0x475569, 0, 0, -3.5);
-  // Shed Pillars
-  [-2.8, 2.8].forEach(px => {
-    [-1.5, -5.5].forEach(pz => {
-      C(mandiGroup, 0.12, 0.12, 3.2, 0x94a3b8, px, 0, pz);
-    });
+  // --- 4. STATION 3: S-CURVE BLOCKCHAIN HIGHWAY & GLOWING LED WAYPOINTS ---
+  const highwayGroup = new THREE.Group();
+  sc.add(highwayGroup);
+
+  const roadPoints = [
+    new V(-7.0, 2.78, -0.6),
+    new V(-4.8, 2.78, -0.8),
+    new V(-2.8, 2.78, -1.2),
+    new V(-0.6, 2.78, -1.6),
+    new V( 1.8, 2.78, -1.4),
+    new V( 4.2, 2.78, -1.0),
+    new V( 6.8, 2.78, -0.6)
+  ];
+
+  for (let i = 0; i < roadPoints.length - 1; i++) {
+    const p1 = roadPoints[i], p2 = roadPoints[i + 1];
+    const mid = new V().lerpVectors(p1, p2, 0.5);
+    const dist = p1.distanceTo ? p1.distanceTo(p2) : 2.4;
+    const seg = B(highwayGroup, dist, 0.08, 1.7, 0x82A17F, mid.x, mid.y, mid.z);
+    const angle = Math.atan2(p2.z - p1.z, p2.x - p1.x);
+    seg.rotation.y = -angle;
+  }
+
+  const ledWaypoints = [];
+  const waypointCoords = [
+    { x: -6.6, z: -0.6 },
+    { x: -4.2, z: -0.8 },
+    { x: -1.8, z: -1.3 },
+    { x:  1.6, z: -1.4 },
+    { x:  4.2, z: -1.0 },
+    { x:  6.6, z: -0.6 }
+  ];
+
+  waypointCoords.forEach(wp => {
+    const padGroup = new THREE.Group();
+    padGroup.position.set(wp.x, 2.82, wp.z);
+    C(padGroup, 0.52, 0.54, 0.06, 0x476A4F, 0, 0, 0);
+    const ledCore = C(padGroup, 0.38, 0.38, 0.08, 0x00FF9D, 0, 0.02, 0);
+    C(padGroup, 0.20, 0.20, 0.10, 0xD1FAE5, 0, 0.03, 0);
+    highwayGroup.add(padGroup);
+    ledWaypoints.push(ledCore);
   });
-  // Canopy Roof
-  const mandiRoof = B(mandiGroup, 7.0, 0.3, 5.4, 0x0284c7, 0, 3.2, -3.5);
-  // Electronic Weighing Scale Platform
-  B(mandiGroup, 1.8, 0.15, 1.8, 0x1e293b, -1.2, 0.1, -2.5);
-  C(mandiGroup, 0.05, 0.05, 1.2, 0x38bdf8, -0.4, 0.1, -1.8);
-  // e-NWR Digital Ledger Terminal
-  B(mandiGroup, 0.6, 0.9, 0.4, 0x0f172a, 2.0, 0, -2);
-  B(mandiGroup, 0.5, 0.35, 0.05, 0x38bdf8, 2.0, 0.6, -1.8);
 
-  // --- Station 3: Packhouse & Computer Vision AI Quality Lab (X = -5) ---
-  const packGroup = new THREE.Group();
-  packGroup.position.set(-5, 0, 0);
-  sc.add(packGroup);
-  // Cleanroom Building
-  B(packGroup, 6.8, 3.4, 5.5, 0xf8fafc, 0, 0, -4);
-  B(packGroup, 6.9, 0.4, 5.6, 0x0f172a, 0, 3.4, -4);
-  // Translucent blue glass cleanroom window
-  const glassWin = new THREE.Mesh(
-    new THREE.BoxGeometry(4.2, 1.8, 0.1),
-    new THREE.MeshLambertMaterial({ color: 0x38bdf8, transparent: true, opacity: 0.55 })
-  );
-  glassWin.position.set(0, 1.8, -1.2);
-  packGroup.add(glassWin);
-  // Optical Conveyor Belt
-  B(packGroup, 4.8, 0.4, 0.8, 0x1e293b, 0, 0.6, 0);
-  // AI Optical Scanner Portal Tunnel
-  const scannerTunnel = B(packGroup, 1.4, 1.5, 1.2, 0x06b6d4, 0, 0.7, 0);
-  scannerTunnel.material.transparent = true;
-  scannerTunnel.material.opacity = 0.85;
-  // Holographic laser beam ring
-  const laserRing = new THREE.Mesh(
-    new THREE.RingGeometry(0.5, 0.65, 24),
-    new THREE.MeshBasicMaterial({ color: 0x06b6d4, side: THREE.DoubleSide })
-  );
-  laserRing.rotation.y = Math.PI / 2;
-  laserRing.position.set(0, 1.1, 0);
-  packGroup.add(laserRing);
-
-  // --- Station 4: Industrial Pre-Cooling & Cold Storage (X = 5) ---
-  const coldGroup = new THREE.Group();
-  coldGroup.position.set(5, 0, 0);
-  sc.add(coldGroup);
-  // Heavy Insulated Cold Storage Warehouse
-  B(coldGroup, 6.5, 3.8, 5.5, 0x0f172a, 0, 0, -4);
-  B(coldGroup, 6.7, 0.3, 5.7, 0x38bdf8, 0, 3.8, -4);
-  // Rooftop Industrial Cooling Condensers
-  [-1.5, 1.5].forEach(cx => {
-    B(coldGroup, 1.4, 0.9, 1.4, 0x475569, cx, 4.0, -3.8);
-    C(coldGroup, 0.4, 0.4, 0.2, 0x94a3b8, cx, 4.9, -3.8);
+  const glassCubes = [];
+  const glassMat = new THREE.MeshLambertMaterial({
+    color: 0xBAE6FD,
+    transparent: true,
+    opacity: 0.55
   });
-  // Digital Cold-Chain Temperature Gauge on facade
-  const tempGauge = B(coldGroup, 1.6, 0.8, 0.1, 0x064e3b, 0, 2.2, -1.2);
+  [-3.2, 0.0, 3.0, 5.8].forEach((gx, i) => {
+    const gz = i % 2 === 0 ? -1.0 : -1.4;
+    const cube = new THREE.Mesh(new THREE.BoxGeometry(0.82, 0.82, 0.82), glassMat);
+    cube.position.set(gx, 3.6, gz);
+    highwayGroup.add(cube);
+    glassCubes.push(cube);
+  });
 
-  // --- Station 5: IoT Reefer Truck Transporter (X = 15) ---
+  // --- 5. STATION 4: REFRIGERATED REEFER TRUCK ---
   const truckGroup = new THREE.Group();
-  truckGroup.position.set(15, 0, 2.0);
+  truckGroup.position.set(4.2, 2.78, -3.8);
   sc.add(truckGroup);
-  // Truck Cabin
-  B(truckGroup, 2.0, 2.2, 1.8, 0x1e3a8a, -2.4, 0.6, 0);
-  // Front Windshield
-  const windshield = B(truckGroup, 0.8, 0.8, 1.6, 0x38bdf8, -3.0, 1.6, 0);
-  windshield.material.transparent = true;
-  windshield.material.opacity = 0.7;
-  // Heavy Insulated Reefer Container
-  const reeferBox = B(truckGroup, 4.8, 2.6, 2.0, 0xf1f5f9, 1.0, 0.8, 0);
-  // Green IoT Cold-Chain Status Strip
-  const reeferStrip = B(truckGroup, 4.6, 0.2, 2.05, 0x10b981, 1.0, 2.2, 0);
-  // Wheels
-  const wheelMat = mat(0x18181b);
-  const makeWheel = (wx, wz) => {
-    const wm = new THREE.Mesh(new THREE.CylinderGeometry(0.45, 0.45, 0.3, 16), wheelMat);
-    wm.rotation.x = Math.PI / 2;
-    wm.position.set(wx, 0.45, wz);
-    truckGroup.add(wm);
-  };
-  makeWheel(-2.6, 1.0);
-  makeWheel(-2.6, -1.0);
-  makeWheel(0.6, 1.05);
-  makeWheel(0.6, -1.05);
-  makeWheel(2.4, 1.05);
-  makeWheel(2.4, -1.05);
 
-  // --- Station 6: Gourmet Supermarket & Consumer Fork (X = 25) ---
-  const retailGroup = new THREE.Group();
-  retailGroup.position.set(25, 0, 0);
-  sc.add(retailGroup);
-  // Gourmet Retail Store facade
-  B(retailGroup, 6.2, 3.4, 4.8, 0x1e293b, 0, 0, -4);
-  B(retailGroup, 6.4, 0.4, 5.0, 0x10b981, 0, 3.4, -4);
-  // Dining & Verification Table
-  B(retailGroup, 3.2, 0.15, 2.0, 0xb45309, 0, 1.1, 0);
-  // Table legs
-  [-1.3, 1.3].forEach(tx => {
-    [-0.8, 0.8].forEach(tz => {
-      C(retailGroup, 0.06, 0.06, 1.1, 0x78350f, tx, 0, tz);
+  B(truckGroup, 5.6, 0.3, 1.8, 0x1E293B, 0.2, 0.45, 0);
+
+  const cabGroup = new THREE.Group();
+  cabGroup.position.set(2.1, 0.6, 0);
+  truckGroup.add(cabGroup);
+
+  B(cabGroup, 1.9, 1.4, 1.75, 0x8EA78D, 0, 0, 0);
+  B(cabGroup, 1.7, 0.8, 1.70, 0x8EA78D, -0.05, 1.0, 0);
+
+  const windshield = B(cabGroup, 0.75, 0.75, 1.55, 0x1E293B, 0.45, 0.95, 0);
+  windshield.material.transparent = true;
+  windshield.material.opacity = 0.75;
+
+  B(cabGroup, 0.25, 0.35, 1.80, 0x334155, 0.98, 0.15, 0);
+  B(cabGroup, 0.08, 0.18, 0.32, 0xFEF08A, 1.0, 0.35, -0.6);
+  B(cabGroup, 0.08, 0.18, 0.32, 0xFEF08A, 1.0, 0.35,  0.6);
+  B(cabGroup, 0.15, 0.25, 0.08, 0x334155, 0.2, 0.95, -0.95);
+  B(cabGroup, 0.15, 0.25, 0.08, 0x334155, 0.2, 0.95,  0.95);
+
+  const reeferBox = B(truckGroup, 3.7, 2.3, 1.9, 0xFFFFFF, -0.9, 0.65, 0);
+  const condenser = B(truckGroup, 1.2, 0.45, 1.3, 0x7EB6D7, -0.9, 2.95, 0);
+  S_(truckGroup, 0.08, 0x10B981, -0.25, 3.15, 0);
+
+  const truckDecalTex = createTruckLogoTexture();
+  if (truckDecalTex) {
+    const decalMat = new THREE.MeshBasicMaterial({ map: truckDecalTex, transparent: true });
+    const decalPlane1 = new THREE.Mesh(new THREE.PlaneGeometry(2.4, 1.4), decalMat);
+    decalPlane1.position.set(-0.9, 1.8, 0.96);
+    truckGroup.add(decalPlane1);
+  }
+
+  const wheelGeom = new THREE.CylinderGeometry(0.42, 0.42, 0.32, 16);
+  const wheelMat = mat(0x1F2937);
+  const hubMat = mat(0xCBD5E1);
+
+  const makeWheel = (wx, wz) => {
+    const wm = new THREE.Mesh(wheelGeom, wheelMat);
+    wm.rotation.x = Math.PI / 2;
+    wm.position.set(wx, 0.42, wz);
+    const hub = new THREE.Mesh(new THREE.CylinderGeometry(0.20, 0.20, 0.34, 12), hubMat);
+    hub.rotation.x = Math.PI / 2;
+    hub.position.set(wx, 0.42, wz);
+    truckGroup.add(wm);
+    truckGroup.add(hub);
+  };
+  makeWheel(-2.0, -1.0);
+  makeWheel(-2.0,  1.0);
+  makeWheel( 1.5, -1.0);
+  makeWheel( 1.5,  1.0);
+
+  // --- 6. STATION 5: "GROCERY" RETAIL MARKET STALL & SHOPKEEPER ---
+  const groceryGroup = new THREE.Group();
+  groceryGroup.position.set(9.2, 3.2, -3.6);
+  sc.add(groceryGroup);
+
+  B(groceryGroup, 3.6, 1.1, 2.2, 0xC99A6B, 0, 0, 0);
+
+  [-1.7, 1.7].forEach(px => {
+    [-1.0, 1.0].forEach(pz => {
+      B(groceryGroup, 0.12, 2.7, 0.12, 0xC99A6B, px, 1.1, pz);
     });
   });
-  // Fruit Bowl with Fresh Produce
-  C(retailGroup, 0.65, 0.35, 0.3, 0xf8fafc, 0, 1.25, 0);
-  S_(retailGroup, 0.26, 0xf59e0b, 0, 1.5, 0);
-  S_(retailGroup, 0.24, 0xf59e0b, -0.2, 1.45, 0.15);
-  S_(retailGroup, 0.24, 0xef4444, 0.2, 1.45, -0.15);
-  // Consumer Smartphone Scanner Stand
-  B(retailGroup, 0.3, 0.6, 0.05, 0x0f172a, -0.8, 1.25, 0.4);
-  const phoneScreen = B(retailGroup, 0.26, 0.5, 0.02, 0x10b981, -0.8, 1.3, 0.43);
 
-  // --- Sky Blockchain Ledger ---
+  const awningTex = createGroceryAwningTexture();
+  const awningMat = awningTex ? new THREE.MeshBasicMaterial({ map: awningTex, side: THREE.DoubleSide }) : mat(0x27522D);
+  const awningRoof = new THREE.Mesh(new THREE.BoxGeometry(3.9, 0.12, 2.5), awningMat);
+  awningRoof.position.set(0, 2.7, 0);
+  awningRoof.rotation.x = 0.26;
+  groceryGroup.add(awningRoof);
+
+  const valanceMat = awningTex ? new THREE.MeshBasicMaterial({ map: awningTex, side: THREE.DoubleSide }) : mat(0x27522D);
+  const valancePlane = new THREE.Mesh(new THREE.PlaneGeometry(3.9, 0.7), valanceMat);
+  valancePlane.position.set(0, 2.4, 1.25);
+  groceryGroup.add(valancePlane);
+
+  B(groceryGroup, 1.0, 0.25, 1.8, 0xB48255, -1.1, 1.1, 0);
+  for (let bx = -1.4; bx <= -0.8; bx += 0.3) {
+    for (let bz = -0.7; bz <= 0.7; bz += 0.35) {
+      S_(groceryGroup, 0.14, 0xE11D48, bx, 1.3, bz);
+    }
+  }
+
+  B(groceryGroup, 1.0, 0.25, 1.8, 0xB48255, 0, 1.1, 0);
+  for (let bx = -0.3; bx <= 0.3; bx += 0.3) {
+    for (let bz = -0.7; bz <= 0.7; bz += 0.35) {
+      S_(groceryGroup, 0.14, 0x22C55E, bx, 1.3, bz);
+    }
+  }
+
+  B(groceryGroup, 1.0, 0.25, 1.8, 0xB48255, 1.1, 1.1, 0);
+  for (let bx = 0.8; bx <= 1.4; bx += 0.3) {
+    for (let bz = -0.7; bz <= 0.7; bz += 0.35) {
+      S_(groceryGroup, 0.13, 0xEAB308, bx, 1.3, bz);
+    }
+  }
+
+  const shopkeeper = new THREE.Group();
+  shopkeeper.position.set(-2.2, 0, 0.2);
+  shopkeeper.rotation.y = 0.7;
+  groceryGroup.add(shopkeeper);
+
+  B(shopkeeper, 0.22, 0.18, 0.38, 0x1E293B, -0.18, 0, 0.05);
+  B(shopkeeper, 0.22, 0.18, 0.38, 0x1E293B,  0.18, 0, 0.05);
+  C(shopkeeper, 0.14, 0.15, 0.80, 0x334155, -0.18, 0.18, 0);
+  C(shopkeeper, 0.14, 0.15, 0.80, 0x334155,  0.18, 0.18, 0);
+  B(shopkeeper, 0.65, 0.65, 0.40, 0xA7F3D0, 0, 0.98, 0);
+  C(shopkeeper, 0.09, 0.09, 0.35, 0xA7F3D0, -0.38, 1.1, 0.08);
+  C(shopkeeper, 0.09, 0.09, 0.35, 0xA7F3D0,  0.38, 1.1, 0.08);
+  S_(shopkeeper, 0.08, 0xF5C5A3, -0.38, 0.92, 0.16);
+  S_(shopkeeper, 0.08, 0xF5C5A3,  0.38, 0.92, 0.16);
+  C(shopkeeper, 0.09, 0.09, 0.12, 0xF5C5A3, 0, 1.62, 0);
+  S_(shopkeeper, 0.24, 0xF5C5A3, 0, 1.84, 0);
+  S_(shopkeeper, 0.26, 0x3E2723, 0, 1.94, -0.05);
+
+  // --- 7. STATION 6: FOREGROUND PRODUCE CRATE, GS1 QR CODE & SMARTPHONE ---
+  const fgGroup = new THREE.Group();
+  sc.add(fgGroup);
+
+  const fgCrateGroup = new THREE.Group();
+  fgCrateGroup.position.set(0.8, 1.2, 3.8);
+  fgGroup.add(fgCrateGroup);
+
+  const crW = 2.8, crH = 1.3, crD = 1.8;
+  B(fgCrateGroup, crW, 0.10, crD, 0xC49261, 0, 0, 0);
+  [-crW/2 + 0.1, crW/2 - 0.1].forEach(px => {
+    [-crD/2 + 0.1, crD/2 - 0.1].forEach(pz => {
+      B(fgCrateGroup, 0.18, crH, 0.18, 0xB48255, px, 0, pz);
+    });
+  });
+  [0.15, 0.55, 0.95].forEach(sy => {
+    B(fgCrateGroup, crW, 0.28, 0.08, 0xD4A373, 0, sy, crD / 2);
+    B(fgCrateGroup, crW, 0.28, 0.08, 0xD4A373, 0, sy, -crD / 2);
+    B(fgCrateGroup, 0.08, 0.28, crD, 0xD4A373, crW / 2, sy, 0);
+    B(fgCrateGroup, 0.08, 0.28, crD, 0xD4A373, -crW / 2, sy, 0);
+  });
+
+  const qrTex = createQrTexture();
+  if (qrTex) {
+    const qrMat = new THREE.MeshBasicMaterial({ map: qrTex });
+    const qrPlate = new THREE.Mesh(new THREE.PlaneGeometry(0.75, 0.75), qrMat);
+    qrPlate.position.set(0.4, 0.65, crD / 2 + 0.05);
+    fgCrateGroup.add(qrPlate);
+
+    const standee = new THREE.Mesh(new THREE.PlaneGeometry(0.65, 0.65), qrMat);
+    standee.position.set(-1.8, 0.55, crD / 2);
+    standee.rotation.y = 0.25;
+    fgCrateGroup.add(standee);
+    C(fgCrateGroup, 0.03, 0.03, 0.55, 0xC49261, -1.8, 0, crD / 2);
+  }
+
+  for (let tx = -0.9; tx <= 0.9; tx += 0.45) {
+    for (let tz = -0.5; tz <= 0.5; tz += 0.45) {
+      const tom = S_(fgCrateGroup, 0.22, 0xE11D48, tx, 0.95, tz);
+      C(fgCrateGroup, 0.06, 0.06, 0.04, 0x22C55E, tom.position.x, 1.18, tom.position.z);
+    }
+  }
+
+  for (let ci = 0; ci < 6; ci++) {
+    const cx = -0.7 + ci * 0.28;
+    const carrot = new THREE.Group();
+    carrot.position.set(cx, 1.1, -0.1 + (ci % 2) * 0.25);
+    carrot.rotation.z = -0.3 + (ci * 0.1);
+    C(carrot, 0.12, 0.04, 0.95, 0xF97316, 0, 0, 0);
+    C(carrot, 0.05, 0.18, 0.65, 0x22C55E, 0, 0.65, 0);
+    fgCrateGroup.add(carrot);
+  }
+
+  // FOREGROUND SMARTPHONE
+  const phoneGroup = new THREE.Group();
+  phoneGroup.position.set(6.2, 1.2, 3.2);
+  phoneGroup.rotation.y = -0.42;
+  fgGroup.add(phoneGroup);
+
+  B(phoneGroup, 2.2, 0.14, 4.2, 0x8EA78D, 0, 0, 0);
+  B(phoneGroup, 2.05, 0.15, 4.05, 0x0F172A, 0, 0.02, 0);
+
+  const phoneScreenTex = createPhoneScreenTexture();
+  const phoneScreenMat = phoneScreenTex ? new THREE.MeshBasicMaterial({ map: phoneScreenTex }) : mat(0x10B981);
+  const phoneDisplay = new THREE.Mesh(new THREE.PlaneGeometry(1.95, 3.9), phoneScreenMat);
+  phoneDisplay.rotation.x = -Math.PI / 2;
+  phoneDisplay.position.set(0, 0.11, 0);
+  phoneGroup.add(phoneDisplay);
+
+  const phoneShieldGroup = new THREE.Group();
+  phoneShieldGroup.position.set(0.4, 0.85, 0.6);
+  phoneGroup.add(phoneShieldGroup);
+
+  const shieldMat = new THREE.MeshLambertMaterial({ color: 0x10B981 });
+  const shieldMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.35, 0.1, 0.55, 6), shieldMat);
+  shieldMesh.rotation.y = Math.PI / 6;
+  phoneShieldGroup.add(shieldMesh);
+  B(phoneShieldGroup, 0.06, 0.18, 0.04, 0xFFFFFF, -0.08, 0, 0.18);
+  B(phoneShieldGroup, 0.06, 0.32, 0.04, 0xFFFFFF, 0.06, 0.05, 0.18);
+
+  // Atmospheric Floating Shields & Golden Padlocks
+  const floatingAssets = [];
+  const shieldCoords = [
+    { x: -5.5, y: 5.2, z: -2.5 },
+    { x:  1.2, y: 4.8, z:  0.2 },
+    { x:  6.8, y: 5.4, z: -2.2 }
+  ];
+  shieldCoords.forEach(pos => {
+    const sh = new THREE.Mesh(
+      new THREE.CylinderGeometry(0.32, 0.08, 0.52, 6),
+      new THREE.MeshLambertMaterial({ color: 0x34D399, transparent: true, opacity: 0.75 })
+    );
+    sh.position.set(pos.x, pos.y, pos.z);
+    sh.rotation.y = Math.PI / 6;
+    sc.add(sh);
+    floatingAssets.push(sh);
+  });
+
+  const lockCoords = [
+    { x: 3.5, y: 2.2, z: 3.0 },
+    { x: 7.2, y: 4.8, z: -1.0 }
+  ];
+  lockCoords.forEach(pos => {
+    const lock = new THREE.Group();
+    lock.position.set(pos.x, pos.y, pos.z);
+    B(lock, 0.35, 0.32, 0.18, 0xF59E0B, 0, 0, 0);
+    const shackle = new THREE.Mesh(new THREE.TorusGeometry(0.12, 0.04, 8, 16, Math.PI), mat(0xCBD5E1));
+    shackle.position.set(0, 0.22, 0);
+    shackle.rotation.z = Math.PI;
+    lock.add(shackle);
+    sc.add(lock);
+    floatingAssets.push(lock);
+  });
+
+  // --- 8. SKY BLOCKCHAIN LEDGER ---
   const led = new THREE.Group();
-  led.position.set(0, 18, -10);
+  led.position.set(0, 16, -8);
   sc.add(led);
   for (let i = -3; i <= 3; i++) {
-    B(led, 1.8, 1.3, 1.3, 0x7c4dff, i * 2.6, 0, 0);
-    if (i < 3) B(led, 0.8, 0.15, 0.15, 0x06b6d4, i * 2.6 + 1.3, 0, 0);
+    B(led, 1.8, 1.3, 1.3, 0x10B981, i * 2.6, 0, 0);
+    if (i < 3) B(led, 0.8, 0.15, 0.15, 0x34D399, i * 2.6 + 1.3, 0, 0);
   }
 
-  // Laser streams connecting stations to sky ledger
   const lines = [];
-  X.forEach((x, i) => {
+  STATIONS.forEach((stn, i) => {
     const l = new THREE.Line(
-      new THREE.BufferGeometry().setFromPoints([new V(x, 2.2, 0), new V(i * 1.3 - 3.2, 17.5, -10)]),
-      new THREE.LineBasicMaterial({ color: 0x06b6d4, transparent: true, opacity: 0.4 })
+      new THREE.BufferGeometry().setFromPoints([new V(stn.x, 3.2, stn.z), new V(i * 1.3 - 3.2, 15.5, -8)]),
+      new THREE.LineBasicMaterial({ color: 0x10B981, transparent: true, opacity: 0.35 })
     );
     sc.add(l);
     lines.push(l);
   });
 
-  // --- Active Produce Crate Mesh (Moves along supply chain) ---
+  // --- 9. ACTIVE MOVING PRODUCE CRATE (Traverses Supply Chain) ---
   const crate = new THREE.Group();
   sc.add(crate);
 
@@ -3659,36 +4196,33 @@ table.details-table tr:hover td {
   crate.add(crateGroup);
   crate.add(palletGroup);
 
-  // 1. Single Alphonso Mango
-  S_(singleFruitGroup, 0.55, 0xf59e0b, 0, 0.55, 0);
-  C(singleFruitGroup, 0.05, 0.04, 0.2, 0x78350f, 0, 1.1, 0);
-  // Leaf
-  const leaf = B(singleFruitGroup, 0.35, 0.04, 0.15, 0x15803d, 0.15, 1.12, 0);
-  leaf.rotation.z = -0.4;
+  // Single Fruit
+  S_(singleFruitGroup, 0.55, 0xE11D48, 0, 0.55, 0);
+  C(singleFruitGroup, 0.05, 0.04, 0.2, 0x22C55E, 0, 1.1, 0);
 
-  // 2. 4-Pack Clamshell
-  const clamBox = B(clamshellGroup, 1.6, 0.55, 1.4, 0x38bdf8, 0, 0.28, 0);
+  // 4-Pack Clamshell
+  const clamBox = B(clamshellGroup, 1.6, 0.55, 1.4, 0x38BDF8, 0, 0.28, 0);
   clamBox.material.transparent = true;
   clamBox.material.opacity = 0.5;
   [-0.4, 0.4].forEach(fx => {
     [-0.35, 0.35].forEach(fz => {
-      S_(clamshellGroup, 0.28, 0xf59e0b, fx, 0.35, fz);
+      S_(clamshellGroup, 0.28, 0xE11D48, fx, 0.35, fz);
     });
   });
 
-  // 3. 20kg Wooden Crate
-  B(crateGroup, 2.2, 0.8, 1.6, 0xb45309, 0, 0.4, 0);
-  B(crateGroup, 2.25, 0.12, 1.65, 0x78350f, 0, 0.75, 0);
+  // Slatted Crate
+  B(crateGroup, 2.2, 0.8, 1.6, 0xB45309, 0, 0.4, 0);
+  B(crateGroup, 2.25, 0.12, 1.65, 0x78350F, 0, 0.75, 0);
 
-  // 4. Export Pallet of 50 Crates
-  B(palletGroup, 2.8, 0.2, 2.0, 0x9a3412, 0, 0.1, 0);
+  // Export Pallet
+  B(palletGroup, 2.8, 0.2, 2.0, 0x9A3412, 0, 0.1, 0);
   for (let py = 0; py < 3; py++) {
-    B(palletGroup, 2.6, 0.5, 1.8, 0xb45309, 0, 0.3 + py * 0.52, 0);
+    B(palletGroup, 2.6, 0.5, 1.8, 0xB45309, 0, 0.3 + py * 0.52, 0);
   }
 
   function updateProducePackaging(packType) {
     currentPacketType = packType;
-    singleFruitGroup.visible = packType === 'mango';
+    singleFruitGroup.visible = packType === 'mango' || packType === 'fruit';
     clamshellGroup.visible = packType === 'clamshell';
     crateGroup.visible = packType === 'crate';
     palletGroup.visible = packType === 'pallet';
@@ -3696,7 +4230,15 @@ table.details-table tr:hover td {
   }
   updateProducePackaging('clamshell');
 
-  const cp = new V(X[0], 0.4, 0);
+  const cp = new V(STATIONS_3D[0].x, STATIONS_3D[0].y, STATIONS_3D[0].z);
+  crate.position.copy(cp);
+
+  const COLD_MAX = 16.0;
+  const COLD_MIN = 8.0;
+  const HUM_MAX = 95.0;
+  const HUM_MIN = 80.0;
+  const OK_COLOR = '#10b981';
+  const BAD_COLOR = '#ef4444';
 
   // --- Excel Export & Turso Cloud Sync Module ---
   const excelState = {
@@ -4907,11 +5449,16 @@ table.details-table tr:hover td {
       sfx.beep(700, 0.06);
       trackClick('CAMERA_PERSPECTIVE_SWITCH', `Perspective: ${mode}`, { mode });
 
-      if (mode === 'farm') go(0);
+      if (mode === 'farm' || mode === 'farmer') go(0);
       else if (mode === 'mandi') go(1);
-      else if (mode === 'lab') go(3);
-      else if (mode === 'transit') go(5);
-      else if (mode === 'fork') go(7);
+      else if (mode === 'camera' || mode === 'inspection' || mode === 'lab') go(3);
+      else if (mode === 'truck' || mode === 'transit') go(5);
+      else if (mode === 'grocery') go(6);
+      else if (mode === 'phone' || mode === 'fork') go(7);
+      else if (mode === 'auto' || mode === 'orbit') {
+        o.th = 0.28;
+        o.ph = 0.98;
+      }
     };
   });
 
@@ -4945,10 +5492,11 @@ table.details-table tr:hover td {
     };
   }
 
-  // --- Spatial Camera Orbiting & Drag Controls ---
-  const o = { th: 0.15, ph: 1.05 };
-  const cur = new V(-25, 2, 0);
-  let curR = 55;
+  // --- Spatial Camera Orbiting & Drag Controls (Exact Isometric Angle from Reference Image) ---
+  const o = { th: 0.28, ph: 0.98 };
+  const cur = new V(0, 2.2, 0);
+  let curR = 28;
+  let curLookY = 2.2;
 
   function size() {
     if (!cv || !cv.clientWidth) return;
@@ -5018,15 +5566,15 @@ table.details-table tr:hover td {
     const ray = new THREE.Raycaster();
     ray.setFromCamera({ x, y }, cam);
 
-    const plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
+    const plane = new THREE.Plane(new THREE.Vector3(0, 1, 0), -2.2);
     const targetPoint = new THREE.Vector3();
     const hit = ray.ray.intersectPlane(plane, targetPoint);
 
     if (hit) {
       let closestIdx = -1;
-      let minDistance = 7.0;
-      X.forEach((stX, idx) => {
-        const d = Math.abs(targetPoint.x - stX);
+      let minDistance = 6.0;
+      STATIONS.forEach((stn, idx) => {
+        const d = Math.hypot(targetPoint.x - stn.x, targetPoint.z - (stn.z !== undefined ? stn.z : 0));
         if (d < minDistance) {
           minDistance = d;
           closestIdx = idx;
@@ -5056,39 +5604,92 @@ table.details-table tr:hover td {
     last = now;
     const t = now / 1000;
 
-    // Smooth produce crate interpolation towards active station
-    const targetStationX = X[Math.min(step, X.length - 1)];
-    crate.position.x += (targetStationX - crate.position.x) * 0.08;
+    // Smooth produce crate 3D interpolation towards active station
+    if (typeof STATIONS_3D !== 'undefined' && STATIONS_3D.length) {
+      const targetPos = STATIONS_3D[Math.min(step, STATIONS_3D.length - 1)];
+      crate.position.x += (targetPos.x - crate.position.x) * 0.08;
+      crate.position.y += (targetPos.y - crate.position.y) * 0.08;
+      crate.position.z += (targetPos.z - crate.position.z) * 0.08;
+    }
 
-    // Laser optical scanner rotation at packhouse
-    laserRing.rotation.z += dt * 3.5;
+    // Inspection camera optical scanner rotation
+    if (typeof laserRing !== 'undefined' && laserRing) {
+      laserRing.rotation.z += dt * 3.5;
+    }
 
-    // Truck wheel rotation during transit
-    if (step >= 4 && truckGroup.children) {
+    // Truck wheels rotation during transit steps
+    if (step >= 4 && typeof truckGroup !== 'undefined' && truckGroup.children) {
       truckGroup.children.forEach(m => {
         if (m.geometry && m.geometry.type === 'CylinderGeometry') {
-          m.rotation.z += dt * 4.0;
+          m.rotation.z += dt * 3.5;
         }
       });
     }
 
-    // Sky Blockchain Ledger slow ethereal rotation
-    led.rotation.y += dt * 0.2;
+    // Glowing LED Waypoints pulsing
+    if (typeof ledWaypoints !== 'undefined' && ledWaypoints.length) {
+      const pulse = 0.88 + Math.sin(t * 3.5) * 0.12;
+      ledWaypoints.forEach(lw => {
+        if (lw.scale && lw.scale.set) lw.scale.set(pulse, 1.0, pulse);
+      });
+    }
 
-    // Camera Interpolation based on Spatial Perspective
+    // Floating Glass Blockchain Cubes gentle bobbing
+    if (typeof glassCubes !== 'undefined' && glassCubes.length) {
+      glassCubes.forEach((gc, gi) => {
+        gc.position.y = 3.6 + Math.sin(t * 2.2 + gi) * 0.15;
+        gc.rotation.y += dt * 0.4;
+      });
+    }
+
+    // Floating Consensus Shields & Golden Padlocks bobbing
+    if (typeof floatingAssets !== 'undefined' && floatingAssets.length) {
+      floatingAssets.forEach((fa, fi) => {
+        fa.position.y += Math.sin(t * 2.0 + fi) * 0.002;
+        fa.rotation.y += dt * 0.3;
+      });
+    }
+
+    // Phone Shield gentle hovering
+    if (typeof phoneShieldGroup !== 'undefined' && phoneShieldGroup) {
+      phoneShieldGroup.position.y = 0.85 + Math.sin(t * 3.0) * 0.08;
+      phoneShieldGroup.rotation.y += dt * 0.8;
+    }
+
+    // Sky Blockchain Ledger slow ethereal rotation
+    if (typeof led !== 'undefined' && led) {
+      led.rotation.y += dt * 0.2;
+    }
+
+    // Smooth Camera Interpolation
     const portrait = cv.clientWidth / cv.clientHeight < 0.9, k = 0.07;
-    const targetCamX = S[step].v[0];
-    const targetR = S[step].v[1] * zoom * (portrait ? 1.5 : 1);
+    let targetCamX = 0, targetCamZ = 0, targetR = 28, targetLookY = 2.2;
+
+    if (mode === 'auto' || mode === 'orbit') {
+      targetCamX = 0;
+      targetCamZ = 0;
+      targetR = 28;
+      targetLookY = 2.2;
+      o.th += dt * 0.04; // subtle cinematic keynote drift
+    } else {
+      const sCam = S[step].v;
+      targetCamX = sCam[0];
+      targetR = sCam[1];
+      targetCamZ = sCam[2] !== undefined ? sCam[2] : 0;
+      targetLookY = sCam[3] !== undefined ? sCam[3] : 2.5;
+    }
 
     cur.x += (targetCamX - cur.x) * k;
-    curR += (targetR - curR) * k;
+    cur.z += (targetCamZ - cur.z) * k;
+    curR += (targetR * zoom * (portrait ? 1.4 : 1) - curR) * k;
+    curLookY += (targetLookY - curLookY) * k;
 
     cam.position.set(
       cur.x + curR * Math.sin(o.ph) * Math.sin(o.th),
-      2 + curR * Math.cos(o.ph),
-      curR * Math.sin(o.ph) * Math.cos(o.th)
+      curLookY + curR * Math.cos(o.ph),
+      cur.z + curR * Math.sin(o.ph) * Math.cos(o.th)
     );
-    cam.lookAt(new V(cur.x, 2, 0));
+    cam.lookAt(new V(cur.x, curLookY, cur.z));
 
     if (R && R.render) R.render(sc, cam);
   }
