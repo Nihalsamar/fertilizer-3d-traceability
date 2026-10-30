@@ -207,6 +207,10 @@
         <button class="chip" id="dataBtn" aria-pressed="true" title="Toggle 3D Blockchain Ledger Laser Streams">📡 Ledger Data</button>
 
         <!-- Dedicated Interactive Action Modals -->
+        <button class="chip" id="btn-open-flowchart" style="background: rgba(212, 175, 55, 0.18); border-color: #D4AF37; color: #FFF3D6; font-weight: 800; box-shadow: 0 0 16px rgba(212, 175, 55, 0.25);" title="Open Pipeline Flowchart (visualize)">
+          <span>📊</span>
+          <span>visualize</span>
+        </button>
         <button class="chip" id="btn-open-cv-scanner" style="background: rgba(212, 175, 55, 0.14); border-color: rgba(212, 175, 55, 0.45); color: #F3E5AB; font-weight: 700; box-shadow: 0 0 12px rgba(212, 175, 55, 0.2);">
           <span>📷</span>
           <span>AI Vision Scan</span>
@@ -1001,6 +1005,93 @@
         </div>
       </div>
     </footer>
+  </div>
+
+  
+  <!-- Flowchart "visualize" Pipeline Modal (Matching Uploaded Image) -->
+  <div class="modal-backdrop" id="modal-flowchart" role="dialog" aria-modal="true" aria-labelledby="flowchart-title">
+    <div class="modal-window" style="max-width:560px; background:#121216; border:1.5px solid rgba(212,175,55,0.4); box-shadow:0 30px 80px rgba(0,0,0,0.95), 0 0 40px rgba(212,175,55,0.18); border-radius:24px;">
+      <div class="modal-head" style="border-bottom:1px solid rgba(255,255,255,0.1); justify-content:space-between; align-items:center; padding:18px 24px;">
+        <button class="modal-close" id="btn-close-flowchart" style="font-size:22px; color:#A39E93; background:none; border:none; cursor:pointer;">✕</button>
+        <div style="background:rgba(255,255,255,0.08); padding:6px 20px; border-radius:999px; font-weight:700; color:#FDFBF7; font-size:15px; letter-spacing:0.5px;" id="flowchart-title">
+          visualize
+        </div>
+        <div style="display:flex; gap:6px;">
+          <button style="background:rgba(255,255,255,0.08); border:none; color:#FDFBF7; width:28px; height:28px; border-radius:6px; cursor:pointer; font-weight:700;">+</button>
+          <button style="background:rgba(255,255,255,0.08); border:none; color:#FDFBF7; width:28px; height:28px; border-radius:6px; cursor:pointer; font-weight:700;">&minus;</button>
+        </div>
+      </div>
+
+      <div class="modal-content" style="padding:24px 28px; display:flex; flex-direction:column; gap:16px;">
+        <!-- Step 1: Register farm and batch (Green - Farm capture) -->
+        <div class="flow-card" onclick="window.jumpToScene(1)" style="background:#0F5132; border:1px solid #198754; border-radius:14px; padding:14px 18px; cursor:pointer; transition:transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+          <div style="font-size:15px; font-weight:800; color:#FFFFFF; margin-bottom:4px;">1. Register farm and batch</div>
+          <div style="font-size:12.5px; color:#A3E635; font-weight:500;">Farmer ID, plot, inputs used</div>
+        </div>
+
+        <div style="text-align:center; color:#A39E93; font-size:18px; margin:-8px 0;">&darr;</div>
+
+        <!-- Step 2: Harvest and grade (Green - Farm capture) -->
+        <div class="flow-card" onclick="window.jumpToScene(2)" style="background:#0F5132; border:1px solid #198754; border-radius:14px; padding:14px 18px; cursor:pointer; transition:transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+          <div style="font-size:15px; font-weight:800; color:#FFFFFF; margin-bottom:4px;">2. Harvest and grade</div>
+          <div style="font-size:12.5px; color:#A3E635; font-weight:500;">Photo AI grade, QR label</div>
+        </div>
+
+        <div style="text-align:center; color:#A39E93; font-size:18px; margin:-8px 0;">&darr;</div>
+
+        <!-- Step 3: Aggregator at mandi (Purple - Handovers) -->
+        <div class="flow-card" onclick="window.jumpToScene(3)" style="background:#3730A3; border:1px solid #4F46E5; border-radius:14px; padding:14px 18px; cursor:pointer; transition:transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+          <div style="font-size:15px; font-weight:800; color:#FFFFFF; margin-bottom:4px;">3. Aggregator at mandi</div>
+          <div style="font-size:12.5px; color:#C7D2FE; font-weight:500;">Scan QR, weigh, sign handover</div>
+        </div>
+
+        <div style="text-align:center; color:#A39E93; font-size:18px; margin:-8px 0;">&darr;</div>
+
+        <!-- Step 4: Storage and transport (Purple - Handovers) -->
+        <div class="flow-card" onclick="window.jumpToScene(4)" style="background:#3730A3; border:1px solid #4F46E5; border-radius:14px; padding:14px 18px; cursor:pointer; transition:transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+          <div style="font-size:15px; font-weight:800; color:#FFFFFF; margin-bottom:4px;">4. Storage and transport</div>
+          <div style="font-size:12.5px; color:#C7D2FE; font-weight:500;">Temperature and GPS logs</div>
+        </div>
+
+        <div style="text-align:center; color:#A39E93; font-size:18px; margin:-8px 0;">&darr;</div>
+
+        <!-- Step 5: Retailer receives (Purple - Handovers) -->
+        <div class="flow-card" onclick="window.jumpToScene(5)" style="background:#3730A3; border:1px solid #4F46E5; border-radius:14px; padding:14px 18px; cursor:pointer; transition:transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+          <div style="font-size:15px; font-weight:800; color:#FFFFFF; margin-bottom:4px;">5. Retailer receives</div>
+          <div style="font-size:12.5px; color:#C7D2FE; font-weight:500;">Scan, verify, accept batch</div>
+        </div>
+
+        <div style="text-align:center; color:#A39E93; font-size:18px; margin:-8px 0;">&darr;</div>
+
+        <!-- Step 6: Consumer scans QR (Charcoal - Output, ledger) -->
+        <div class="flow-card" onclick="window.jumpToScene(6)" style="background:#3F3F46; border:1px solid #71717A; border-radius:14px; padding:14px 18px; cursor:pointer; transition:transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+          <div style="font-size:15px; font-weight:800; color:#FFFFFF; margin-bottom:4px;">6. Consumer scans QR</div>
+          <div style="font-size:12.5px; color:#E4E4E7; font-weight:500;">Journey and certificate shown</div>
+        </div>
+
+        <!-- Blockchain Ledger Underneath (Dashed Box) -->
+        <div style="margin-top:14px; background:rgba(255,255,255,0.04); border:2px dashed #71717A; border-radius:14px; padding:14px 18px; text-align:center;">
+          <div style="font-size:14.5px; font-weight:800; color:#FDFBF7; margin-bottom:4px;">Blockchain ledger underneath</div>
+          <div style="font-size:12px; color:#A1A1AA;">Every step writes a hashed event</div>
+        </div>
+
+        <!-- Legend (Matching image) -->
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px; font-size:12px; color:#D1CCC0; padding:8px 4px;">
+          <div style="display:flex; align-items:center; gap:6px;">
+            <span style="width:14px; height:14px; background:#0F5132; border:1px solid #198754; border-radius:4px; display:inline-block;"></span>
+            <span>Farm capture</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:6px;">
+            <span style="width:14px; height:14px; background:#3730A3; border:1px solid #4F46E5; border-radius:4px; display:inline-block;"></span>
+            <span>Handovers</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:6px;">
+            <span style="width:14px; height:14px; background:#3F3F46; border:1px solid #71717A; border-radius:4px; display:inline-block;"></span>
+            <span>Output, ledger</span>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Shadcn Toast Notification Container -->

@@ -2403,6 +2403,10 @@ table.details-table tr:hover td {
         <button class="chip" id="dataBtn" aria-pressed="true" title="Toggle 3D Blockchain Ledger Laser Streams">📡 Ledger Data</button>
 
         <!-- Dedicated Interactive Action Modals -->
+        <button class="chip" id="btn-open-flowchart" style="background: rgba(212, 175, 55, 0.18); border-color: #D4AF37; color: #FFF3D6; font-weight: 800; box-shadow: 0 0 16px rgba(212, 175, 55, 0.25);" title="Open Pipeline Flowchart (visualize)">
+          <span>📊</span>
+          <span>visualize</span>
+        </button>
         <button class="chip" id="btn-open-cv-scanner" style="background: rgba(212, 175, 55, 0.14); border-color: rgba(212, 175, 55, 0.45); color: #F3E5AB; font-weight: 700; box-shadow: 0 0 12px rgba(212, 175, 55, 0.2);">
           <span>📷</span>
           <span>AI Vision Scan</span>
@@ -3199,6 +3203,93 @@ table.details-table tr:hover td {
     </footer>
   </div>
 
+  
+  <!-- Flowchart "visualize" Pipeline Modal (Matching Uploaded Image) -->
+  <div class="modal-backdrop" id="modal-flowchart" role="dialog" aria-modal="true" aria-labelledby="flowchart-title">
+    <div class="modal-window" style="max-width:560px; background:#121216; border:1.5px solid rgba(212,175,55,0.4); box-shadow:0 30px 80px rgba(0,0,0,0.95), 0 0 40px rgba(212,175,55,0.18); border-radius:24px;">
+      <div class="modal-head" style="border-bottom:1px solid rgba(255,255,255,0.1); justify-content:space-between; align-items:center; padding:18px 24px;">
+        <button class="modal-close" id="btn-close-flowchart" style="font-size:22px; color:#A39E93; background:none; border:none; cursor:pointer;">✕</button>
+        <div style="background:rgba(255,255,255,0.08); padding:6px 20px; border-radius:999px; font-weight:700; color:#FDFBF7; font-size:15px; letter-spacing:0.5px;" id="flowchart-title">
+          visualize
+        </div>
+        <div style="display:flex; gap:6px;">
+          <button style="background:rgba(255,255,255,0.08); border:none; color:#FDFBF7; width:28px; height:28px; border-radius:6px; cursor:pointer; font-weight:700;">+</button>
+          <button style="background:rgba(255,255,255,0.08); border:none; color:#FDFBF7; width:28px; height:28px; border-radius:6px; cursor:pointer; font-weight:700;">&minus;</button>
+        </div>
+      </div>
+
+      <div class="modal-content" style="padding:24px 28px; display:flex; flex-direction:column; gap:16px;">
+        <!-- Step 1: Register farm and batch (Green - Farm capture) -->
+        <div class="flow-card" onclick="window.jumpToScene(1)" style="background:#0F5132; border:1px solid #198754; border-radius:14px; padding:14px 18px; cursor:pointer; transition:transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+          <div style="font-size:15px; font-weight:800; color:#FFFFFF; margin-bottom:4px;">1. Register farm and batch</div>
+          <div style="font-size:12.5px; color:#A3E635; font-weight:500;">Farmer ID, plot, inputs used</div>
+        </div>
+
+        <div style="text-align:center; color:#A39E93; font-size:18px; margin:-8px 0;">&darr;</div>
+
+        <!-- Step 2: Harvest and grade (Green - Farm capture) -->
+        <div class="flow-card" onclick="window.jumpToScene(2)" style="background:#0F5132; border:1px solid #198754; border-radius:14px; padding:14px 18px; cursor:pointer; transition:transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+          <div style="font-size:15px; font-weight:800; color:#FFFFFF; margin-bottom:4px;">2. Harvest and grade</div>
+          <div style="font-size:12.5px; color:#A3E635; font-weight:500;">Photo AI grade, QR label</div>
+        </div>
+
+        <div style="text-align:center; color:#A39E93; font-size:18px; margin:-8px 0;">&darr;</div>
+
+        <!-- Step 3: Aggregator at mandi (Purple - Handovers) -->
+        <div class="flow-card" onclick="window.jumpToScene(3)" style="background:#3730A3; border:1px solid #4F46E5; border-radius:14px; padding:14px 18px; cursor:pointer; transition:transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+          <div style="font-size:15px; font-weight:800; color:#FFFFFF; margin-bottom:4px;">3. Aggregator at mandi</div>
+          <div style="font-size:12.5px; color:#C7D2FE; font-weight:500;">Scan QR, weigh, sign handover</div>
+        </div>
+
+        <div style="text-align:center; color:#A39E93; font-size:18px; margin:-8px 0;">&darr;</div>
+
+        <!-- Step 4: Storage and transport (Purple - Handovers) -->
+        <div class="flow-card" onclick="window.jumpToScene(4)" style="background:#3730A3; border:1px solid #4F46E5; border-radius:14px; padding:14px 18px; cursor:pointer; transition:transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+          <div style="font-size:15px; font-weight:800; color:#FFFFFF; margin-bottom:4px;">4. Storage and transport</div>
+          <div style="font-size:12.5px; color:#C7D2FE; font-weight:500;">Temperature and GPS logs</div>
+        </div>
+
+        <div style="text-align:center; color:#A39E93; font-size:18px; margin:-8px 0;">&darr;</div>
+
+        <!-- Step 5: Retailer receives (Purple - Handovers) -->
+        <div class="flow-card" onclick="window.jumpToScene(5)" style="background:#3730A3; border:1px solid #4F46E5; border-radius:14px; padding:14px 18px; cursor:pointer; transition:transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+          <div style="font-size:15px; font-weight:800; color:#FFFFFF; margin-bottom:4px;">5. Retailer receives</div>
+          <div style="font-size:12.5px; color:#C7D2FE; font-weight:500;">Scan, verify, accept batch</div>
+        </div>
+
+        <div style="text-align:center; color:#A39E93; font-size:18px; margin:-8px 0;">&darr;</div>
+
+        <!-- Step 6: Consumer scans QR (Charcoal - Output, ledger) -->
+        <div class="flow-card" onclick="window.jumpToScene(6)" style="background:#3F3F46; border:1px solid #71717A; border-radius:14px; padding:14px 18px; cursor:pointer; transition:transform 0.2s, box-shadow 0.2s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+          <div style="font-size:15px; font-weight:800; color:#FFFFFF; margin-bottom:4px;">6. Consumer scans QR</div>
+          <div style="font-size:12.5px; color:#E4E4E7; font-weight:500;">Journey and certificate shown</div>
+        </div>
+
+        <!-- Blockchain Ledger Underneath (Dashed Box) -->
+        <div style="margin-top:14px; background:rgba(255,255,255,0.04); border:2px dashed #71717A; border-radius:14px; padding:14px 18px; text-align:center;">
+          <div style="font-size:14.5px; font-weight:800; color:#FDFBF7; margin-bottom:4px;">Blockchain ledger underneath</div>
+          <div style="font-size:12px; color:#A1A1AA;">Every step writes a hashed event</div>
+        </div>
+
+        <!-- Legend (Matching image) -->
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-top:10px; font-size:12px; color:#D1CCC0; padding:8px 4px;">
+          <div style="display:flex; align-items:center; gap:6px;">
+            <span style="width:14px; height:14px; background:#0F5132; border:1px solid #198754; border-radius:4px; display:inline-block;"></span>
+            <span>Farm capture</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:6px;">
+            <span style="width:14px; height:14px; background:#3730A3; border:1px solid #4F46E5; border-radius:4px; display:inline-block;"></span>
+            <span>Handovers</span>
+          </div>
+          <div style="display:flex; align-items:center; gap:6px;">
+            <span style="width:14px; height:14px; background:#3F3F46; border:1px solid #71717A; border-radius:4px; display:inline-block;"></span>
+            <span>Output, ledger</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Shadcn Toast Notification Container -->
   <div id="toast-container" aria-live="polite"></div>
 
@@ -3950,87 +4041,190 @@ table.details-table tr:hover td {
 
   // 3D Station Trajectory for Moving Produce Crate
   const STATIONS_3D = [
-    new V(-7.5, 3.1, -1.2),  // Step 0: Farm gate next to farmer
-    new V(-4.8, 3.1, -1.0),  // Step 1: Handover road
-    new V(-2.8, 3.1, -1.8),  // Step 2: Under inspection camera spotlight
-    new V(-2.8, 3.1, -1.8),  // Step 3: CV Quality grading
-    new V( 0.5, 3.1, -1.4),  // Step 4: S-curve blockchain waypoint
-    new V( 4.2, 3.6, -3.8),  // Step 5: Inside refrigerated reefer truck
-    new V( 7.8, 3.5, -2.2),  // Step 6: On "GROCERY" market counter
-    new V( 0.8, 1.4,  3.8)   // Step 7: Foreground GS1 QR crate
+    new V(-7.8, 3.1, -1.2),  // Scene 1: Farm gate with farmer & tomatoes
+    new V(-7.5, 3.1, -1.0),  // Scene 2: Register batch, QR pop onto crate
+    new V(-2.8, 3.1, -1.8),  // Scene 3: Harvest & AI grading under camera spotlight
+    new V(-0.5, 3.1, -1.5),  // Scene 4: Mandi handover with dual signature link
+    new V( 4.2, 3.6, -3.8),  // Scene 5: Inside/alongside reefer truck on highway
+    new V( 7.8, 3.5, -2.2),  // Scene 6: "GROCERY" retail market stall
+    new V( 0.8, 1.4,  3.8)   // Scene 7: Foreground Totem Kiosk & consumer payoff
   ];
 
   // --- 8 Farm-to-Fork Narrative Steps with High-Fidelity Camera Views ---
+  // --- 7-Scene Animated Video Script & Flowchart Pipeline ---
   const S = [
     {
-      en: '1 · Organic Farm Origin & Real Farmer Genesis',
-      hi: 'जैविक खेत उत्पत्ति व डिजिटल उद्भव ब्लॉक',
-      f: 0, t: 0, rd: 0, v: [-8.5, 13, -3.5, 3.0], note: 'Organic GI Tagged ✓',
-      tx: 'Farmer Santosh Shinde harvests pesticide-free organic produce at Shinde Organic Orchards. Soil health card, non-GMO seed lineage, and harvest timestamp are sealed into the genesis blockchain block.',
-      st: ['Farmer: Santosh Shinde (FARMER-MH-RTG-8821)', 'Straw Hat & Dungarees: Traditional Agro-Attire', 'Soil Health: NPK 240-45-310 | pH 6.4 | OC 1.1%', 'Inputs: Panchagavya, Neem Oil, Solar Drip', 'NPOP Organic Cert: NPOP/NAB/0019/2026/8912'],
-      ac: ['Mint Genesis Batch BATCH-AGRI-2026-F2F-091', 'Generate GS1 Digital Link Dynamic QR', 'Anchor Farm Geolocation Polygon on Ledger']
+      num: 1,
+      scene: 'Scene 1 (0:00-0:10)',
+      en: 'Scene 1 · The Problem: Paper Records & Consumer Doubt',
+      hi: 'दृश्य १ (०:००-०:१०) · समस्या: कागजी रिकॉर्ड और अनसुलझे सवाल',
+      vo: 'Where did this food come from? Was it really organic? Today, paper records make it almost impossible to know.',
+      vis: 'A farmer holds a crate of tomatoes. Question marks float above it. A shopper looks at the label, confused.',
+      phase: 'The Problem',
+      category: 'SUPPLY_CHAIN_OPACITY',
+      f: 0, t: 0, rd: 0, v: [-7.8, 11, -1.2, 2.6], note: 'Paper Records Insecure ❓',
+      tx: 'A farmer holds a crate of fresh tomatoes at the farm gate. Question marks float above it. A shopper looks at the paper label, confused. Today, fragmented paper records make it almost impossible to verify where food came from or if it was truly grown organically.',
+      st: [
+        'Farmer: Santosh Shinde (Holding crate of heirloom tomatoes)',
+        'Traditional Records: Paper mandi slips & physical gate registers',
+        'Consumer Dilemma: "Where did this food come from? Was it organic?"',
+        'System Breakdown: Quality claims cannot be proven downstream',
+        'Economic Penalty: Good farmers receive zero premium for quality'
+      ],
+      ac: [
+        'Expose provenance gap in traditional food supply chains',
+        'Initiate decentralized farm-to-fork verification pipeline',
+        'Arm farmer with offline-first mobile data capture'
+      ]
     },
     {
-      en: '2 · APMC Mandi Aggregation & e-NWR Handover',
-      hi: 'एपीएमसी मंडी एकत्रीकरण व इलेक्ट्रॉनिक रसीद',
-      f: 0, t: 1, rd: 1, v: [-5.5, 14, -2.5, 3.0], note: 'e-NWR Handover ✓',
-      tx: '120 wooden crates arrive at the regional Mandi aggregation hub. Produce is weighed and inspected. The farmer signs handover with an offline Ed25519 key, generating an Electronic Negotiable Warehouse Receipt (e-NWR #99104).',
-      st: ['Aggregator: Sahyadri Farmers Producer Co.', 'Quantity Received: 120 Crates (2,400 kg)', 'e-NWR Receipt: eNWR-MH-2026-99104', 'Fair Trade Base Price: ₹165/kg (+28.5% premium)', 'Farmer Privacy: Zero-Knowledge Identity Mask'],
-      ac: ['Transfer custody from Farmer to Mandi Aggregator', 'Verify offline Ed25519 signature', 'Record e-NWR warehouse balance on blockchain']
+      num: 2,
+      scene: 'Scene 2 (0:10-0:22)',
+      en: 'Scene 2 (Step 1) · Register Batch: Offline Mobile App & QR Pop',
+      hi: 'दृश्य २ (०:१०-०:२२) · चरण १: बैच पंजीकरण और क्यूआर कोड',
+      vo: 'It starts at the farm. The farmer registers the batch in a simple mobile app, works offline, and gets a unique QR code.',
+      vis: 'The farmer opens a phone app, taps "New batch", and enters the plot, crop and inputs. A QR code pops out and sticks onto the crate.',
+      phase: '1. Register farm and batch',
+      category: 'Farm capture',
+      f: 0, t: 0, rd: 0, v: [-7.5, 9, -1.0, 2.9], note: 'Offline Batch Registered 📱',
+      tx: 'It starts at the farm. The farmer opens a simple mobile app, taps "New batch", and enters the plot ID, crop variety (Tomatoes), and bio-inputs used. The app operates completely offline in remote fields, generating a unique cryptographic QR code that pops out and sticks onto the crate.',
+      st: [
+        'Farmer ID: FARMER-MH-RTG-8821 (Zero-Knowledge Privacy Mask)',
+        'Plot Details: Plot 4B · Shinde Organic Orchards (145m Altitude)',
+        'Inputs Used: Panchagavya, Cold-Pressed Neem Oil, Solar Drip',
+        'Offline Mode: Works without internet connectivity in rural fields',
+        'Dynamic QR Code: Cryptographically bound to physical crate'
+      ],
+      ac: [
+        'Register batch genesis record in offline edge database',
+        'Generate tamper-evident GS1 Digital Link QR code token',
+        'Attach cryptographic token to physical tomato crate'
+      ]
     },
     {
-      en: '3 · Packhouse Intake & Hydro-Precooling',
-      hi: 'पैकहाउस आगमन व हाइड्रो-प्रीकूलिंग कक्ष',
-      f: 1, t: 2, rd: 2, v: [-2.8, 12, -2.0, 3.2], note: 'Pre-cooled 12.4°C ✓',
-      tx: 'Produce enters the modern post-harvest cleanroom facility. Crates undergo controlled hydro-cooling under the inspection arch, dropping core pulp temperature from field heat to 12.4°C.',
-      st: ['Facility: Vashi Post-Harvest Cleanroom', 'Pre-Cooling Target: 12.0°C – 13.5°C', 'Core Pulp Temp: 12.4°C Achieved in 45 mins', 'Relative Humidity: 91% (Prevents fruit shrivel)', 'Washing: Ozone-enriched organic sterilization'],
-      ac: ['Log thermal pull-down profile to blockchain', 'Verify organic post-harvest washing compliance', 'Queue crates for automated Computer Vision conveyor']
+      num: 3,
+      scene: 'Scene 3 (0:22-0:34)',
+      en: 'Scene 3 (Step 2) · Harvest & AI Grading: Auto Quality Grade',
+      hi: 'दृश्य ३ (०:२२-०:३४) · चरण २: फसल कटाई और एआई गुणवत्ता ग्रेडिंग',
+      vo: 'At harvest, one photo gives an automatic quality grade. No internet needed. The data syncs later.',
+      vis: 'The phone camera scans the tomatoes. A green box appears around them with a "Grade A" badge and a "Saved offline" icon.',
+      phase: '2. Harvest and grade',
+      category: 'Farm capture',
+      f: 1, t: 1, rd: 1, v: [-2.8, 10, -1.8, 3.0], note: 'Grade A Certified (Offline) ✓',
+      tx: 'At harvest, taking one photo gives an automatic quality grade. A vibrant green 3D bounding box frames the tomatoes with an instant "Grade A" badge and a "Saved offline 💾" icon. Edge computer vision runs directly on the device with zero internet latency, queuing data to sync when connected.',
+      st: [
+        'AI Model: Edge Computer Vision (YOLOv8 Optical Inference)',
+        'Caliber Detected: 72.4 mm (APEDA Grade A Export Standard)',
+        'Quality Badge: "Grade A" Authenticated & Stamped',
+        'Offline Icon: "Saved Offline 💾" (Zero internet required)',
+        'Purity Score: 99.4% Defect-Free · Zero synthetic ripening carbide'
+      ],
+      ac: [
+        'Capture optical produce photograph at farm packhouse',
+        'Compute diameter, color ripeness, and internal sugar brix',
+        'Save cryptographic quality stamp into local encrypted storage'
+      ]
     },
     {
-      en: '4 · Computer Vision AI Quality Grading & Sizing',
-      hi: 'कंप्यूटर विज़न एआई गुणवत्ता ग्रेडिंग व छंटाई',
-      f: 2, t: 2, rd: 2, v: [-2.8, 10, -2.0, 3.2], note: 'Grade A+ Export Certified ✓',
-      tx: 'Under the arched "inspection camera" spotlight, multi-spectral cameras run YOLOv8. AI evaluates caliber diameter (72.4mm), ripeness color, sugar Brix rating (19.2°), and defect area (0.0%), stamping Grade A+ Export Certificate.',
-      st: ['AI Model: AgriVision-YOLOv8-FruitGrading-v3', 'Detection Confidence: 99.4%', 'Caliber Size: 72.4 mm (Export Threshold >70mm)', 'Sugar Content: 19.2° Brix (Refractometer verified)', 'MRL Pesticide Residue: <0.005 ppm (Pesticide-Free)'],
-      ac: ['Generate Cryptographic Quality Certificate 0xqc994', 'Sort into Grade A+ Export vs Domestic Clamshells', 'Attach Quality Hash to Merkle Root on Ledger']
+      num: 4,
+      scene: 'Scene 4 (0:34-0:46)',
+      en: 'Scene 4 (Step 3) · Mandi Handover: Dual Signatures & Chain Link',
+      hi: 'दृश्य ४ (०:३४-०:४६) · चरण ३: मंडी हस्तांतरण और ब्लॉकचेन कड़ी',
+      vo: 'Every handover is scanned and signed by both sides, and added to the blockchain as a permanent record.',
+      vis: 'A trader scans the QR code. Two signature icons meet and a link is added to a growing chain of blocks.',
+      phase: '3. Aggregator at mandi',
+      category: 'Handovers',
+      f: 1, t: 2, rd: 2, v: [-0.5, 12, -1.5, 3.0], note: 'Dual Ed25519 Signed ✍️',
+      tx: 'At the regional mandi aggregation hub, a trader scans the QR code. Produce is weighed and inspected. Two cryptographic signature keys (Farmer + Trader) meet in mid-air, forging a verified handover link added to the growing chain of blocks as an immutable permanent record.',
+      st: [
+        'Mandi Aggregator: Sahyadri Farmers Producer Co. (APMC Yard)',
+        'Action: Trader scans QR code, weighs produce (2,400 kg)',
+        'Dual Signing: Farmer Private Key meets Trader Private Key',
+        'Blockchain Link: Permanent hashed handover block added',
+        'Document Generated: Electronic Negotiable Warehouse Receipt #99104'
+      ],
+      ac: [
+        'Execute mutual dual-signature handover verification',
+        'Seal transfer of custody on decentralized consortium ledger',
+        'Record e-NWR warehouse balance on blockchain ledger'
+      ]
     },
     {
-      en: '5 · S-Curve Blockchain Transit Highway',
-      hi: 'एस-कर्व ब्लॉकचेन राजमार्ग व एलईडी चेकपॉइंट्स',
-      f: 2, t: 3, rd: 3, v: [0.5, 15, -1.2, 3.0], note: '6 Cryptographic Waypoints ✓',
-      tx: 'The produce moves along the glowing S-curve blockchain transit corridor. Translucent glass data cubes record immutable hash handovers across 6 glowing emerald LED checkpoints.',
-      st: ['Consensus: Proof-of-Authority (PoA) Consortium', 'Gas Cost per Batch: $0.00018 (Ultra-low overhead)', 'Checkpoint Nodes: 6 Validator Nodes Active', 'Data Cubes: Ed25519 Cryptographic Merkle Proofs', 'Block Confirmation Time: 450 ms'],
-      ac: ['Anchor waypoint hash on decentralized ledger', 'Update custodian multi-sig permissions', 'Broadcast batch status to network observers']
+      num: 5,
+      scene: 'Scene 5 (0:46-0:58)',
+      en: 'Scene 5 (Step 4) · Storage & Transport: IoT Telemetry & Thermal Alert',
+      hi: 'दृश्य ५ (०:४६-०:५८) · चरण ४: कोल्ड स्टोरेज व परिवहन टेलीमेट्री',
+      vo: 'Sensors log temperature and location in transit. If something goes wrong, the batch is flagged instantly.',
+      vis: 'A truck drives across a map. A thermometer and a GPS pin send small blocks into the chain along the way. One temperature spike turns red and triggers an alert.',
+      phase: '4. Storage and transport',
+      category: 'Handovers',
+      f: 2, t: 3, rd: 3, v: [4.2, 12, -3.8, 3.2], note: 'IoT Sensors Logging 12.8°C ❄️',
+      tx: 'The reefer truck drives across the transit corridor. Multi-node IoT sensors log temperature and GPS location in real time, dropping cryptographic data blocks into the chain along the highway. If cooling fails and temperature spikes above 16°C, the thermometer turns bright red, triggering an automated recall alert.',
+      st: [
+        'Vehicle: Dedicated Insulated Reefer Truck MH-08-AG-9941',
+        'Sensors: Dual digital thermometers, humidity probes, GPS pin',
+        'Telemetry Logging: Temperature (12.8°C compliant) & location synced',
+        'Spike Detection: Thermal breach >16.0°C turns red and alerts buyers',
+        'Smart Contract Guardrail: Automated insurance claim trigger'
+      ],
+      ac: [
+        'Stream continuous GPS and thermal sensor telemetry to ledger',
+        'Monitor cold-chain SLA envelope in real time',
+        'Arm automated smart contract quarantine alert'
+      ]
     },
     {
-      en: '6 · IoT Cold-Chain Reefer Truck Transit',
-      hi: 'आईओटी रीफर ट्रक कोल्ड-चेन परिवहन',
-      f: 3, t: 4, rd: 4, v: [4.2, 12, -3.8, 3.2], note: 'Cold-Chain Intact 12.8°C ✓',
-      tx: 'Pallets travel inside the dedicated sage-green & white insulated reefer truck with rooftop cooling condenser. Dual temperature probes, humidity sensors, and GPS stream continuous telemetry.',
-      st: ['Carrier: MH-08-AG-9941 (Dedicated Reefer)', 'Corridor: NH-48 Express Transit Corridor', 'Cold-Chain SLA: 12.0°C – 14.0°C (Breach >16.0°C)', 'Real-Time Telemetry: 12.8°C / 90% RH', 'Tamper Seal: Digital RFID Cryptographic E-Lock'],
-      ac: ['Record transit custody handover on ledger', 'Stream continuous GPS and thermal sensor hashes', 'Auto-execute insurance quarantine if SLA breached']
+      num: 6,
+      scene: 'Scene 6 (0:58-1:10)',
+      en: 'Scene 6 (Step 5) · Retailer Verification: Full History & FSSAI Seal',
+      hi: 'दृश्य ६ (०:५८-१:१०) · चरण ५: खुदरा विक्रेता सत्यापन और एफएसएसएआई',
+      vo: 'The retailer checks the full history before accepting the batch. Certification is verified automatically.',
+      vis: 'A shopkeeper scans the crate. A green "Verified" tick and a certification badge (organic, FSSAI) appear.',
+      phase: '5. Retailer receives',
+      category: 'Handovers',
+      f: 3, t: 4, rd: 4, v: [7.8, 12, -2.5, 3.2], note: 'Retailer Accepted ✓',
+      tx: 'At the "GROCERY" retail market stall, the shopkeeper scans the crate before accepting the batch. A glowing green "Verified ✓" tick mark appears alongside official certification badges (USDA Organic, FSSAI Quality Approved). The retailer audits farm inputs, AI harvest grade, and cold transit history in seconds.',
+      st: [
+        'Retailer: "GROCERY" Fresh Market & Gourmet Pavilion',
+        'Action: Shopkeeper scans crate QR code before acceptance',
+        'Audit Verification: Complete history verified automatically in 1 sec',
+        'Badges Displayed: Green "Verified ✓" tick, Organic seal, FSSAI seal',
+        'Retail Acceptance: Stock accepted with zero dispute or paperwork'
+      ],
+      ac: [
+        'Audit upstream custody and thermal history on ledger',
+        'Confirm retailer inward receipt on blockchain',
+        'Unlock retail shelf distribution for consumers'
+      ]
     },
     {
-      en: '7 · "GROCERY" Market Stall & Phytosanitary Seal',
-      hi: 'सुपरमार्केट शेल्फ व पादप-स्वच्छता मुहर',
-      f: 4, t: 5, rd: 5, v: [9.2, 13, -3.5, 3.4], note: 'APEDA Phytosanitary Approved ✓',
-      tx: 'Produce arrives at the "GROCERY" retail market stall with green and white striped awning. The shopkeeper displays red tomatoes, green peppers, and lemons in tiered wooden boxes with verified provenance tags.',
-      st: ['Retailer: "GROCERY" Market & Gourmet Stall', 'Awning: Traditional Green & White Striped Canopy', 'Produce Bins: Grade A+ Tomatoes, Apples, Lemons', 'Phytosanitary Clearance: APEDA Export Approved', 'Shelf Status: Fresh / Optimal Ripeness for Consumer'],
-      ac: ['Confirm retailer inward stock receipt on blockchain', 'Bind individual clamshell QRs to retail inventory', 'Publish public provenance record for consumer scan']
-    },
-    {
-      en: '8 · Consumer Fork Verification & Fair-Trade Premium',
-      hi: 'उपभोक्ता सत्यापन व किसान पारदर्शी लाभ',
-      f: 5, t: 5, rd: 5, v: [3.5, 11, 3.5, 1.5], note: 'Farm-to-Fork Verified ✓',
-      tx: 'At the foreground, the consumer scans the GS1 QR code on the wooden produce crate using the verification smartphone. The glossy screen reveals the complete journey with 4 green checkmarks and fair-trade premium proof.',
-      st: ['Consumer Scan: GS1 Digital Link URI Resolved', 'Farmer Received: ₹165/kg (vs conventional ₹85/kg)', 'GI Provenance: Ratnagiri Hapus #124 Authenticated', 'HPLC Residue Test: 100% Pesticide-Free (<0.005 ppm)', 'Consumer Direct Tip: ₹50.00 transferred to farmer'],
-      ac: ['Verify end-to-end cryptographic provenance chain', 'Execute fair-trade micro-incentive to farmer wallet', 'Log consumer verification event to public ledger']
+      num: 7,
+      scene: 'Scene 7 (1:10-1:30)',
+      en: 'Scene 7 (Step 6) · Consumer Scan & Payoff: Fair-Trade Premium',
+      hi: 'दृश्य ७ (१:१०-१:३०) · चरण ६: उपभोक्ता स्कैन और किसान को प्रीमियम',
+      vo: 'Customers scan once and see the whole journey. Farmers who grow well finally earn a fair premium. Trust, from farm to fork.',
+      vis: 'A shopper scans the QR on the shelf. A timeline slides up: farm, mandi, truck, store. The farmer\'s phone shows a premium payment arriving. End card with the project name.',
+      phase: '6. Consumer scans QR & Blockchain ledger underneath',
+      category: 'Output, ledger',
+      f: 4, t: 4, rd: 4, v: [2.5, 11, 3.5, 1.8], note: 'Fair Premium Transferred 💰',
+      tx: 'A shopper scans the QR code on the retail shelf. An interactive timeline slides up displaying the complete verified journey: Farm → Mandi → Truck → Store. Trust is achieved: the farmer\'s smartphone displays an instant fair-trade premium payment arriving (+28.5% premium + consumer direct tip). Trust, from farm to fork.',
+      st: [
+        'Consumer Scan: Scans QR code on retail shelf with smartphone',
+        'Slide-Up Timeline: 1. Farm → 2. Mandi → 3. Truck → 4. Store',
+        'Farmer Payoff: Farmer\'s phone shows premium payment arriving 💰',
+        'Fair Trade Payout: ₹165/kg (vs ₹85/kg conventional) + ₹50 Tip',
+        'End Card: Blockchain-Enabled Farm-to-Fork Traceability'
+      ],
+      ac: [
+        'Display transparent farm-to-fork provenance timeline to shopper',
+        'Transfer fair-trade micro-incentive to farmer digital wallet',
+        'Record final consumer verification event on public ledger'
+      ]
     }
   ];
 
   // --- State Variables ---
-  let step = 0;
-  let st = { ph: 'wait', t: 0 };
+  let step = 0;  let st = { ph: 'wait', t: 0 };
   let rd = {};
   let rej = -1;
   let mode = 'auto';
@@ -4637,6 +4831,146 @@ table.details-table tr:hover td {
 
   // --- 9. ACTIVE MOVING PRODUCE CRATE (Traverses Supply Chain) ---
   const crate = new THREE.Group();
+
+  // =========================================================================
+  // 3D ANIMATED SCENE VISUALS MANAGER (Matching the 7-Scene Script & Flowchart)
+  // =========================================================================
+  const sceneVisualsGroup = new THREE.Group();
+  sc.add(sceneVisualsGroup);
+
+  // Helper to create text billboard sprite
+  function createTextSprite(text, bgColor = '#0F172A', textColor = '#F3E5AB', borderColor = '#D4AF37') {
+    if (typeof document === 'undefined' || !document.createElement) return new THREE.Group();
+    try {
+      const canvas = document.createElement('canvas');
+      canvas.width = 512;
+      canvas.height = 160;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return new THREE.Group();
+
+      ctx.fillStyle = bgColor;
+      if (ctx.roundRect) ctx.roundRect(10, 10, 492, 140, 24);
+      else ctx.fillRect(10, 10, 492, 140);
+      ctx.fill();
+
+      ctx.strokeStyle = borderColor;
+      if (ctx.lineWidth) ctx.lineWidth = 6;
+      if (ctx.roundRect) ctx.roundRect(10, 10, 492, 140, 24);
+      else ctx.strokeRect(10, 10, 492, 140);
+      ctx.stroke();
+
+      ctx.fillStyle = textColor;
+      ctx.font = 'bold 34px "Space Grotesk", Arial, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(text, 256, 80);
+
+      const texture = new THREE.CanvasTexture(canvas);
+      const spriteMat = new THREE.SpriteMaterial({ map: texture, transparent: true });
+      const sprite = new THREE.Sprite(spriteMat);
+      sprite.scale.set(3.4, 1.1, 1.0);
+      return sprite;
+    } catch (e) {
+      return new THREE.Group();
+    }
+  }
+
+  // --- SCENE 1 VISUALS: Floating Question Marks over Tomato Crate ---
+  const scene1Group = new THREE.Group();
+  sceneVisualsGroup.add(scene1Group);
+
+  const qSprite1 = createTextSprite('❓ Where did this come from?', 'rgba(15, 23, 42, 0.94)', '#F3E5AB', '#D4AF37');
+  qSprite1.position.set(-7.8, 5.2, -1.2);
+  scene1Group.add(qSprite1);
+
+  const qSprite2 = createTextSprite('❓ Is it really organic?', 'rgba(15, 23, 42, 0.94)', '#FCD34D', '#F59E0B');
+  qSprite2.position.set(-7.2, 6.2, -0.8);
+  scene1Group.add(qSprite2);
+
+  // --- SCENE 2 VISUALS: QR Code Pop-Out Animation ---
+  const scene2Group = new THREE.Group();
+  sceneVisualsGroup.add(scene2Group);
+
+  const qrPopBadge = createTextSprite('📱 QR Code Generated! ✓', 'rgba(16, 185, 129, 0.95)', '#FFFFFF', '#34D399');
+  qrPopBadge.position.set(-7.5, 5.0, -1.0);
+  scene2Group.add(qrPopBadge);
+
+  const qrCodeTile = new THREE.Mesh(
+    new THREE.BoxGeometry(0.8, 0.8, 0.08),
+    mat(0xFDFBF7)
+  );
+  qrCodeTile.position.set(-7.2, 4.2, -0.6);
+  scene2Group.add(qrCodeTile);
+
+  // --- SCENE 3 VISUALS: 3D AI Bounding Box & Grade A Badge ---
+  const scene3Group = new THREE.Group();
+  sceneVisualsGroup.add(scene3Group);
+
+  const gradeABadge = createTextSprite('🏆 GRADE A+ EXPORT · Saved Offline 💾', 'rgba(5, 150, 105, 0.95)', '#FFFFFF', '#34D399');
+  gradeABadge.position.set(-2.8, 5.2, -1.8);
+  scene3Group.add(gradeABadge);
+
+  // 3D Green Wireframe Bounding Box
+  const bboxMesh = new THREE.Mesh(
+    new THREE.BoxGeometry(2.4, 1.8, 2.2),
+    new THREE.MeshBasicMaterial({ color: 0x10B981, wireframe: true })
+  );
+  bboxMesh.position.set(-2.8, 3.8, -1.8);
+  scene3Group.add(bboxMesh);
+
+  // --- SCENE 4 VISUALS: Mandi Dual Signatures Meeting ---
+  const scene4Group = new THREE.Group();
+  sceneVisualsGroup.add(scene4Group);
+
+  const signMeetingSprite = createTextSprite('✍️ Farmer Key + ✍️ Mandi Key → Linked 🔗', 'rgba(30, 41, 59, 0.95)', '#F3E5AB', '#D4AF37');
+  signMeetingSprite.position.set(-0.5, 5.2, -1.5);
+  scene4Group.add(signMeetingSprite);
+
+  // Glowing Blockchain Cube
+  const blockCube = new THREE.Mesh(
+    new THREE.BoxGeometry(1.2, 1.2, 1.2),
+    new THREE.MeshLambertMaterial({ color: 0xD4AF37, transparent: true, opacity: 0.85 })
+  );
+  blockCube.position.set(-0.5, 3.8, -1.5);
+  scene4Group.add(blockCube);
+
+  // --- SCENE 5 VISUALS: Reefer Thermometer & GPS Telemetry ---
+  const scene5Group = new THREE.Group();
+  sceneVisualsGroup.add(scene5Group);
+
+  const thermoSprite = createTextSprite('❄️ 12.8°C · GPS Transmitting · Safe ✓', 'rgba(2, 132, 199, 0.92)', '#FFFFFF', '#38BDF8');
+  thermoSprite.position.set(4.2, 6.2, -3.8);
+  scene5Group.add(thermoSprite);
+
+  // --- SCENE 6 VISUALS: Retailer Verification & Certification Shields ---
+  const scene6Group = new THREE.Group();
+  sceneVisualsGroup.add(scene6Group);
+
+  const verifiedTickSprite = createTextSprite('VERIFIED ✓ · NPOP Organic & FSSAI', 'rgba(5, 150, 105, 0.95)', '#FFFFFF', '#34D399');
+  verifiedTickSprite.position.set(7.8, 5.8, -2.5);
+  scene6Group.add(verifiedTickSprite);
+
+  // --- SCENE 7 VISUALS: Timeline Slide-Up & Farmer Payment Payoff ---
+  const scene7Group = new THREE.Group();
+  sceneVisualsGroup.add(scene7Group);
+
+  const timelineSprite = createTextSprite('🌱 Farm → ⚖️ Mandi → 🚚 Truck → 🏪 Store', 'rgba(15, 23, 42, 0.95)', '#F3E5AB', '#D4AF37');
+  timelineSprite.position.set(2.5, 5.8, 3.5);
+  scene7Group.add(timelineSprite);
+
+  const payoffBadge = createTextSprite('💰 ₹165/kg (+28.5%) + ₹50 Tip Paid!', 'rgba(217, 119, 6, 0.95)', '#FFFFFF', '#FDE68A');
+  payoffBadge.position.set(2.5, 4.6, 3.5);
+  scene7Group.add(payoffBadge);
+
+  function updateSceneVisuals(curStep) {
+    if (scene1Group) scene1Group.visible = (curStep === 0);
+    if (scene2Group) scene2Group.visible = (curStep === 1);
+    if (scene3Group) scene3Group.visible = (curStep === 2);
+    if (scene4Group) scene4Group.visible = (curStep === 3);
+    if (scene5Group) scene5Group.visible = (curStep === 4);
+    if (scene6Group) scene6Group.visible = (curStep === 5);
+    if (scene7Group) scene7Group.visible = (curStep === 6);
+  }
   sc.add(crate);
 
   const singleFruitGroup = new THREE.Group();
@@ -5283,9 +5617,12 @@ table.details-table tr:hover td {
     }
   }
 
-  // --- Step Physics & Progression ---
+  // --- Step Physics & Progression (7 Scenes) ---
   function go(i) {
-    step = Math.max(0, Math.min(7, i));
+    step = Math.max(0, Math.min(6, i));
+    if (typeof updateSceneVisuals === 'function') {
+      updateSceneVisuals(step);
+    }
     const s = S[step];
     rd = {};
     rej = -1;
@@ -5296,10 +5633,18 @@ table.details-table tr:hover td {
     const targetX = X[Math.min(step, X.length - 1)];
     cp.set(targetX, 0.4, 0);
 
-    $('#sn').textContent = (step + 1) + '/8';
+    $('#sn').textContent = S[step].scene + ' · ' + (step + 1) + '/7';
     $('#t').textContent = currentLang === 'en' ? s.en : s.hi;
     $('#hi').textContent = currentLang === 'en' ? s.hi : s.en;
-    $('#tx').textContent = s.tx;
+    $('#tx').innerHTML = '<div style="background:rgba(212,175,55,0.08); border-left:4px solid #D4AF37; padding:8px 12px; border-radius:0 8px 8px 0; margin-bottom:10px;"><strong style="color:#F3E5AB; font-size:12px;">🎙️ Voiceover:</strong> <span style="font-style:italic; color:#FDFBF7;">"' + s.vo + '"</span></div>' + '<div style="margin-bottom:8px;"><strong style="color:#A39E93; font-size:12px;">🎬 Visual:</strong> <span style="color:#D1CCC0;">' + s.vis + '</span></div>' + '<p style="color:#D1CCC0; font-size:13px; line-height:1.55; margin-top:8px;">' + s.tx + '</p>';
+    if (sfx && sfx.enabled && typeof window !== 'undefined' && window.speechSynthesis) {
+      try {
+        window.speechSynthesis.cancel();
+        const utterance = new SpeechSynthesisUtterance(s.vo);
+        utterance.rate = 1.05;
+        window.speechSynthesis.speak(utterance);
+      } catch (e) {}
+    }
 
     const fill = (el, a) => {
       if (!el) return;
@@ -5314,11 +5659,11 @@ table.details-table tr:hover td {
     fill($('#ac'), s.ac);
 
     if ($('#prev')) $('#prev').disabled = step === 0;
-    if ($('#next')) $('#next').textContent = step === 7 ? (currentLang === 'en' ? 'Restart' : 'पुनः प्रारंभ') : (currentLang === 'en' ? 'Next ›' : 'अगला ›');
+    if ($('#next')) $('#next').textContent = step === 6 ? (currentLang === 'en' ? 'Restart' : 'पुनः प्रारंभ') : (currentLang === 'en' ? 'Next ›' : 'अगला ›');
 
     updateUiReadings();
 
-    if (step === 7) {
+    if (step === 6) {
       setTimeout(() => {
         sfx.celebrate();
         if (typeof window !== 'undefined' && window.confetti) {
@@ -5551,7 +5896,7 @@ table.details-table tr:hover td {
   if ($('#next')) {
     $('#next').onclick = () => {
       if (auto) { clearInterval(auto); auto = null; }
-      const nextStep = step === 7 ? 0 : step + 1;
+      const nextStep = step === 6 ? 0 : step + 1;
       go(nextStep);
       trackClick('TOUR_NEXT', 'Next Station Button', { targetStep: nextStep });
     };
@@ -6102,6 +6447,19 @@ table.details-table tr:hover td {
     last = now;
     const t = now / 1000;
 
+    // Animated bobbing for Scene 1 question marks
+    if (scene1Group && scene1Group.visible) {
+      qSprite1.position.y = 5.2 + Math.sin(t * 3.5) * 0.18;
+      qSprite2.position.y = 6.2 + Math.sin(t * 3.5 + 1.2) * 0.18;
+    }
+    // Animated rotation for Scene 4 block and bounding box in Scene 3
+    if (scene4Group && scene4Group.visible && blockCube) {
+      blockCube.rotation.x += dt * 1.5;
+      blockCube.rotation.y += dt * 2.0;
+    }
+    if (scene3Group && scene3Group.visible && bboxMesh) {
+      bboxMesh.scale.setScalar(1.0 + Math.sin(t * 4.0) * 0.04);
+    }
     // Smooth produce crate 3D interpolation towards active station
     if (typeof STATIONS_3D !== 'undefined' && STATIONS_3D.length) {
       const targetPos = STATIONS_3D[Math.min(step, STATIONS_3D.length - 1)];
@@ -6355,6 +6713,33 @@ table.details-table tr:hover td {
       window.lucide.createIcons();
     } catch (e) {}
   }
+
+  
+  // Flowchart Modal ("visualize") Open / Close Bindings
+  if ($('#btn-open-flowchart')) {
+    $('#btn-open-flowchart').addEventListener('click', () => {
+      if ($('#modal-flowchart')) $('#modal-flowchart').classList.add('open');
+      trackClick('OPEN_FLOWCHART', 'btn-open-flowchart', 'Opened 6-step pipeline visualization flowchart');
+    });
+  }
+  if ($('#btn-close-flowchart')) {
+    $('#btn-close-flowchart').addEventListener('click', () => {
+      if ($('#modal-flowchart')) $('#modal-flowchart').classList.remove('open');
+    });
+  }
+  if ($('#modal-flowchart')) {
+    $('#modal-flowchart').addEventListener('click', (e) => {
+      if (e.target === $('#modal-flowchart')) $('#modal-flowchart').classList.remove('open');
+    });
+  }
+
+  // Global helper to jump to scene from flowchart
+  window.jumpToScene = function(sceneIdx) {
+    if (typeof go === 'function') {
+      go(sceneIdx);
+      if ($('#modal-flowchart')) $('#modal-flowchart').classList.remove('open');
+    }
+  };
 
   // --- Bootstrap ---
   size();
