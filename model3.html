@@ -958,8 +958,8 @@ table.details-table tr:hover td {
 }
 
 .turso-stat-card {
-  background: rgba(15, 23, 42, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: #F8FAFC;
+  border: 1px solid #E2E8F0;
   border-radius: 10px;
   padding: 10px 12px;
   text-align: center;
@@ -969,12 +969,13 @@ table.details-table tr:hover td {
   font-family: var(--mono);
   font-size: 18px;
   font-weight: 800;
-  color: #38bdf8;
+  color: #0284C7;
 }
 
 .turso-stat-lbl {
-  font-size: 10px;
-  color: #94a3b8;
+  font-size: 10.5px;
+  color: #475569;
+  font-weight: 700;
   margin-top: 4px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -1957,17 +1958,17 @@ table.details-table tr:hover td {
 .section-eyebrow {
   font-size: 12px;
   text-transform: uppercase;
-  letter-spacing: 1px;
-  font-weight: 700;
-  color: #38bdf8;
+  letter-spacing: 1.2px;
+  font-weight: 800;
+  color: #059669;
   margin-bottom: 8px;
 }
 
 .section-title {
   font-family: var(--font-display);
   font-size: clamp(26px, 4vw, 38px);
-  font-weight: 700;
-  color: #ffffff;
+  font-weight: 800;
+  color: #0F172A;
   margin-bottom: 12px;
 }
 
@@ -2007,16 +2008,21 @@ table.details-table tr:hover td {
 }
 
 .bento-card {
-  background: rgba(15, 23, 42, 0.72);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid rgba(45, 30, 20, 0.08);
   backdrop-filter: blur(24px);
   -webkit-backdrop-filter: blur(24px);
   border-radius: 20px;
   padding: 28px;
-  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 16px 36px -4px rgba(45, 30, 20, 0.08), 0 4px 12px rgba(45, 30, 20, 0.04);
   display: flex;
   flex-direction: column;
   gap: 16px;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+}
+.bento-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 48px -4px rgba(45, 30, 20, 0.12), 0 6px 16px rgba(45, 30, 20, 0.06);
 }
 
 .bento-card-compact {
@@ -2025,18 +2031,19 @@ table.details-table tr:hover td {
 
 .bento-card h4 {
   font-family: var(--font-display);
-  font-size: 18px;
-  font-weight: 700;
-  color: #ffffff;
+  font-size: 18.5px;
+  font-weight: 800;
+  color: #0F172A;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
 .bento-card p {
-  font-size: 13.5px;
-  color: var(--muted);
-  line-height: 1.6;
+  font-size: 14.5px;
+  color: #1E293B;
+  line-height: 1.65;
+  font-weight: 500;
 }
 
 /* 8. Shadcn Toast Notification Container */
