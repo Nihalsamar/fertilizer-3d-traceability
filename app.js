@@ -2608,16 +2608,31 @@
     };
   }
 
-  if ($('#fold')) {
-    $('#fold').onclick = () => {
-      const c = $('#card');
-      if (c) {
-        c.classList.toggle('min');
-        $('#fold').textContent = c.classList.contains('min') ? '▴' : '▾';
+  // Single-Click Responsive Toggle for Narrative HUD Card (Works on #fold and #hd)
+  function toggleNarrativeCard(e) {
+    if (e && typeof e.stopPropagation === 'function') {
+      e.stopPropagation();
+    }
+    const c = $('#card');
+    if (c) {
+      c.classList.toggle('min');
+      const isMin = c.classList.contains('min');
+      const foldBtn = $('#fold');
+      if (foldBtn) {
+        foldBtn.textContent = isMin ? '▴' : '▾';
+        foldBtn.setAttribute('aria-expanded', !isMin);
+        foldBtn.title = isMin ? 'Expand Narrative Card' : 'Collapse Narrative Card';
       }
-      sfx.beep(500, 0.05);
-      trackClick('HUD_TOGGLE', 'Collapse/Expand Narrative HUD');
-    };
+    }
+    if (sfx && sfx.beep) sfx.beep(500, 0.05);
+    trackClick('HUD_TOGGLE', 'Collapse/Expand Narrative HUD');
+  }
+
+  if ($('#fold')) {
+    $('#fold').onclick = toggleNarrativeCard;
+  }
+  if ($('#hd')) {
+    $('#hd').onclick = toggleNarrativeCard;
   }
 
   // Packaging hierarchy buttons
