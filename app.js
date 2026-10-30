@@ -1821,7 +1821,7 @@
       tdEmpty.colSpan = columns.length;
       tdEmpty.style.textAlign = 'center';
       tdEmpty.style.padding = '24px';
-      tdEmpty.style.color = '#94a3b8';
+      tdEmpty.style.color = '#475569';
       tdEmpty.textContent = q ? `No records matching "${q}" found.` : 'No records available in this table.';
       trEmpty.appendChild(tdEmpty);
       tbody.appendChild(trEmpty);
@@ -2131,10 +2131,10 @@
     if ($('#reverse-status-msg')) {
       if (isColdBreach) {
         $('#reverse-status-msg').textContent = 'CRITICAL: Cold-Chain SLA Breached (>16°C). Automated Recall Triggered ✗';
-        $('#reverse-status-msg').style.color = '#ef4444';
+        $('#reverse-status-msg').style.color = '#DC2626';
       } else {
         $('#reverse-status-msg').textContent = 'Status: Cold-Chain Preserved (12.8°C) ✓';
-        $('#reverse-status-msg').style.color = '#a7f3d0';
+        $('#reverse-status-msg').style.color = '#059669';
       }
     }
   }
@@ -2228,11 +2228,11 @@
       if (bannerStatus) {
         if (db.cloudConnected) {
           bannerStatus.textContent = '🟢 Connected to Turso Cloud (' + db.endpoint + ')';
-          bannerStatus.style.color = '#38bdf8';
+          bannerStatus.style.color = '#0284C7';
           if (pulseDot) pulseDot.className = 'turso-status-dot pulse cloud';
         } else {
           bannerStatus.textContent = '🟡 Local libSQL Edge Engine (' + db.endpoint + ')';
-          bannerStatus.style.color = '#f59e0b';
+          bannerStatus.style.color = '#B45309';
           if (pulseDot) pulseDot.className = 'turso-status-dot pulse local';
         }
       }
@@ -2246,7 +2246,7 @@
     } catch (e) {
       if (bannerStatus) {
         bannerStatus.textContent = '⚪ Standalone / Offline Client Mode';
-        bannerStatus.style.color = '#94a3b8';
+        bannerStatus.style.color = '#475569';
       }
     }
   }
