@@ -229,6 +229,359 @@
     }
   }
 
+  function createGreenHarvestLabelTexture() {
+    if (typeof document === 'undefined' || !document.createElement) return null;
+    try {
+      const canvas = document.createElement('canvas');
+      canvas.width = 1024;
+      canvas.height = 360;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return null;
+
+      // White satin label background
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillRect(0, 0, 1024, 360);
+
+      // Glowing green border around QR code on left
+      ctx.fillStyle = '#ECFDF5';
+      ctx.fillRect(28, 28, 290, 304);
+      ctx.strokeStyle = '#10B981';
+      if (ctx.lineWidth) ctx.lineWidth = 6;
+      ctx.strokeRect(28, 28, 290, 304);
+
+      // QR Code matrix inside green box
+      ctx.fillStyle = '#0F172A';
+      const drawFinder = (ox, oy) => {
+        ctx.fillRect(ox, oy, 60, 60);
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fillRect(ox + 10, oy + 10, 40, 40);
+        ctx.fillStyle = '#0F172A';
+        ctx.fillRect(ox + 18, oy + 18, 24, 24);
+      };
+      drawFinder(50, 45);
+      drawFinder(236, 45);
+      drawFinder(50, 210);
+
+      for (let r = 0; r < 12; r++) {
+        for (let c = 0; c < 12; c++) {
+          if ((r < 4 && c < 4) || (r < 4 && c > 7) || (r > 7 && c < 4)) continue;
+          if ((r * 5 + c * 11) % 2 === 0) {
+            ctx.fillRect(56 + c * 16, 50 + r * 16, 12, 12);
+          }
+        }
+      }
+
+      // Center shield checkmark in QR
+      ctx.fillStyle = '#10B981';
+      ctx.fillRect(135, 135, 75, 45);
+      ctx.fillStyle = '#FFFFFF';
+      ctx.font = 'bold 24px Arial, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('✓', 172, 166);
+
+      // "TAMPER-EVIDENT BLOCKCHAIN QR" text
+      ctx.fillStyle = '#059669';
+      ctx.font = 'bold 16px "Space Grotesk", Arial, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('TAMPER-EVIDENT', 172, 295);
+      ctx.fillText('BLOCKCHAIN QR', 172, 318);
+
+      // Center Section: Metadata
+      ctx.textAlign = 'left';
+      ctx.fillStyle = '#065F46';
+      ctx.font = 'bold 36px "Space Grotesk", Arial, sans-serif';
+      ctx.fillText('BLOCKCHAIN', 350, 75);
+      ctx.fillText('TRACEABILITY', 350, 118);
+      ctx.fillText('CERTIFIED', 350, 160);
+
+      ctx.fillStyle = '#1E3A8A';
+      ctx.font = 'bold 24px "Space Grotesk", Arial, sans-serif';
+      ctx.fillText('Batch: GH-2025-0487', 350, 220);
+      ctx.fillStyle = '#475569';
+      ctx.font = '20px "Inter", Arial, sans-serif';
+      ctx.fillText('Harvest: Apr 16, 2025', 350, 260);
+      ctx.fillText('Origin: Willamette Valley, OR', 350, 298);
+
+      // Right Section: USDA Organic Seal
+      ctx.fillStyle = '#15803D';
+      ctx.fillRect(790, 45, 190, 190);
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillRect(802, 57, 166, 166);
+      ctx.fillStyle = '#15803D';
+      ctx.font = 'bold 34px Arial, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('USDA', 885, 115);
+      ctx.fillStyle = '#3F200C';
+      ctx.fillRect(805, 135, 160, 80);
+      ctx.fillStyle = '#FFFFFF';
+      ctx.font = 'bold 26px Arial, sans-serif';
+      ctx.fillText('ORGANIC', 885, 185);
+
+      return new THREE.CanvasTexture(canvas);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function createGreenHarvestBrandTexture() {
+    if (typeof document === 'undefined' || !document.createElement) return null;
+    try {
+      const canvas = document.createElement('canvas');
+      canvas.width = 512;
+      canvas.height = 160;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return null;
+
+      ctx.fillStyle = '#3E2723';
+      ctx.fillRect(30, 45, 30, 40);
+      ctx.fillRect(65, 35, 20, 25);
+      ctx.font = 'bold 42px "Space Grotesk", Georgia, serif';
+      ctx.textAlign = 'left';
+      ctx.fillText('GreenHarvest', 105, 80);
+
+      ctx.font = 'bold 18px "Space Grotesk", Arial, sans-serif';
+      ctx.fillText('FARM FRESH • BETTER TOMORROW', 40, 125);
+
+      return new THREE.CanvasTexture(canvas);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function createAgriScanScreenTexture() {
+    if (typeof document === 'undefined' || !document.createElement) return null;
+    try {
+      const canvas = document.createElement('canvas');
+      canvas.width = 400;
+      canvas.height = 700;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return null;
+
+      ctx.fillStyle = '#F8FAFC';
+      ctx.fillRect(0, 0, 400, 700);
+
+      // Top status bar
+      ctx.fillStyle = '#0F172A';
+      ctx.fillRect(0, 0, 400, 36);
+      ctx.fillStyle = '#FFFFFF';
+      ctx.font = 'bold 15px "JetBrains Mono", Arial, sans-serif';
+      ctx.fillText('10:24', 20, 24);
+      ctx.fillText('5G  100%', 310, 24);
+
+      // Top Green Status Banner
+      ctx.fillStyle = '#10B981';
+      ctx.fillRect(0, 36, 400, 105);
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillRect(25, 60, 42, 42);
+      ctx.fillStyle = '#10B981';
+      ctx.font = 'bold 28px Arial, sans-serif';
+      ctx.fillText('✓', 36, 92);
+
+      ctx.fillStyle = '#FFFFFF';
+      ctx.font = 'bold 24px "Space Grotesk", Arial, sans-serif';
+      ctx.fillText('Batch Verified', 82, 75);
+      ctx.font = '13px "Inter", Arial, sans-serif';
+      ctx.fillText('Authentic • Untampered • On Blockchain', 82, 105);
+
+      // White Batch Detail Card
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillRect(16, 155, 368, 240);
+      ctx.strokeStyle = '#E2E8F0';
+      if (ctx.lineWidth) ctx.lineWidth = 2;
+      ctx.strokeRect(16, 155, 368, 240);
+
+      // Thumbnail
+      ctx.fillStyle = '#C49261';
+      ctx.fillRect(265, 175, 105, 80);
+      ctx.fillStyle = '#E11D48';
+      ctx.fillRect(280, 190, 32, 32);
+      ctx.fillStyle = '#10B981';
+      ctx.fillRect(320, 185, 35, 25);
+
+      ctx.fillStyle = '#64748B';
+      ctx.font = '12px "Inter", Arial, sans-serif';
+      ctx.fillText('Batch ID', 32, 185);
+      ctx.fillStyle = '#0F172A';
+      ctx.font = 'bold 18px "Space Grotesk", Arial, sans-serif';
+      ctx.fillText('GH-2025-0487', 32, 210);
+
+      ctx.fillStyle = '#64748B';
+      ctx.font = '12px "Inter", Arial, sans-serif';
+      ctx.fillText('Product', 32, 245);
+      ctx.fillStyle = '#0F172A';
+      ctx.font = 'bold 16px "Space Grotesk", Arial, sans-serif';
+      ctx.fillText('Organic Apples & Greens', 32, 268);
+
+      ctx.fillStyle = '#64748B';
+      ctx.font = '12px "Inter", Arial, sans-serif';
+      ctx.fillText('Harvest Date: Apr 16, 2025', 32, 310);
+      ctx.fillText('Origin: Willamette Valley, OR', 32, 340);
+
+      // Milestones
+      const milestones = ['Farm', 'Processing', 'Distribution', 'Retail'];
+      milestones.forEach((m, idx) => {
+        const mx = 24 + idx * 90;
+        ctx.fillStyle = '#10B981';
+        ctx.fillRect(mx, 410, 24, 24);
+        ctx.fillStyle = '#FFFFFF';
+        ctx.font = 'bold 14px Arial, sans-serif';
+        ctx.fillText('✓', mx + 6, 428);
+        ctx.fillStyle = '#334155';
+        ctx.font = '11px "Inter", Arial, sans-serif';
+        ctx.fillText(m, mx - 4, 452);
+      });
+
+      // Blockchain Record Card
+      ctx.fillStyle = '#EFF6FF';
+      ctx.fillRect(16, 475, 368, 85);
+      ctx.fillStyle = '#3B82F6';
+      ctx.fillRect(32, 495, 36, 36);
+      ctx.fillStyle = '#FFFFFF';
+      ctx.font = 'bold 20px Arial, sans-serif';
+      ctx.fillText('🔗', 40, 521);
+
+      ctx.fillStyle = '#1E3A8A';
+      ctx.font = 'bold 14px "Space Grotesk", Arial, sans-serif';
+      ctx.fillText('Blockchain Record', 80, 505);
+      ctx.fillStyle = '#2563EB';
+      ctx.font = '12px "JetBrains Mono", monospace';
+      ctx.fillText('Verified on Ethereum (Layer-2 PoA)', 80, 526);
+      ctx.fillText('Tx: 0x7a3e...9f2c', 80, 546);
+
+      // Green CTA Button
+      ctx.fillStyle = '#10B981';
+      ctx.fillRect(16, 580, 368, 62);
+      ctx.fillStyle = '#FFFFFF';
+      ctx.font = 'bold 20px "Space Grotesk", Arial, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('✓  Scan Complete', 200, 620);
+
+      // AgriScan branding
+      ctx.fillStyle = '#0F172A';
+      ctx.font = 'bold 15px "Space Grotesk", Arial, sans-serif';
+      ctx.fillText('🌿 AgriScan Field Pro', 200, 678);
+
+      return new THREE.CanvasTexture(canvas);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function createTotemScreenTexture(activeStage = 1) {
+    if (typeof document === 'undefined' || !document.createElement) return null;
+    try {
+      const canvas = document.createElement('canvas');
+      canvas.width = 460;
+      canvas.height = 920;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return null;
+
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillRect(0, 0, 460, 920);
+
+      // Top Leaf Logo
+      ctx.fillStyle = '#15803D';
+      ctx.fillRect(35, 35, 35, 35);
+      ctx.font = 'bold 32px "Space Grotesk", Arial, sans-serif';
+      ctx.textAlign = 'left';
+      ctx.fillText('From Our Farms', 85, 52);
+      ctx.fillText('to Your Table', 85, 88);
+
+      ctx.fillStyle = '#475569';
+      ctx.font = '14.5px "Inter", Arial, sans-serif';
+      ctx.fillText('Real Food. Real Transparency.', 35, 125);
+      ctx.fillStyle = '#15803D';
+      ctx.fillText('Powered by Blockchain.', 35, 146);
+
+      const stages = [
+        { num: '1. Farm', desc: 'Willamette Valley, OR', date: 'Harvested Apr 16, 2025', color: '#15803D' },
+        { num: '2. Processing', desc: 'Cleaned & Packed', date: 'Apr 17, 2025', color: '#0284C7' },
+        { num: '3. Distribution', desc: 'Cold Chain Transport', date: 'Apr 19, 2025', color: '#6366F1' },
+        { num: '4. Retail', desc: 'Fresh Market', date: 'Apr 22, 2025', color: '#D97706' },
+        { num: '5. Your Table', desc: 'Good Food. Better Choices.', date: 'Certified Fresh', color: '#059669' }
+      ];
+
+      stages.forEach((stg, i) => {
+        const sy = 190 + i * 115;
+        const isPastOrActive = (i + 1) <= activeStage;
+
+        if (i < 4) {
+          ctx.strokeStyle = isPastOrActive ? '#10B981' : '#E2E8F0';
+          if (ctx.lineWidth) ctx.lineWidth = 4;
+          ctx.beginPath();
+          ctx.moveTo(68, sy + 30);
+          ctx.lineTo(68, sy + 115);
+          ctx.stroke();
+        }
+
+        ctx.fillStyle = isPastOrActive ? stg.color : '#94A3B8';
+        ctx.fillRect(35, sy, 66, 66);
+        ctx.fillStyle = '#FFFFFF';
+        ctx.font = 'bold 22px Arial, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText((i + 1).toString(), 68, sy + 42);
+
+        ctx.textAlign = 'left';
+        ctx.fillStyle = '#0F172A';
+        ctx.font = 'bold 19px "Space Grotesk", Arial, sans-serif';
+        ctx.fillText(stg.num, 120, sy + 25);
+
+        ctx.fillStyle = '#64748B';
+        ctx.font = '13.5px "Inter", Arial, sans-serif';
+        ctx.fillText(stg.desc, 120, sy + 48);
+        ctx.fillStyle = '#94A3B8';
+        ctx.font = '12px "Inter", Arial, sans-serif';
+        ctx.fillText(stg.date, 120, sy + 68);
+
+        ctx.fillStyle = isPastOrActive ? '#10B981' : '#E2E8F0';
+        ctx.fillRect(395, sy + 18, 30, 30);
+        ctx.fillStyle = '#FFFFFF';
+        ctx.font = 'bold 17px Arial, sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('✓', 410, sy + 40);
+      });
+
+      // Bottom CTA
+      ctx.fillStyle = '#15803D';
+      ctx.fillRect(30, 785, 400, 95);
+      ctx.fillStyle = '#FFFFFF';
+      ctx.font = 'bold 28px Arial, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('📱  Scan to view full journey  →', 230, 842);
+
+      return new THREE.CanvasTexture(canvas);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function createTotemBaseTexture() {
+    if (typeof document === 'undefined' || !document.createElement) return null;
+    try {
+      const canvas = document.createElement('canvas');
+      canvas.width = 512;
+      canvas.height = 180;
+      const ctx = canvas.getContext('2d');
+      if (!ctx) return null;
+
+      ctx.fillStyle = '#FFFFFF';
+      ctx.fillRect(0, 0, 512, 180);
+
+      ctx.fillStyle = '#15803D';
+      ctx.fillRect(236, 25, 40, 40);
+
+      ctx.fillStyle = '#0F172A';
+      ctx.font = 'bold 22px "Space Grotesk", Arial, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('TRACEABILITY BUILDS', 256, 105);
+      ctx.fillText('A HEALTHIER FOOD SYSTEM', 256, 140);
+
+      return new THREE.CanvasTexture(canvas);
+    } catch (e) {
+      return null;
+    }
+  }
+
   function createQrTexture() {
     if (typeof document === 'undefined' || !document.createElement) return null;
     try {
@@ -799,85 +1152,223 @@
   S_(shopkeeper, 0.24, 0xF5C5A3, 0, 1.84, 0);
   S_(shopkeeper, 0.26, 0x3E2723, 0, 1.94, -0.05);
 
-  // --- 7. STATION 6: FOREGROUND PRODUCE CRATE, GS1 QR CODE & SMARTPHONE ---
+  // --- 7. STATION 6: FOREGROUND GREENHARVEST CRATE, AGRISCAN TERMINAL & TOTEM KIOSK ---
   const fgGroup = new THREE.Group();
   sc.add(fgGroup);
 
-  const fgCrateGroup = new THREE.Group();
-  fgCrateGroup.position.set(0.8, 1.2, 3.8);
-  fgGroup.add(fgCrateGroup);
+  // 1. GREENHARVEST FINGER-JOINTED WOODEN CRATE (IMAGE 3)
+  const greenHarvestCrateGroup = new THREE.Group();
+  greenHarvestCrateGroup.position.set(0.8, 1.2, 3.8);
+  fgGroup.add(greenHarvestCrateGroup);
 
-  const crW = 2.8, crH = 1.3, crD = 1.8;
-  B(fgCrateGroup, crW, 0.10, crD, 0xC49261, 0, 0, 0);
-  [-crW/2 + 0.1, crW/2 - 0.1].forEach(px => {
-    [-crD/2 + 0.1, crD/2 - 0.1].forEach(pz => {
-      B(fgCrateGroup, 0.18, crH, 0.18, 0xB48255, px, 0, pz);
+  const ghW = 3.2, ghH = 1.6, ghD = 2.4;
+  B(greenHarvestCrateGroup, ghW, 0.12, ghD, 0xD4A373, 0, 0, 0);
+
+  // 4 Corner Finger-Jointed Posts
+  [-ghW/2 + 0.1, ghW/2 - 0.1].forEach(px => {
+    [-ghD/2 + 0.1, ghD/2 - 0.1].forEach(pz => {
+      B(greenHarvestCrateGroup, 0.22, ghH, 0.22, 0xD4A373, px, 0, pz);
+      for (let jy = 0.15; jy < ghH; jy += 0.32) {
+        B(greenHarvestCrateGroup, 0.24, 0.14, 0.24, 0xC49261, px, jy, pz);
+      }
     });
   });
-  [0.15, 0.55, 0.95].forEach(sy => {
-    B(fgCrateGroup, crW, 0.28, 0.08, 0xD4A373, 0, sy, crD / 2);
-    B(fgCrateGroup, crW, 0.28, 0.08, 0xD4A373, 0, sy, -crD / 2);
-    B(fgCrateGroup, 0.08, 0.28, crD, 0xD4A373, crW / 2, sy, 0);
-    B(fgCrateGroup, 0.08, 0.28, crD, 0xD4A373, -crW / 2, sy, 0);
+
+  // Finger-jointed wooden side walls
+  B(greenHarvestCrateGroup, ghW - 0.2, ghH - 0.1, 0.10, 0xD4A373, 0, 0.05, ghD / 2 - 0.05);
+  B(greenHarvestCrateGroup, ghW - 0.2, ghH - 0.1, 0.10, 0xD4A373, 0, 0.05, -ghD / 2 + 0.05);
+  B(greenHarvestCrateGroup, 0.10, ghH - 0.1, ghD - 0.2, 0xD4A373, -ghW / 2 + 0.05, 0.05, 0);
+  B(greenHarvestCrateGroup, 0.10, ghH - 0.1, ghD - 0.2, 0xD4A373, ghW / 2 - 0.05, 0.05, 0);
+
+  // Oval Handle Cutouts on Left and Right
+  [-ghW / 2 + 0.05, ghW / 2 - 0.05].forEach(hx => {
+    B(greenHarvestCrateGroup, 0.12, 0.35, 0.85, 0x3E2723, hx, 1.0, 0);
+    C(greenHarvestCrateGroup, 0.18, 0.18, 0.12, 0xC49261, hx, 1.15, -0.35);
+    C(greenHarvestCrateGroup, 0.18, 0.18, 0.12, 0xC49261, hx, 1.15,  0.35);
   });
 
-  const qrTex = createQrTexture();
-  if (qrTex) {
-    const qrMat = new THREE.MeshBasicMaterial({ map: qrTex });
-    const qrPlate = new THREE.Mesh(new THREE.PlaneGeometry(0.75, 0.75), qrMat);
-    qrPlate.position.set(0.4, 0.65, crD / 2 + 0.05);
-    fgCrateGroup.add(qrPlate);
-
-    const standee = new THREE.Mesh(new THREE.PlaneGeometry(0.65, 0.65), qrMat);
-    standee.position.set(-1.8, 0.55, crD / 2);
-    standee.rotation.y = 0.25;
-    fgCrateGroup.add(standee);
-    C(fgCrateGroup, 0.03, 0.03, 0.55, 0xC49261, -1.8, 0, crD / 2);
+  // Wood-burned "GreenHarvest" Branding on Left Face (Image 3)
+  const ghBrandTex = createGreenHarvestBrandTexture();
+  if (ghBrandTex) {
+    const brandMat = new THREE.MeshBasicMaterial({ map: ghBrandTex, transparent: true });
+    const brandPlane = new THREE.Mesh(new THREE.PlaneGeometry(1.9, 0.65), brandMat);
+    brandPlane.position.set(-ghW / 2 - 0.06, 0.55, 0);
+    brandPlane.rotation.y = -Math.PI / 2;
+    greenHarvestCrateGroup.add(brandPlane);
   }
 
-  for (let tx = -0.9; tx <= 0.9; tx += 0.45) {
-    for (let tz = -0.5; tz <= 0.5; tz += 0.45) {
-      const tom = S_(fgCrateGroup, 0.22, 0xE11D48, tx, 0.95, tz);
-      C(fgCrateGroup, 0.06, 0.06, 0.04, 0x22C55E, tom.position.x, 1.18, tom.position.z);
-    }
+  // Front Certification Label with Glowing QR & USDA Seal (Image 3)
+  let qrGlowBorder = null;
+  let scanLaserPlane = null;
+  const ghLabelTex = createGreenHarvestLabelTexture();
+  if (ghLabelTex) {
+    const labelMat = new THREE.MeshBasicMaterial({ map: ghLabelTex });
+    const labelPlane = new THREE.Mesh(new THREE.PlaneGeometry(2.7, 0.95), labelMat);
+    labelPlane.position.set(0.12, 0.68, ghD / 2 + 0.06);
+    greenHarvestCrateGroup.add(labelPlane);
+
+    // Dynamic Pulsing Green Aura on QR Code
+    const qrGlowMat = new THREE.MeshBasicMaterial({
+      color: 0x00FF9D,
+      transparent: true,
+      opacity: 0.45,
+      side: THREE.DoubleSide
+    });
+    qrGlowBorder = new THREE.Mesh(new THREE.PlaneGeometry(0.85, 0.88), qrGlowMat);
+    qrGlowBorder.position.set(-0.85, 0.68, ghD / 2 + 0.07);
+    greenHarvestCrateGroup.add(qrGlowBorder);
   }
 
+  // Animated Holographic Laser Scan Plane
+  const scanLaserMat = new THREE.MeshBasicMaterial({
+    color: 0x00FF9D,
+    transparent: true,
+    opacity: 0.65,
+    side: THREE.DoubleSide
+  });
+  scanLaserPlane = new THREE.Mesh(new THREE.PlaneGeometry(0.82, 0.06), scanLaserMat);
+  scanLaserPlane.position.set(-0.85, 0.68, ghD / 2 + 0.08);
+  greenHarvestCrateGroup.add(scanLaserPlane);
+
+  // Honeycrisp Apples (Red/gold blush)
+  const applePositions = [
+    { x: -0.6, z:  0.2, y: 1.25, r: 0.28 },
+    { x: -0.1, z:  0.4, y: 1.22, r: 0.30 },
+    { x:  0.4, z:  0.2, y: 1.26, r: 0.29 },
+    { x: -0.5, z: -0.4, y: 1.20, r: 0.27 },
+    { x:  0.1, z: -0.3, y: 1.24, r: 0.28 },
+    { x:  0.6, z: -0.4, y: 1.22, r: 0.26 }
+  ];
+  applePositions.forEach(ap => {
+    S_(greenHarvestCrateGroup, ap.r, 0xDC2626, ap.x, ap.y, ap.z);
+    S_(greenHarvestCrateGroup, ap.r * 0.75, 0xF59E0B, ap.x, ap.y + ap.r * 0.25, ap.z);
+    C(greenHarvestCrateGroup, 0.02, 0.02, 0.12, 0x5C3A21, ap.x, ap.y + ap.r + 0.04, ap.z);
+  });
+
+  // Tapered Orange Carrots with feathery green leafy tops (Image 3)
   for (let ci = 0; ci < 6; ci++) {
-    const cx = -0.7 + ci * 0.28;
+    const cx = -0.8 + ci * 0.32;
     const carrot = new THREE.Group();
-    carrot.position.set(cx, 1.1, -0.1 + (ci % 2) * 0.25);
-    carrot.rotation.z = -0.3 + (ci * 0.1);
-    C(carrot, 0.12, 0.04, 0.95, 0xF97316, 0, 0, 0);
-    C(carrot, 0.05, 0.18, 0.65, 0x22C55E, 0, 0.65, 0);
-    fgCrateGroup.add(carrot);
+    carrot.position.set(cx, 1.2, 0.1 + (ci % 2) * 0.3);
+    carrot.rotation.z = -0.35 + (ci * 0.12);
+    carrot.rotation.x = 0.2;
+    C(carrot, 0.12, 0.03, 1.1, 0xF97316, 0, 0, 0);
+    C(carrot, 0.04, 0.20, 0.65, 0x15803D, 0, 0.65, 0);
+    greenHarvestCrateGroup.add(carrot);
   }
 
-  // FOREGROUND SMARTPHONE
-  const phoneGroup = new THREE.Group();
-  phoneGroup.position.set(6.2, 1.2, 3.2);
-  phoneGroup.rotation.y = -0.42;
-  fgGroup.add(phoneGroup);
+  // Ruffled Curly Kale / Chard Dark Green Leaves
+  for (let ki = 0; ki < 8; ki++) {
+    const kx = -1.1 + ki * 0.32;
+    const kz = ki % 2 === 0 ? -0.7 : -0.9;
+    const kale = new THREE.Mesh(new THREE.SphereGeometry(0.32, 8, 8), mat(0x1B4D2E));
+    kale.scale.x = 1.1;
+    kale.scale.y = 1.6;
+    kale.scale.z = 0.6;
+    kale.position.set(kx, 1.45, kz);
+    greenHarvestCrateGroup.add(kale);
+  }
 
-  B(phoneGroup, 2.2, 0.14, 4.2, 0x8EA78D, 0, 0, 0);
-  B(phoneGroup, 2.05, 0.15, 4.05, 0x0F172A, 0, 0.02, 0);
+  // 2. RUGGED AGRISCAN FIELD TERMINAL (IMAGE 2)
+  const agriScanGroup = new THREE.Group();
+  agriScanGroup.position.set(6.2, 1.2, 3.2);
+  agriScanGroup.rotation.y = -0.42;
+  fgGroup.add(agriScanGroup);
 
-  const phoneScreenTex = createPhoneScreenTexture();
-  const phoneScreenMat = phoneScreenTex ? new THREE.MeshBasicMaterial({ map: phoneScreenTex }) : mat(0x10B981);
-  const phoneDisplay = new THREE.Mesh(new THREE.PlaneGeometry(1.95, 3.9), phoneScreenMat);
-  phoneDisplay.rotation.x = -Math.PI / 2;
-  phoneDisplay.position.set(0, 0.11, 0);
-  phoneGroup.add(phoneDisplay);
+  const asW = 2.4, asH = 0.36, asD = 4.6;
+  B(agriScanGroup, asW, asH, asD, 0x18181B, 0, 0, 0);
 
+  // 4 Heavy-Duty Rubber Shock Corner Bumpers
+  [-asW/2 + 0.15, asW/2 - 0.15].forEach(bx => {
+    [-asD/2 + 0.2, asD/2 - 0.2].forEach(bz => {
+      B(agriScanGroup, 0.42, asH + 0.08, 0.48, 0x09090B, bx, 0, bz);
+      S_(agriScanGroup, 0.05, 0x71717A, bx, asH / 2 + 0.05, bz);
+    });
+  });
+
+  // Tactical Lime-Green Perimeter Accent Trim
+  B(agriScanGroup, asW + 0.04, 0.06, asD + 0.04, 0x84CC16, 0, asH / 2 - 0.02, 0);
+
+  // Top Barcode Scanner Module Hump
+  B(agriScanGroup, 1.6, 0.38, 0.8, 0x18181B, 0, asH / 2 + 0.12, -asD / 2 + 0.4);
+  B(agriScanGroup, 1.3, 0.12, 0.4, 0x0F172A, 0, asH / 2 + 0.28, -asD / 2 + 0.4);
+  C(agriScanGroup, 0.12, 0.12, 0.06, 0x38BDF8, 0, asH / 2 + 0.32, -asD / 2 + 0.4);
+  S_(agriScanGroup, 0.05, 0xFEF08A, -0.35, asH / 2 + 0.32, -asD / 2 + 0.4);
+  S_(agriScanGroup, 0.05, 0xFEF08A,  0.35, asH / 2 + 0.32, -asD / 2 + 0.4);
+
+  // Side Textured Grip Ribs & Lime Trigger Buttons
+  [-asW / 2 - 0.04, asW / 2 + 0.04].forEach(sx => {
+    for (let rz = -1.2; rz <= 1.2; rz += 0.5) {
+      B(agriScanGroup, 0.08, 0.18, 0.25, 0x27272A, sx, 0, rz);
+    }
+    B(agriScanGroup, 0.12, 0.18, 0.6, 0x84CC16, sx, 0.05, -0.3);
+  });
+
+  // High-Resolution OLED Display Screen (Image 2)
+  const agriScanTex = createAgriScanScreenTexture();
+  const screenMat = agriScanTex ? new THREE.MeshBasicMaterial({ map: agriScanTex }) : mat(0x10B981);
+  const agriDisplay = new THREE.Mesh(new THREE.PlaneGeometry(1.95, 3.85), screenMat);
+  agriDisplay.rotation.x = -Math.PI / 2;
+  agriDisplay.position.set(0, asH / 2 + 0.02, 0.1);
+  agriScanGroup.add(agriDisplay);
+
+  // Animated Laser Aiming Scanner Beam from AgriScan towards Crate
+  let scannerBeam = null;
+  const scannerBeamGeom = new THREE.CylinderGeometry(0.12, 1.8, 5.5, 16, 1, true);
+  const scannerBeamMat = new THREE.MeshBasicMaterial({
+    color: 0x00FF9D,
+    transparent: true,
+    opacity: 0.30,
+    side: THREE.DoubleSide
+  });
+  scannerBeam = new THREE.Mesh(scannerBeamGeom, scannerBeamMat);
+  scannerBeam.position.set(-2.2, 0.8, -0.4);
+  scannerBeam.rotation.z = Math.PI / 3;
+  scannerBeam.rotation.y = -Math.PI / 6;
+  agriScanGroup.add(scannerBeam);
+
+  // Floating 3D Green Shield with Checkmark above screen
   const phoneShieldGroup = new THREE.Group();
-  phoneShieldGroup.position.set(0.4, 0.85, 0.6);
-  phoneGroup.add(phoneShieldGroup);
+  phoneShieldGroup.position.set(0.4, 0.95, 0.6);
+  agriScanGroup.add(phoneShieldGroup);
 
-  const shieldMat = new THREE.MeshLambertMaterial({ color: 0x10B981 });
-  const shieldMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.35, 0.1, 0.55, 6), shieldMat);
+  const shieldMesh = new THREE.Mesh(new THREE.CylinderGeometry(0.35, 0.1, 0.55, 6), mat(0x10B981));
   shieldMesh.rotation.y = Math.PI / 6;
   phoneShieldGroup.add(shieldMesh);
   B(phoneShieldGroup, 0.06, 0.18, 0.04, 0xFFFFFF, -0.08, 0, 0.18);
-  B(phoneShieldGroup, 0.06, 0.32, 0.04, 0xFFFFFF, 0.06, 0.05, 0.18);
+  B(phoneShieldGroup, 0.06, 0.32, 0.04, 0xFFFFFF,  0.06, 0.05, 0.18);
+
+  // 3. FREESTANDING INTERACTIVE TOTEM KIOSK (IMAGE 1)
+  const totemGroup = new THREE.Group();
+  totemGroup.position.set(13.2, 2.75, -3.2);
+  totemGroup.rotation.y = -0.38;
+  sc.add(totemGroup);
+
+  B(totemGroup, 2.5, 0.16, 1.8, 0x1E293B, 0, 0, 0);
+  B(totemGroup, 2.0, 4.4, 0.85, 0xFFFFFF, 0, 0.16, 0);
+
+  // Warm Oak Wood Trim running down both sides (Image 1)
+  [-1.04, 1.04].forEach(ox => {
+    B(totemGroup, 0.14, 4.4, 0.88, 0xC99A6B, ox, 0.16, 0);
+  });
+
+  // Vertical Portrait Touch Display Screen (Image 1)
+  const totemTex = createTotemScreenTexture(step >= 6 ? 5 : (step >= 4 ? 4 : (step >= 3 ? 3 : (step >= 1 ? 2 : 1))));
+  const totemScreenMat = totemTex ? new THREE.MeshBasicMaterial({ map: totemTex }) : mat(0x10B981);
+  const totemScreen = new THREE.Mesh(new THREE.PlaneGeometry(1.7, 3.2), totemScreenMat);
+  totemScreen.position.set(0, 2.65, 0.44);
+  totemGroup.add(totemScreen);
+
+  // Bottom Pedestal Brand Plate ("TRACEABILITY BUILDS A HEALTHIER FOOD SYSTEM")
+  const totemBaseTex = createTotemBaseTexture();
+  if (totemBaseTex) {
+    const baseMat = new THREE.MeshBasicMaterial({ map: totemBaseTex });
+    const basePlate = new THREE.Mesh(new THREE.PlaneGeometry(1.7, 0.7), baseMat);
+    basePlate.position.set(0, 0.65, 0.44);
+    totemGroup.add(basePlate);
+  }
+
+  S_(totemGroup, 0.08, 0x10B981, 0, 4.58, 0);
 
   // Atmospheric Floating Shields & Golden Padlocks
   const floatingAssets = [];
@@ -2188,7 +2679,29 @@
     };
   }
 
-  // Camera Spatial Perspectives
+  // Camera Spatial Perspectives & Presets
+  const PERSPECTIVE_CONFIG = {
+    auto: { camX: 0, camZ: 0, r: 28, lookY: 2.2, th: 0.28, ph: 0.98 },
+    orbit: { camX: 0, camZ: 0, r: 28, lookY: 2.2, th: 0.28, ph: 0.98 },
+    farm: { camX: -8.5, camZ: -3.5, r: 13, lookY: 3.0, th: 0.35, ph: 1.05 },
+    farmer: { camX: -8.5, camZ: -3.5, r: 13, lookY: 3.0, th: 0.35, ph: 1.05 },
+    crate: { camX: 0.8, camZ: 3.8, r: 8.5, lookY: 1.6, th: 0.12, ph: 0.92 },
+    greenharvest: { camX: 0.8, camZ: 3.8, r: 8.5, lookY: 1.6, th: 0.12, ph: 0.92 },
+    camera: { camX: -2.8, camZ: -2.0, r: 11, lookY: 3.2, th: 0.25, ph: 1.0 },
+    inspection: { camX: -2.8, camZ: -2.0, r: 11, lookY: 3.2, th: 0.25, ph: 1.0 },
+    lab: { camX: -2.8, camZ: -2.0, r: 11, lookY: 3.2, th: 0.25, ph: 1.0 },
+    truck: { camX: 4.2, camZ: -3.8, r: 12, lookY: 3.0, th: 0.20, ph: 1.02 },
+    transit: { camX: 4.2, camZ: -3.8, r: 12, lookY: 3.0, th: 0.20, ph: 1.02 },
+    grocery: { camX: 9.2, camZ: -3.5, r: 13, lookY: 3.4, th: 0.22, ph: 1.05 },
+    market: { camX: 9.2, camZ: -3.5, r: 13, lookY: 3.4, th: 0.22, ph: 1.05 },
+    totem: { camX: 13.2, camZ: -3.2, r: 9.5, lookY: 4.2, th: -0.28, ph: 1.02 },
+    kiosk: { camX: 13.2, camZ: -3.2, r: 9.5, lookY: 4.2, th: -0.28, ph: 1.02 },
+    agriscan: { camX: 6.2, camZ: 3.2, r: 9.0, lookY: 1.8, th: -0.15, ph: 0.88 },
+    terminal: { camX: 6.2, camZ: 3.2, r: 9.0, lookY: 1.8, th: -0.15, ph: 0.88 },
+    phone: { camX: 6.2, camZ: 3.2, r: 9.0, lookY: 1.8, th: -0.15, ph: 0.88 },
+    fork: { camX: 6.2, camZ: 3.2, r: 9.0, lookY: 1.8, th: -0.15, ph: 0.88 }
+  };
+
   document.querySelectorAll('[data-v]').forEach(b => {
     b.onclick = () => {
       mode = b.dataset.v;
@@ -2200,11 +2713,22 @@
       trackClick('CAMERA_PERSPECTIVE_SWITCH', `Perspective: ${mode}`, { mode });
 
       if (mode === 'farm' || mode === 'farmer') go(0);
+      else if (mode === 'crate' || mode === 'greenharvest') {
+        go(0);
+        o.th = 0.12; o.ph = 0.92;
+      }
       else if (mode === 'mandi') go(1);
       else if (mode === 'camera' || mode === 'inspection' || mode === 'lab') go(3);
       else if (mode === 'truck' || mode === 'transit') go(5);
-      else if (mode === 'grocery') go(6);
-      else if (mode === 'phone' || mode === 'fork') go(7);
+      else if (mode === 'grocery' || mode === 'market') go(6);
+      else if (mode === 'totem' || mode === 'kiosk') {
+        go(6);
+        o.th = -0.28; o.ph = 1.02;
+      }
+      else if (mode === 'agriscan' || mode === 'terminal' || mode === 'phone' || mode === 'fork') {
+        go(7);
+        o.th = -0.15; o.ph = 0.88;
+      }
       else if (mode === 'auto' || mode === 'orbit') {
         o.th = 0.28;
         o.ph = 0.98;
@@ -2242,7 +2766,7 @@
     };
   }
 
-  // --- Spatial Camera Orbiting & Drag Controls (Exact Isometric Angle from Reference Image) ---
+  // --- Spatial Camera Orbiting & Drag Controls ---
   const o = { th: 0.28, ph: 0.98 };
   const cur = new V(0, 2.2, 0);
   let curR = 28;
@@ -2308,6 +2832,18 @@
     }, { passive: false });
   }
 
+  // Interactive 3D Canvas Click Handler with High-Detail Stations
+  const CLICK_STATIONS = [
+    { name: '1. Shinde Organic Farm Plot & Farmer', x: -8.5, z: -3.5, view: 'farm', stepIdx: 0 },
+    { name: '2. "inspection camera" Station', x: -2.8, z: -2.0, view: 'camera', stepIdx: 3 },
+    { name: '3. S-Curve Blockchain Waypoint', x: 0.5, z: -1.2, view: 'transit', stepIdx: 4 },
+    { name: '4. IoT Reefer Truck Transporter', x: 4.2, z: -3.8, view: 'truck', stepIdx: 5 },
+    { name: '5. "GROCERY" Retail Market Stall', x: 9.2, z: -3.5, view: 'grocery', stepIdx: 6 },
+    { name: '6. Interactive Totem Kiosk', x: 13.2, z: -3.2, view: 'totem', stepIdx: 6 },
+    { name: '7. GreenHarvest Finger-Jointed Crate', x: 0.8, z: 3.8, view: 'crate', stepIdx: 0 },
+    { name: '8. AgriScan Rugged Field Terminal', x: 6.2, z: 3.2, view: 'agriscan', stepIdx: 7 }
+  ];
+
   function handle3DCanvasClick(e) {
     if (typeof THREE === 'undefined' || !THREE.Raycaster || !THREE.Plane) return;
     const rect = cv.getBoundingClientRect();
@@ -2321,23 +2857,23 @@
     const hit = ray.ray.intersectPlane(plane, targetPoint);
 
     if (hit) {
-      let closestIdx = -1;
-      let minDistance = 6.0;
-      STATIONS.forEach((stn, idx) => {
-        const d = Math.hypot(targetPoint.x - stn.x, targetPoint.z - (stn.z !== undefined ? stn.z : 0));
+      let closest = null;
+      let minDistance = 6.5;
+      CLICK_STATIONS.forEach(stn => {
+        const d = Math.hypot(targetPoint.x - stn.x, targetPoint.z - stn.z);
         if (d < minDistance) {
           minDistance = d;
-          closestIdx = idx;
+          closest = stn;
         }
       });
 
-      if (closestIdx !== -1) {
-        go(closestIdx);
+      if (closest) {
+        mode = closest.view;
+        go(closest.stepIdx);
         sfx.beep(580, 0.08);
-        trackClick('STATION_3D_CLICK', `3D Scene Click on Station #${closestIdx + 1}: ${NM[closestIdx]}`, {
-          stationIndex: closestIdx,
-          stationName: NM[closestIdx],
-          gps: GPS[closestIdx]
+        trackClick('STATION_3D_CLICK', `3D Scene Click on ${closest.name}`, {
+          stationName: closest.name,
+          view: closest.view
         });
       }
     }
@@ -2404,6 +2940,26 @@
     if (typeof phoneShieldGroup !== 'undefined' && phoneShieldGroup) {
       phoneShieldGroup.position.y = 0.85 + Math.sin(t * 3.0) * 0.08;
       phoneShieldGroup.rotation.y += dt * 0.8;
+    }
+
+    // Animated Holographic Laser Scan Plane on GreenHarvest Crate
+    if (typeof scanLaserPlane !== 'undefined' && scanLaserPlane) {
+      scanLaserPlane.position.y = 0.68 + Math.sin(t * 3.2) * 0.30;
+    }
+
+    // Dynamic Pulsing Green Aura on QR Code
+    if (typeof qrGlowBorder !== 'undefined' && qrGlowBorder && qrGlowBorder.material) {
+      qrGlowBorder.material.opacity = 0.35 + Math.sin(t * 4.0) * 0.25;
+    }
+
+    // AgriScan Laser Beam pulsing
+    if (typeof scannerBeam !== 'undefined' && scannerBeam && scannerBeam.material) {
+      scannerBeam.material.opacity = 0.20 + Math.sin(t * 3.0) * 0.15;
+    }
+
+    // Totem Kiosk subtle idle breathing
+    if (typeof totemGroup !== 'undefined' && totemGroup) {
+      totemGroup.position.y = 2.75 + Math.sin(t * 1.5) * 0.015;
     }
 
     // Sky Blockchain Ledger slow ethereal rotation
