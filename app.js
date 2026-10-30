@@ -102,23 +102,23 @@
 
   // Set warm studio cream background matching the reference image (#F5EFE6)
   if (typeof THREE !== 'undefined' && THREE.Color) {
-    sc.background = new THREE.Color(0xF5EFE6);
+    sc.background = new THREE.Color(0x09090C);
   }
   if (R && R.setClearColor) {
-    R.setClearColor(0xF5EFE6, 1.0);
+    R.setClearColor(0x09090C, 1.0);
   }
 
-  // Soft diffused studio illumination
-  sc.add(new THREE.AmbientLight(0xFFF9F2, 0.95));
-  const sun = new THREE.DirectionalLight(0xFFFFFF, 0.92);
+  // Luxury Obsidian & Champagne Gold Studio Lighting
+  sc.add(new THREE.AmbientLight(0xFFF6E5, 0.70));
+  const sun = new THREE.DirectionalLight(0xFFFDF0, 1.25);
   sun.position.set(18, 34, 22);
   sc.add(sun);
 
-  const fillLight = new THREE.DirectionalLight(0xE0F2FE, 0.35);
+  const fillLight = new THREE.DirectionalLight(0xD4AF37, 0.50);
   fillLight.position.set(-18, 18, 20);
   sc.add(fillLight);
 
-  const rimLight = new THREE.DirectionalLight(0xFDE68A, 0.30);
+  const rimLight = new THREE.DirectionalLight(0xF5E6BE, 0.70);
   rimLight.position.set(-20, 22, -22);
   sc.add(rimLight);
 
