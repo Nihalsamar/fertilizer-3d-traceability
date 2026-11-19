@@ -1,29 +1,31 @@
 import React, { useState } from 'react';
-import { BATCHES_DATA } from '../data/mockBatches';
-import { Search, ShieldCheck, AlertOctagon, CheckCircle2, QrCode, FileText, ArrowRight, ExternalLink } from 'lucide-react';
+import { BATCHES_DATA, FARMER_TEXT } from '../data/mockBatches';
+import { Search, CheckCircle2, AlertTriangle, ShieldCheck, Phone, FileText, ArrowRight } from 'lucide-react';
 import confetti from 'canvas-confetti';
 
-export default function BatchLookup({ onOpenDataHub }) {
-  const [searchTerm, setSearchTerm] = useState('BATCH-UREA-2026-9041');
+export default function BatchLookup({ lang = 'hi', onSelectBatch, onOpenDataHub }) {
+  const [query, setQuery] = useState('9041');
   const [activeBatch, setActiveBatch] = useState(BATCHES_DATA[0]);
   const [searched, setSearched] = useState(true);
+  const t = FARMER_TEXT[lang];
 
   const handleSearch = (e) => {
     e?.preventDefault();
-    const query = searchTerm.trim().toUpperCase();
+    const clean = query.trim().toUpperCase();
     const found = BATCHES_DATA.find(
-      b => b.batchId.toUpperCase().includes(query) || b.productName.toUpperCase().includes(query)
+      b => b.shortId === clean || b.batchId.toUpperCase().includes(clean)
     );
 
     if (found) {
       setActiveBatch(found);
       setSearched(true);
-      if (found.status === 'DELIVERED') {
+      if (onSelectBatch) onSelectBatch(found.batchId);
+      if (found.isGenuine) {
         confetti({
-          particleCount: 40,
+          particleCount: 35,
           spread: 60,
           origin: { y: 0.7 },
-          colors: ['#FF6A1A', '#3DDC84', '#ffffff']
+          colors: ['#10B981', '#FF6A1A', '#ffffff']
         });
       }
     } else {
@@ -32,233 +34,255 @@ export default function BatchLookup({ onOpenDataHub }) {
     }
   };
 
-  const handleQuickSelect = (id) => {
-    setSearchTerm(id);
-    const found = BATCHES_DATA.find(b => b.batchId === id);
+  const handleSelectSample = (id) => {
+    setQuery(id);
+    const found = BATCHES_DATA.find(b => b.shortId === id || b.batchId === id);
     if (found) {
       setActiveBatch(found);
       setSearched(true);
-      if (found.status === 'DELIVERED') {
+      if (onSelectBatch) onSelectBatch(found.batchId);
+      if (found.isGenuine) {
         confetti({
-          particleCount: 30,
+          particleCount: 25,
           spread: 50,
           origin: { y: 0.75 },
-          colors: ['#FF6A1A', '#3DDC84']
+          colors: ['#10B981', '#3DDC84']
         });
       }
     }
   };
 
   return (
-    <section id="lookup" className="py-24 px-4 sm:px-8 max-w-7xl mx-auto">
-      {/* Header */}
-      <div className="flex flex-col items-center text-center mb-12">
-        <div className="inline-flex items-center gap-2 glass-panel px-3.5 py-1.5 rounded-full border border-white/10 mb-4 text-xs font-mono text-[#38BDF8]">
-          <Search className="w-3.5 h-3.5" />
-          <span>INSTANT VERIFICATION TERMINAL</span>
+    <section id="lookup-section" className="py-16 px-4 sm:px-8 max-w-5xl mx-auto">
+      {/* Section Header */}
+      <div className="flex flex-col items-center text-center mb-8">
+        <div className="inline-flex items-center gap-2 glass-panel px-3.5 py-1.5 rounded-full border border-white/10 mb-3 text-xs text-[#3DDC84] font-semibold">
+          <span>⚡</span>
+          <span>{lang === 'hi' ? 'तुरंत जांचें: असली या नकली' : 'Instant Verification Terminal'}</span>
         </div>
-        <h2 className="font-display font-bold text-3xl sm:text-4xl md:text-5xl tracking-tight text-white mb-4">
-          Verify Fertilizer Provenance
+        <h2 className="font-display font-bold text-2xl sm:text-3xl md:text-4xl text-white mb-2">
+          {lang === 'hi' ? 'अपनी बोरी का नंबर यहां डालें' : 'Enter Your Fertilizer Bag Number'}
         </h2>
-        <p className="text-sm sm:text-base text-[#A1A1AA] max-w-xl leading-relaxed">
-          Input any serialized Bag QR, Pallet hash, or consignment lot number to audit its complete cryptographic journey.
+        <p className="text-xs sm:text-sm text-[#A1A1AA] max-w-lg">
+          {lang === 'hi'
+            ? 'बोरी पर छपे क्यूआर कोड के नीचे दिया गया 4 अंकों का नंबर डालें और 1 सेकंड में जांचें:'
+            : 'Enter the 4-digit number printed below the QR code to check authenticity:'}
         </p>
       </div>
 
-      {/* Glowing Search Box */}
-      <div className="max-w-3xl mx-auto mb-8">
-        <form onSubmit={handleSearch} className="relative group">
-          <div className="absolute -inset-1 bg-gradient-to-r from-[#FF6A1A] via-[#38BDF8] to-[#3DDC84] rounded-3xl blur-md opacity-30 group-hover:opacity-60 transition duration-500" />
-          
-          <div className="relative flex items-center glass-panel rounded-2xl sm:rounded-full p-2 border border-white/20 bg-[#0B0B0C]/90 shadow-2xl">
-            <div className="pl-4 pr-2 text-white/50">
-              <Search className="w-5 h-5 text-[#FF6A1A]" />
-            </div>
-            <input
-              type="text"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              placeholder="Search by Batch ID, QR Token, or Product Name..."
-              className="w-full bg-transparent text-white placeholder-white/40 text-sm sm:text-base px-2 py-2.5 focus:outline-none font-mono"
-            />
-            <button
-              type="submit"
-              className="px-6 py-3 rounded-xl sm:rounded-full bg-white text-[#0B0B0C] font-semibold text-xs sm:text-sm hover:bg-[#FF6A1A] hover:text-white transition-all shadow-glow-orange flex items-center gap-2 shrink-0"
-            >
-              <span>Audit Batch</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
-          </div>
+      {/* Big Farmer Search Box */}
+      <div className="max-w-2xl mx-auto mb-6">
+        <form onSubmit={handleSearch} className="relative flex items-center">
+          <input
+            type="text"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder={lang === 'hi' ? 'उदा. 9041 या 8812 या 773' : 'e.g. 9041 or 8812 or 773'}
+            className="w-full bg-[#18181B] border-2 border-white/20 focus:border-[#10B981] rounded-2xl sm:rounded-full py-4 pl-5 pr-32 text-base text-white placeholder-white/40 font-mono focus:outline-none shadow-xl transition-all"
+          />
+          <button
+            type="submit"
+            className="absolute right-2 px-6 py-2.5 rounded-xl sm:rounded-full bg-gradient-to-r from-[#10B981] to-[#059669] text-white font-bold text-xs sm:text-sm hover:opacity-90 transition-all shadow-glow-green flex items-center gap-1.5"
+          >
+            <span>{lang === 'hi' ? 'जांचें' : 'Check'}</span>
+            <ArrowRight className="w-4 h-4" />
+          </button>
         </form>
 
-        {/* Quick Sample Batch Pills */}
+        {/* Quick Sample Pills */}
         <div className="flex items-center justify-center flex-wrap gap-2 mt-4 text-xs">
-          <span className="text-[#A1A1AA]">Sample Batches:</span>
-          {BATCHES_DATA.map((b) => (
-            <button
-              key={b.batchId}
-              type="button"
-              onClick={() => handleQuickSelect(b.batchId)}
-              className={`px-3 py-1 rounded-full font-mono transition-all border ${
-                activeBatch?.batchId === b.batchId
-                  ? 'bg-white/15 text-white border-white/30'
-                  : 'bg-white/5 text-white/60 border-white/10 hover:text-white hover:border-white/20'
-              }`}
-            >
-              {b.batchId.replace('BATCH-', '')}
-            </button>
-          ))}
+          <span className="text-[#A1A1AA]">{t.samplePillsTitle}</span>
+          <button
+            type="button"
+            onClick={() => handleSelectSample('9041')}
+            className={`px-3 py-1.5 rounded-full font-medium transition-all border ${
+              activeBatch?.shortId === '9041'
+                ? 'bg-[#10B981] text-white border-[#10B981]'
+                : 'bg-white/5 text-white/70 border-white/10 hover:text-white'
+            }`}
+          >
+            {t.ureaPill}
+          </button>
+          <button
+            type="button"
+            onClick={() => handleSelectSample('8812')}
+            className={`px-3 py-1.5 rounded-full font-medium transition-all border ${
+              activeBatch?.shortId === '8812'
+                ? 'bg-[#10B981] text-white border-[#10B981]'
+                : 'bg-white/5 text-white/70 border-white/10 hover:text-white'
+            }`}
+          >
+            {t.dapPill}
+          </button>
+          <button
+            type="button"
+            onClick={() => handleSelectSample('773')}
+            className={`px-3 py-1.5 rounded-full font-medium transition-all border ${
+              activeBatch?.shortId === '773'
+                ? 'bg-red-500 text-white border-red-500'
+                : 'bg-red-500/10 text-red-400 border-red-500/30 hover:bg-red-500/20'
+            }`}
+          >
+            {t.fakePill}
+          </button>
         </div>
       </div>
 
-      {/* 3D Result Card */}
+      {/* Result Card: Very Clear and High Contrast for Farmers */}
       {searched && activeBatch && (
-        <div className="max-w-4xl mx-auto glass-panel p-6 sm:p-10 rounded-3xl border border-white/15 shadow-2xl relative overflow-hidden">
-          {/* Status Header Banner */}
-          <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-white/10 mb-8">
+        <div className={`glass-panel p-6 sm:p-8 rounded-3xl border ${
+          activeBatch.isGenuine ? 'border-[#10B981]/40 bg-[#0B0B0C]/90' : 'border-red-500/50 bg-red-950/20'
+        } shadow-2xl relative overflow-hidden transition-all duration-300`}>
+          
+          {/* Top Status Header */}
+          <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-white/10 mb-6">
             <div>
-              <div className="flex items-center gap-2.5 mb-2">
-                <span className="text-xs font-mono font-bold px-3 py-1 rounded-full bg-white/10 text-[#FF6A1A] border border-[#FF6A1A]/30">
+              <div className="flex items-center gap-2 mb-2">
+                <span className={`px-3 py-1 rounded-full text-xs font-bold font-mono ${
+                  activeBatch.isGenuine
+                    ? 'bg-[#10B981]/20 text-[#3DDC84] border border-[#10B981]/40'
+                    : 'bg-red-500/20 text-red-400 border border-red-500/40'
+                }`}>
                   {activeBatch.batchId}
                 </span>
-                <span className="text-xs font-mono text-[#A1A1AA]">
-                  Mfg: {activeBatch.mfgDate}
+                <span className="text-xs text-[#A1A1AA]">
+                  {lang === 'hi' ? `बोरी वजन: ${activeBatch.bagWeight}` : `Net: ${activeBatch.bagWeight}`}
                 </span>
               </div>
+
               <h3 className="font-display font-bold text-2xl sm:text-3xl text-white">
-                {activeBatch.productName}
+                {lang === 'hi' ? activeBatch.productName : activeBatch.productNameEn}
               </h3>
               <p className="text-xs text-[#A1A1AA] mt-1">
-                Produced by: {activeBatch.manufacturer} ({activeBatch.factoryGps})
+                {lang === 'hi' ? `कंपनी: ${activeBatch.manufacturerHi}` : `Manufacturer: ${activeBatch.manufacturer}`}
               </p>
             </div>
 
-            {/* Status Pill */}
-            <div>
-              {activeBatch.tripwireTripped ? (
-                <div className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-red-500/20 border border-red-500/40 text-red-300">
-                  <AlertOctagon className="w-5 h-5 text-red-400" />
-                  <div className="text-left">
-                    <div className="text-xs font-bold font-mono">REVERSE FLOW RECALLED</div>
-                    <div className="text-[10px] opacity-80">Sensor tripwire breach</div>
-                  </div>
-                </div>
+            {/* Big Green or Red Authenticity Badge */}
+            <div className={`px-5 py-3 rounded-2xl flex items-center gap-3 border ${
+              activeBatch.isGenuine
+                ? 'bg-[#10B981]/20 border-[#10B981]/50 text-[#3DDC84]'
+                : 'bg-red-500/25 border-red-500/60 text-red-300'
+            }`}>
+              {activeBatch.isGenuine ? (
+                <CheckCircle2 className="w-8 h-8 text-[#10B981] shrink-0" />
               ) : (
-                <div className="flex items-center gap-2 px-4 py-2 rounded-2xl bg-[#3DDC84]/20 border border-[#3DDC84]/40 text-[#A7F3D0]">
-                  <CheckCircle2 className="w-5 h-5 text-[#3DDC84]" />
-                  <div className="text-left">
-                    <div className="text-xs font-bold font-mono">VERIFIED GENUINE ✓</div>
-                    <div className="text-[10px] opacity-80">₹1,500 DBT Subsidy Cleared</div>
-                  </div>
-                </div>
+                <AlertTriangle className="w-8 h-8 text-red-400 shrink-0" />
               )}
+              <div>
+                <div className="font-bold text-base sm:text-lg">
+                  {lang === 'hi' ? activeBatch.statusBadgeHi : activeBatch.statusBadgeEn}
+                </div>
+                <div className="text-xs opacity-90">
+                  {activeBatch.isGenuine
+                    ? (lang === 'hi' ? 'सब्सिडी ₹1,500 सुरक्षित' : '₹1,500 Subsidy Approved')
+                    : (lang === 'hi' ? 'यह खाद न खरीदें' : 'Do Not Buy This Bag')}
+                </div>
+              </div>
             </div>
           </div>
 
-          {/* Three Key Metrics Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
-            <div className="bg-black/30 p-4 rounded-2xl border border-white/5">
-              <span className="text-[11px] font-mono uppercase text-[#A1A1AA] block mb-1">
-                Nitrogen Content / QC
+          {/* Key Farmer Details Grid (Price, Subsidy, Nitrogen, Lab) */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+            <div className="bg-black/40 p-3.5 rounded-2xl border border-white/5">
+              <span className="text-[11px] text-[#A1A1AA] block mb-1">
+                {lang === 'hi' ? 'सरकारी रेट (MRP)' : 'Official MRP'}
               </span>
               <span className="text-lg font-bold font-mono text-white">
-                {activeBatch.labCertification.nitrogenContent.split(' ')[0]}
+                {activeBatch.mrp}
               </span>
-              <span className="text-[11px] text-[#3DDC84] block mt-0.5">
-                HPLC Grade A Pass
+              <span className="text-[10px] text-[#3DDC84] block mt-0.5">
+                {lang === 'hi' ? 'अधिकतम मूल्य' : 'Max Retail Price'}
               </span>
             </div>
 
-            <div className="bg-black/30 p-4 rounded-2xl border border-white/5">
-              <span className="text-[11px] font-mono uppercase text-[#A1A1AA] block mb-1">
-                Live Sensor Telemetry
+            <div className="bg-black/40 p-3.5 rounded-2xl border border-white/5">
+              <span className="text-[11px] text-[#A1A1AA] block mb-1">
+                {lang === 'hi' ? 'सरकारी सब्सिडी' : 'Govt Subsidy'}
               </span>
-              <span className={`text-lg font-bold font-mono ${activeBatch.tripwireTripped ? 'text-red-400' : 'text-white'}`}>
-                {activeBatch.currentTemp}°C &bull; {activeBatch.currentHumidity}% RH
+              <span className={`text-lg font-bold font-mono ${activeBatch.isGenuine ? 'text-[#3DDC84]' : 'text-red-400'}`}>
+                {activeBatch.dbtSubsidy}
               </span>
-              <span className={`text-[11px] block mt-0.5 ${activeBatch.tripwireTripped ? 'text-red-400' : 'text-[#3DDC84]'}`}>
-                {activeBatch.tripwireTripped ? 'Threshold Exceeded' : 'Safe Operating Window'}
+              <span className="text-[10px] text-[#A1A1AA] block mt-0.5">
+                {activeBatch.isGenuine
+                  ? (lang === 'hi' ? 'सीधे बैंक खाते में ✓' : 'Direct to Bank ✓')
+                  : (lang === 'hi' ? 'सब्सिडी रोकी गई' : 'Subsidy Revoked')}
               </span>
             </div>
 
-            <div className="bg-black/30 p-4 rounded-2xl border border-white/5">
-              <span className="text-[11px] font-mono uppercase text-[#A1A1AA] block mb-1">
-                Consignment Size
+            <div className="bg-black/40 p-3.5 rounded-2xl border border-white/5">
+              <span className="text-[11px] text-[#A1A1AA] block mb-1">
+                {lang === 'hi' ? 'नाइट्रोजन शुद्धता' : 'Nitrogen Grade'}
               </span>
               <span className="text-lg font-bold font-mono text-white">
-                {activeBatch.quantity}
+                {activeBatch.nitrogen.split(' ')[0]}
               </span>
-              <span className="text-[11px] text-[#38BDF8] block mt-0.5">
-                {activeBatch.unitSize}
+              <span className="text-[10px] text-[#3DDC84] block mt-0.5">
+                {activeBatch.isGenuine ? '46% मानक पास' : 'अमान्य मात्रा'}
+              </span>
+            </div>
+
+            <div className="bg-black/40 p-3.5 rounded-2xl border border-white/5">
+              <span className="text-[11px] text-[#A1A1AA] block mb-1">
+                {lang === 'hi' ? 'किसान / लाभार्थी' : 'Farmer / Beneficiary'}
+              </span>
+              <span className="text-sm font-bold text-white truncate block">
+                {activeBatch.farmerName.split(' ')[0]}
+              </span>
+              <span className="text-[10px] text-[#38BDF8] block mt-0.5">
+                {lang === 'hi' ? 'आधार लिंक्ड' : 'Aadhaar Verified'}
               </span>
             </div>
           </div>
 
-          {/* Custody Timeline */}
-          <div className="mb-8">
-            <h4 className="text-xs font-mono uppercase tracking-wider text-[#A1A1AA] mb-4">
-              Cryptographic Custody Timeline
+          {/* Alert Explanation Box */}
+          <div className={`p-4 rounded-2xl border mb-6 text-xs sm:text-sm leading-relaxed ${
+            activeBatch.isGenuine
+              ? 'bg-[#10B981]/10 border-[#10B981]/30 text-[#D1FAE5]'
+              : 'bg-red-500/15 border-red-500/40 text-red-200'
+          }`}>
+            <p className="font-medium">
+              {lang === 'hi' ? activeBatch.alertMessageHi : activeBatch.alertMessageEn}
+            </p>
+          </div>
+
+          {/* Simple Bag Journey for the Farmer */}
+          <div className="pt-2">
+            <h4 className="text-xs font-mono uppercase tracking-wider text-[#A1A1AA] mb-3">
+              {lang === 'hi' ? 'आपकी बोरी का सफर (कहाँ से आई):' : 'Journey of this Fertilizer Bag:'}
             </h4>
-            <div className="space-y-4">
-              {activeBatch.stages.map((st, i) => (
-                <div key={st.id} className="flex items-start gap-4 text-xs">
-                  <div className="flex flex-col items-center">
-                    <div className={`w-6 h-6 rounded-full flex items-center justify-center font-mono font-bold text-[10px] ${
-                      st.status === 'FAILED'
-                        ? 'bg-red-500/20 text-red-400 border border-red-500/40'
-                        : 'bg-[#3DDC84]/20 text-[#3DDC84] border border-[#3DDC84]/40'
-                    }`}>
-                      {i + 1}
-                    </div>
-                    {i < activeBatch.stages.length - 1 && (
-                      <div className="w-[1px] h-8 bg-white/10 my-1" />
-                    )}
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              {activeBatch.journey.map((step, idx) => (
+                <div key={idx} className="bg-black/30 p-3 rounded-xl border border-white/5 text-xs">
+                  <div className="flex items-center justify-between mb-1">
+                    <span className="font-bold text-white">
+                      {lang === 'hi' ? step.titleHi : step.titleEn}
+                    </span>
+                    <span className="text-[10px] font-mono text-[#3DDC84]">{step.date}</span>
                   </div>
-                  <div className="flex-1 pb-2">
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                      <span className="font-semibold text-white">{st.title}</span>
-                      <span className="text-[10.5px] font-mono text-[#A1A1AA]">{st.timestamp}</span>
-                    </div>
-                    <div className="text-[11px] text-white/70 mt-0.5">{st.location}</div>
-                    <div className="text-[11px] text-[#A1A1AA] mt-1 font-light">{st.note}</div>
-                  </div>
+                  <p className="text-[11.5px] text-[#A1A1AA] font-light">
+                    {lang === 'hi' ? step.descHi : step.descEn}
+                  </p>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* Cryptographic Footprint Bar */}
-          <div className="pt-6 border-t border-white/10 flex flex-wrap items-center justify-between gap-4 text-xs">
-            <div className="flex items-center gap-2">
-              <QrCode className="w-4 h-4 text-[#FF6A1A]" />
-              <span className="text-[#A1A1AA]">Merkle Root:</span>
-              <span className="font-mono text-white/90 truncate max-w-xs">{activeBatch.merkleRoot}</span>
+          {/* Fake Bag Complaint Action Button */}
+          {!activeBatch.isGenuine && (
+            <div className="mt-6 pt-4 border-t border-white/10 flex items-center justify-between flex-wrap gap-3">
+              <span className="text-xs text-red-300 font-semibold">
+                {lang === 'hi' ? 'नकली खाद बेचने वाले दुकानदार की शिकायत करें:' : 'Report this seller to the Kisan Call Centre:'}
+              </span>
+              <a
+                href="tel:18001801551"
+                className="px-5 py-2.5 rounded-full bg-red-600 text-white font-bold text-xs hover:bg-red-500 transition-all flex items-center gap-2 shadow-lg shadow-red-600/30"
+              >
+                <Phone className="w-3.5 h-3.5" />
+                <span>{lang === 'hi' ? '📞 1800-180-1551 पर शिकायत करें' : '📞 Call 1800-180-1551'}</span>
+              </a>
             </div>
-
-            <button
-              onClick={onOpenDataHub}
-              className="text-xs text-[#3DDC84] hover:underline flex items-center gap-1.5 font-medium"
-            >
-              <span>View Full Provenance Table &amp; Excel Export</span>
-              <ExternalLink className="w-3.5 h-3.5" />
-            </button>
-          </div>
-        </div>
-      )}
-
-      {searched && !activeBatch && (
-        <div className="max-w-md mx-auto glass-panel p-8 rounded-3xl border border-white/10 text-center">
-          <AlertOctagon className="w-10 h-10 text-[#FF6A1A] mx-auto mb-3" />
-          <h3 className="font-bold text-lg text-white mb-1">Batch Record Not Found</h3>
-          <p className="text-xs text-[#A1A1AA] mb-4">
-            Could not find a batch matching "{searchTerm}". Please check the ID or select one of the sample batches above.
-          </p>
-          <button
-            onClick={() => handleQuickSelect('BATCH-UREA-2026-9041')}
-            className="px-4 py-2 rounded-full bg-white/10 text-white text-xs font-semibold hover:bg-white/20 transition-all"
-          >
-            Load Sample Batch
-          </button>
+          )}
         </div>
       )}
     </section>

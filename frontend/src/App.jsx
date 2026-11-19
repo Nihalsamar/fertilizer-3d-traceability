@@ -9,7 +9,9 @@ import Footer from './components/Footer';
 import DataHubModal from './components/DataHubModal';
 
 export default function App() {
+  const [lang, setLang] = useState('hi'); // Default Hindi for Indian farmers
   const [dataHubOpen, setDataHubOpen] = useState(false);
+  const [activeBatchId, setActiveBatchId] = useState('BATCH-UREA-2026-9041');
 
   const scrollToSection = (id) => {
     const el = document.getElementById(id);
@@ -19,41 +21,55 @@ export default function App() {
   };
 
   return (
-    <div className="relative min-h-screen bg-[#0B0B0C] text-[#F5F5F5] overflow-x-hidden selection:bg-[#FF6A1A]/30 selection:text-white">
-      {/* Authentic Subtle Film Grain Overlay */}
+    <div className="relative min-h-screen bg-[#0B0B0C] text-[#F5F5F5] overflow-x-hidden selection:bg-[#10B981]/30 selection:text-white">
+      {/* Subtle Grain Overlay */}
       <div className="film-grain" aria-hidden="true" />
 
-      {/* Top Floating Navbar */}
+      {/* Simplified Farmer Navbar with Bilingual Switcher */}
       <Navbar
+        lang={lang}
+        setLang={setLang}
         onOpenDataHub={() => setDataHubOpen(true)}
-        onTrackBatchClick={() => scrollToSection('lookup')}
+        onScanClick={() => scrollToSection('lookup-section')}
       />
 
-      {/* Main Content Sections */}
+      {/* Main Content */}
       <main className="relative z-10">
-        {/* Section 1: Hero with 3D floating fertilizer bag stack */}
+        {/* Section 1: Farmer Hero with Realistic 3D Fertilizer Sack */}
         <Hero
-          onTrackBatchClick={() => scrollToSection('lookup')}
-          onLearnMoreClick={() => scrollToSection('journey')}
+          lang={lang}
+          activeBatchId={activeBatchId}
+          onScanClick={() => scrollToSection('lookup-section')}
+          onEnterNumberClick={() => scrollToSection('lookup-section')}
         />
 
-        {/* Section 2: Traceability Journey with 3D camera navigation & environmental controls */}
-        <TraceabilityJourney onOpenDataHub={() => setDataHubOpen(true)} />
+        {/* Section 2: Instant Batch Verification Terminal */}
+        <BatchLookup
+          lang={lang}
+          onSelectBatch={(id) => setActiveBatchId(id)}
+          onOpenDataHub={() => setDataHubOpen(true)}
+        />
 
-        {/* Section 3: Features with 4 glass cards and 3D hover tilt */}
-        <Features onLearnMoreClick={() => scrollToSection('journey')} />
+        {/* Section 3: Simple Journey from Factory to Field with 3D Diorama */}
+        <TraceabilityJourney
+          lang={lang}
+          onOpenDataHub={() => setDataHubOpen(true)}
+        />
 
-        {/* Section 4: Batch Lookup with glowing search & 3D result card */}
-        <BatchLookup onOpenDataHub={() => setDataHubOpen(true)} />
+        {/* Section 4: 3 Simple Steps & No-Internet Channels */}
+        <Features lang={lang} />
 
-        {/* Section 5: Real-time animated stats counters */}
-        <Stats />
+        {/* Section 5: Real-time Stats */}
+        <Stats lang={lang} />
       </main>
 
-      {/* Section 6: Dark Minimal Footer with newsletter subscription */}
-      <Footer onOpenDataHub={() => setDataHubOpen(true)} />
+      {/* Section 6: Simple Farmer Helpline Footer */}
+      <Footer
+        lang={lang}
+        onOpenDataHub={() => setDataHubOpen(true)}
+      />
 
-      {/* Modal: Full Provenance Architecture & Data Hub */}
+      {/* Advanced Official Data Hub Modal (Preserving Turso DB & Excel Export) */}
       <DataHubModal
         isOpen={dataHubOpen}
         onClose={() => setDataHubOpen(false)}

@@ -1,147 +1,112 @@
-import React, { useState } from 'react';
-import { QrCode, Radio, FileCheck, ShieldAlert, Sparkles, ChevronRight } from 'lucide-react';
+import React from 'react';
+import { QrCode, Smartphone, PhoneCall, ShieldCheck, CheckCircle2 } from 'lucide-react';
+import { FARMER_TEXT } from '../data/mockBatches';
 
-const FEATURE_CARDS = [
-  {
-    icon: QrCode,
-    tag: 'Hardware & Serialization',
-    title: '3-Level Hierarchical QR',
-    color: '#FF6A1A',
-    description:
-      'From 1 unit bag (50kg) with unique SHA-256 token, rolled up into a 50-bag Pallet Merkle root, up to a 20-pallet Master RFID tag. Complete packaging integrity at every transfer point.',
-    metric: '100% Bag Serialization'
-  },
-  {
-    icon: Radio,
-    tag: 'Cold Chain Telemetry',
-    title: 'Real-Time IoT & GPS Corridor',
-    color: '#38BDF8',
-    description:
-      'Continuous cellular 4G/NB-IoT telemetry logging transit speed, GPS corridor adherence, temperature, and relative humidity. Automated smart contract tripwires stop spoiled fertilizer.',
-    metric: '40°C / 85% RH Guardrail'
-  },
-  {
-    icon: FileCheck,
-    tag: 'Chemical Integrity',
-    title: 'Decentralized QC Certificates',
-    color: '#3DDC84',
-    description:
-      'Accredited lab HPLC & spectroscopy logs digitally signed using Ed25519 asymmetric cryptography. Guaranteed Nitrogen stoichiometry (46.2% N) and zero unauthorized adulterants.',
-    metric: 'Ed25519 Signed Cryptography'
-  },
-  {
-    icon: ShieldAlert,
-    tag: 'Regulatory & Governance',
-    title: 'DBT Subsidy & Fraud Prevention',
-    color: '#A855F7',
-    description:
-      'Direct API handshake with national iFMS and Aadhaar DBT portals. Single-use token burn prevents recycled bag counterfeiting, diversion to chemical factories, and subsidy fraud.',
-    metric: '₹1,500 DBT Released / Bag'
-  }
-];
+export default function Features({ lang = 'hi' }) {
+  const t = FARMER_TEXT[lang];
 
-export default function Features({ onLearnMoreClick }) {
-  const [tilt, setTilt] = useState({});
+  const steps = [
+    {
+      num: '1',
+      icon: QrCode,
+      color: '#10B981',
+      title: t.step1Title,
+      desc: t.step1Desc
+    },
+    {
+      num: '2',
+      icon: Smartphone,
+      color: '#FF6A1A',
+      title: t.step2Title,
+      desc: t.step2Desc
+    },
+    {
+      num: '3',
+      icon: ShieldCheck,
+      color: '#38BDF8',
+      title: t.step3Title,
+      desc: t.step3Desc
+    }
+  ];
 
-  const handleMouseMove = (index, e) => {
-    const card = e.currentTarget;
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const centerX = rect.width / 2;
-    const centerY = rect.height / 2;
-    const rotateX = ((y - centerY) / centerY) * -7;
-    const rotateY = ((x - centerX) / centerX) * 7;
-
-    setTilt(prev => ({
-      ...prev,
-      [index]: { rotateX, rotateY }
-    }));
-  };
-
-  const handleMouseLeave = (index) => {
-    setTilt(prev => ({
-      ...prev,
-      [index]: { rotateX: 0, rotateY: 0 }
-    }));
-  };
+  const channels = [
+    {
+      title: t.channel1Title,
+      desc: t.channel1Desc,
+      icon: '📱'
+    },
+    {
+      title: t.channel2Title,
+      desc: t.channel2Desc,
+      icon: '📟'
+    },
+    {
+      title: t.channel3Title,
+      desc: t.channel3Desc,
+      icon: '🏪'
+    }
+  ];
 
   return (
-    <section id="features" className="py-24 px-4 sm:px-8 max-w-7xl mx-auto">
-      {/* Header */}
-      <div className="flex flex-col items-center text-center mb-16">
-        <div className="inline-flex items-center gap-2 glass-panel px-3.5 py-1.5 rounded-full border border-white/10 mb-4 text-xs font-mono text-[#FF6A1A]">
-          <Sparkles className="w-3.5 h-3.5" />
-          <span>ENTERPRISE ARCHITECTURE</span>
-        </div>
-        <h2 className="font-display font-bold text-3xl sm:text-4xl md:text-5xl tracking-tight text-white mb-4">
-          Architected for Sovereign Trust
+    <section className="py-16 px-4 sm:px-8 max-w-6xl mx-auto">
+      {/* 3 Simple Steps Section */}
+      <div className="flex flex-col items-center text-center mb-10">
+        <h2 className="font-display font-bold text-2xl sm:text-3xl md:text-4xl text-white mb-2">
+          {t.stepsTitle}
         </h2>
-        <p className="text-sm sm:text-base text-[#A1A1AA] max-w-2xl leading-relaxed">
-          Four foundational pillars defending agricultural supply chains against counterfeiting, 
-          nutrient adulteration, diversion, and subsidy leakages.
+        <p className="text-xs sm:text-sm text-[#A1A1AA] max-w-md">
+          {lang === 'hi'
+            ? 'नकली खाद से बचने और सरकारी सब्सिडी पाने के 3 सबसे आसान नियम:'
+            : 'Three simple rules to avoid fake fertilizer and claim your official DBT subsidy:'}
         </p>
       </div>
 
-      {/* 4 Glassmorphism Cards with 3D Tilt on Hover */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {FEATURE_CARDS.map((card, idx) => {
-          const Icon = card.icon;
-          const currentTilt = tilt[idx] || { rotateX: 0, rotateY: 0 };
-
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+        {steps.map((st) => {
+          const Icon = st.icon;
           return (
             <div
-              key={card.title}
-              onMouseMove={(e) => handleMouseMove(idx, e)}
-              onMouseLeave={() => handleMouseLeave(idx)}
-              style={{
-                transform: `perspective(1000px) rotateX(${currentTilt.rotateX}deg) rotateY(${currentTilt.rotateY}deg)`,
-                transition: 'transform 0.15s ease-out, border-color 0.3s ease, box-shadow 0.3s ease'
-              }}
-              className="group glass-panel p-7 rounded-3xl border border-white/10 flex flex-col justify-between relative overflow-hidden glass-card-hover"
+              key={st.num}
+              className="glass-panel p-6 sm:p-7 rounded-3xl border border-white/10 relative overflow-hidden group hover:border-[#10B981]/40 transition-all duration-300"
             >
-              {/* Soft colored glow aura inside card */}
               <div
-                className="absolute top-0 right-0 w-32 h-32 rounded-full blur-2xl opacity-20 pointer-events-none group-hover:opacity-40 transition-opacity"
-                style={{ backgroundColor: card.color }}
-              />
-
-              <div>
-                {/* Icon Container */}
-                <div
-                  className="w-12 h-12 rounded-2xl flex items-center justify-center mb-6 transition-transform group-hover:scale-110"
-                  style={{
-                    backgroundColor: `${card.color}15`,
-                    border: `1px solid ${card.color}40`,
-                    color: card.color
-                  }}
-                >
-                  <Icon className="w-6 h-6" />
-                </div>
-
-                <div className="text-[11px] font-mono uppercase tracking-wider text-[#A1A1AA] mb-2">
-                  {card.tag}
-                </div>
-
-                <h3 className="font-display font-bold text-xl text-white mb-3 group-hover:text-[#F5F5F5]">
-                  {card.title}
-                </h3>
-
-                <p className="text-xs sm:text-sm text-[#A1A1AA] leading-relaxed mb-6 font-light">
-                  {card.description}
-                </p>
+                className="w-12 h-12 rounded-2xl flex items-center justify-center mb-5 text-xl font-bold font-mono"
+                style={{
+                  backgroundColor: `${st.color}20`,
+                  color: st.color,
+                  border: `1px solid ${st.color}40`
+                }}
+              >
+                <Icon className="w-6 h-6" />
               </div>
 
-              {/* Bottom Badge Metric */}
-              <div className="pt-4 border-t border-white/10 flex items-center justify-between">
-                <span className="text-xs font-mono font-semibold" style={{ color: card.color }}>
-                  {card.metric}
-                </span>
-                <ChevronRight className="w-4 h-4 text-white/30 group-hover:text-white group-hover:translate-x-1 transition-all" />
-              </div>
+              <h3 className="font-display font-bold text-lg text-white mb-2">
+                {st.title}
+              </h3>
+
+              <p className="text-xs sm:text-sm text-[#A1A1AA] leading-relaxed font-light">
+                {st.desc}
+              </p>
             </div>
           );
         })}
+      </div>
+
+      {/* 3 Channels without Internet */}
+      <div className="glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 bg-black/40">
+        <h3 className="font-display font-bold text-lg sm:text-xl text-white text-center mb-6">
+          {t.channelsTitle}
+        </h3>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {channels.map((ch, idx) => (
+            <div key={idx} className="bg-white/5 p-4 rounded-2xl border border-white/5 text-center">
+              <div className="text-3xl mb-2">{ch.icon}</div>
+              <h4 className="font-bold text-sm text-white mb-1">{ch.title}</h4>
+              <p className="text-xs text-[#A1A1AA] font-light leading-relaxed">{ch.desc}</p>
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );

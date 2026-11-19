@@ -1,386 +1,164 @@
 /**
- * KisanTrace Mock & Seed Datasets
- * Authentic Indian Fertilizer Supply Chain Records with Merkle Roots & Telemetry
+ * KisanTrace Farmer-Friendly Dataset
+ * Bilingual (Hindi & English) for Indian Farmers & Rural Logistics
  */
 
 export const BATCHES_DATA = [
   {
     batchId: "BATCH-UREA-2026-9041",
-    productName: "Neem Coated Urea (46.2% N)",
+    shortId: "9041",
+    productName: "नीम लेपित यूरिया (Neem Coated Urea)",
+    productNameEn: "Neem Coated Urea (46.2% N)",
     manufacturer: "National Fertilizers Limited (NFL), Vijaipur Unit",
-    factoryGps: "26.4521° N, 80.3318° E",
-    mfgDate: "2026-10-15",
-    expiryDate: "2029-10-14",
-    quantity: "50,000 Bags (2,500 MT)",
-    unitSize: "50 kg HDPE Laminated Bag",
-    labCertification: {
-      labName: "Central Fertilizer Quality Control & Training Institute (CFQCTI)",
-      nitrogenContent: "46.28% (Standard: >= 46.0%)",
-      biuretContent: "0.82% (Standard: <= 1.5%)",
-      moistureContent: "0.31% (Standard: <= 0.5%)",
-      status: "PASSED_A_GRADE",
-      certHash: "0x89fa3b6c7294e1d0f55c48b76251ec8f7009312d8a56a6ec15d86ef8a4c10972",
-      signatory: "Dr. R. K. Sharma (Chief Analyst, Ed25519 Verified)"
-    },
-    merkleRoot: "0x4b789012a9bcdef0123456789abcdef0123456789abcdef0123456789abcdef0",
-    packaging: {
-      bagQr: "QR-BAG-9041-001 (SHA-256 Unique Token)",
-      palletQr: "PLT-9041-A2 (50 Bags Merkle Leaf)",
-      masterRfid: "RFID-EPC-GEN2-9041-X01 (Container 20 Pallets)"
-    },
-    currentStage: "Farmer Delivered & DBT Verified",
-    status: "DELIVERED",
-    currentTemp: 28.4,
-    currentHumidity: 58.2,
-    tripwireTripped: false,
-    stages: [
-      {
-        id: 1,
-        title: "Genesis Batch Minted",
-        location: "NFL Factory, Vijaipur (26.45° N, 80.33° E)",
-        timestamp: "2026-10-15 08:30 IST",
-        hash: "0x110a7b4f2c98d3...",
-        status: "COMPLETED",
-        note: "50 kg bags tagged with SHA-256 Bag QR; Pallet & Master RFID mapped."
-      },
-      {
-        id: 2,
-        title: "Lab Testing & Ed25519 Certification",
-        location: "CFQCTI Testing Lab (26.85° N, 80.95° E)",
-        timestamp: "2026-10-16 11:15 IST",
-        hash: "0x228f4c9a1d82e4...",
-        status: "COMPLETED",
-        note: "Spectroscopy confirmed 46.28% N, 0.82% Biuret. Digital cert anchored."
-      },
-      {
-        id: 3,
-        title: "Central Warehousing & Inward RFID Log",
-        location: "CWC Depot, Lucknow (26.80° N, 81.02° E)",
-        timestamp: "2026-10-18 14:40 IST",
-        hash: "0x337b5e1a8f90c2...",
-        status: "COMPLETED",
-        note: "RFID gate confirmed 100% pallet match. Environmental baseline checked."
-      },
-      {
-        id: 4,
-        title: "Cold Chain Transport Corridor (NH-19)",
-        location: "GPS In Transit: Varanasi Corridor (26.30° N, 81.80° E)",
-        timestamp: "2026-10-21 17:05 IST",
-        hash: "0x446c8d2b9e01f3...",
-        status: "COMPLETED",
-        note: "Continuous IoT ping. Ambient temp peaked at 31.2°C (well under 40°C limit)."
-      },
-      {
-        id: 5,
-        title: "District Distributor Intake",
-        location: "IFFCO District Depot, Jaunpur (25.75° N, 82.68° E)",
-        timestamp: "2026-10-24 09:20 IST",
-        hash: "0x555d9e3c0f12a4...",
-        status: "COMPLETED",
-        note: "Bulk custody transfer verified. Sub-lot allocation to village Kendra."
-      },
-      {
-        id: 6,
-        title: "Retailer POS Offline Sale",
-        location: "PM Kisan Seva Kendra, Badlapur (25.45° N, 82.80° E)",
-        timestamp: "2026-10-27 12:10 IST",
-        hash: "0x664e0f4d1a23b5...",
-        status: "COMPLETED",
-        note: "Offline SQLite transaction signed with device nonce. Synced upon 4G reconnect."
-      },
-      {
-        id: 7,
-        title: "Farmer DBT Subsidy Release",
-        location: "Farmer Ram Charan, Badlapur (25.40° N, 82.85° E)",
-        timestamp: "2026-10-29 15:45 IST",
-        hash: "0x773f1a5e2b34c6...",
-        status: "COMPLETED",
-        note: "Aadhaar biometrics POS match released ₹1,500 DBT subsidy instantly to bank."
-      }
+    manufacturerHi: "नेशनल फर्टिलाइजर्स लिमिटेड (एनएफएल)",
+    mfgDate: "15-10-2026",
+    expiryDate: "14-10-2029",
+    bagWeight: "50 kg (50 कि.ग्रा.)",
+    mrp: "₹266.50",
+    dbtSubsidy: "₹1,500.00",
+    farmerName: "राम चरण (Ram Charan)",
+    village: "बदलापुर, जौनपुर (Badlapur, UP)",
+    isGenuine: true,
+    nitrogen: "46.28% (मानक अनुसार उत्तम)",
+    labStatus: "CFQCTI सरकारी लैब: 100% पास ✓",
+    statusBadgeHi: "असली खाद &bull; 100% प्रमाणित ✓",
+    statusBadgeEn: "100% Genuine & Govt Certified ✓",
+    alertMessageHi: "यह खाद पूरी तरह असली है और सरकारी मानक पर खरी उतरी है। आपके बैंक खाते में ₹1,500 की सब्सिडी स्वीकृत है।",
+    alertMessageEn: "This fertilizer bag is 100% genuine and lab-tested. ₹1,500 DBT subsidy is approved for your bank account.",
+    journey: [
+      { step: 1, titleHi: "कारखाना (Factory)", titleEn: "Factory Packaging", descHi: "एनएफएल फैक्ट्री में बोरी भरी गई और क्यूआर कोड लगा।", descEn: "Bag filled and serialized QR tagged at NFL plant.", date: "15 Oct" },
+      { step: 2, titleHi: "सरकारी लैब (Lab Test)", titleEn: "Govt Lab Testing", descHi: "नाइट्रोजन 46.28% पास, कोई मिलावट नहीं।", descEn: "Nitrogen 46.28% confirmed, zero adulteration.", date: "16 Oct" },
+      { step: 3, titleHi: "केंद्रीय गोदाम (Warehouse)", titleEn: "Central Warehouse", descHi: "गोदाम में सुरक्षित तापमान पर रखी गई।", descEn: "Stored at safe temperature in central depot.", date: "18 Oct" },
+      { step: 4, titleHi: "परिवहन ट्रक (Truck Transit)", titleEn: "Corridor Transport", descHi: "जीपीएस ट्रक द्वारा जिले में लाई गई।", descEn: "GPS-tracked vehicle transit via NH-19.", date: "21 Oct" },
+      { step: 5, titleHi: "खाद दुकान (Village Kendra)", titleEn: "Village Retailer POS", descHi: "पीएम किसान सेवा केंद्र बदलापुर में पहुंची।", descEn: "Stocked at Badlapur PM Kisan Seva Kendra.", date: "27 Oct" },
+      { step: 6, titleHi: "किसान को डिलीवरी (Farmer Receipt)", titleEn: "Farmer Delivered", descHi: "किसान राम चरण ने खरीदी, ₹1,500 सब्सिडी बैंक में गई।", descEn: "Purchased by Ram Charan, ₹1,500 DBT credited.", date: "29 Oct" }
     ]
   },
   {
     batchId: "BATCH-DAP-2026-8812",
-    productName: "Diammonium Phosphate (DAP 18-46-0)",
-    manufacturer: "Coromandel International Ltd, Kakinada Unit",
-    factoryGps: "16.9891° N, 82.2475° E",
-    mfgDate: "2026-10-18",
-    expiryDate: "2029-10-17",
-    quantity: "40,000 Bags (2,000 MT)",
-    unitSize: "50 kg HDPE Bag",
-    labCertification: {
-      labName: "National Test House Laboratory",
-      nitrogenContent: "18.15% (Standard: >= 18.0%)",
-      phosphorusContent: "46.10% (Standard: >= 46.0%)",
-      moistureContent: "0.42% (Standard: <= 1.5%)",
-      status: "PASSED_A_GRADE",
-      certHash: "0x99ec7120fa8d39201bc89a7410294fc6b372e9124a91cf8e1920ac39db8812ff",
-      signatory: "Dr. P. Venkat (Senior Chemist)"
-    },
-    merkleRoot: "0x8812acb9012489e...dap001",
-    packaging: {
-      bagQr: "QR-BAG-8812-409",
-      palletQr: "PLT-8812-B7",
-      masterRfid: "RFID-EPC-8812-M03"
-    },
-    currentStage: "Retailer POS Stocked",
-    status: "IN_STOCK",
-    currentTemp: 29.1,
-    currentHumidity: 62.4,
-    tripwireTripped: false,
-    stages: [
-      {
-        id: 1,
-        title: "Genesis Batch Minted",
-        location: "Coromandel Port Plant, Kakinada",
-        timestamp: "2026-10-18 09:00 IST",
-        hash: "0x881a7b4f2c98d3...",
-        status: "COMPLETED",
-        note: "Rock phosphate Jordan origin hashed; serialized bag QRs attached."
-      },
-      {
-        id: 2,
-        title: "Lab QC Testing",
-        location: "Coromandel QA Lab",
-        timestamp: "2026-10-19 14:00 IST",
-        hash: "0x882f4c9a1d82e4...",
-        status: "COMPLETED",
-        note: "18.15% N & 46.10% P confirmed. Moisture 0.42%."
-      },
-      {
-        id: 3,
-        title: "Regional Warehouse Hub",
-        location: "Nagpur Multi-Modal Logistics Hub",
-        timestamp: "2026-10-23 10:30 IST",
-        hash: "0x883b5e1a8f90c2...",
-        status: "COMPLETED",
-        note: "RFID pallet inventory recorded. Temperature logged at 27.5°C."
-      },
-      {
-        id: 4,
-        title: "Transport to Retailer",
-        location: "Kisan Kendra, Amravati",
-        timestamp: "2026-10-26 16:15 IST",
-        hash: "0x884c8d2b9e01f3...",
-        status: "COMPLETED",
-        note: "Stock received at Village Kendra POS. Available for Aadhaar farmer purchase."
-      }
+    shortId: "8812",
+    productName: "डीएपी खाद (DAP 18-46-0)",
+    productNameEn: "Diammonium Phosphate (DAP 18-46-0)",
+    manufacturer: "Coromandel International Ltd",
+    manufacturerHi: "कोरोमंडल इंटरनेशनल लिमिटेड",
+    mfgDate: "18-10-2026",
+    expiryDate: "17-10-2029",
+    bagWeight: "50 kg (50 कि.ग्रा.)",
+    mrp: "₹1,350.00",
+    dbtSubsidy: "₹2,500.00",
+    farmerName: "राजेश वर्मा (Rajesh Verma)",
+    village: "अमरावती (Amravati, MH)",
+    isGenuine: true,
+    nitrogen: "18.15% N & 46.10% P",
+    labStatus: "सरकारी लैब: ए-ग्रेड पास ✓",
+    statusBadgeHi: "असली डीएपी खाद &bull; प्रमाणित ✓",
+    statusBadgeEn: "100% Genuine DAP &bull; Certified ✓",
+    alertMessageHi: "यह डीएपी खाद पूरी तरह शुद्ध है। फॉस्फोरस और नाइट्रोजन की मात्रा सही है।",
+    alertMessageEn: "This DAP fertilizer is 100% genuine with verified phosphorus and nitrogen content.",
+    journey: [
+      { step: 1, titleHi: "कारखाना (Factory)", titleEn: "Factory Packaging", descHi: "कोरोमंडल प्लांट में बोरी पर क्यूआर कोड मुहर लगी।", descEn: "Packaged at Coromandel plant.", date: "18 Oct" },
+      { step: 2, titleHi: "सरकारी लैब (Lab Test)", titleEn: "Govt Lab Testing", descHi: "18% नाइट्रोजन और 46% फॉस्फोरस पास।", descEn: "18% N & 46% P lab certified.", date: "19 Oct" },
+      { step: 3, titleHi: "खाद दुकान (Kisan Kendra)", titleEn: "Village Kendra", descHi: "अमरावती किसान सेवा केंद्र में उपलब्ध।", descEn: "Available at Amravati Kisan Kendra.", date: "26 Oct" }
     ]
   },
   {
     batchId: "BATCH-NPK-2026-RECALL-773",
-    productName: "NPK Complex (12-32-16) - RECALLED BATCH",
-    manufacturer: "Paradeep Phosphates Limited (PPL)",
-    factoryGps: "20.2961° N, 86.6745° E",
-    mfgDate: "2026-10-10",
-    expiryDate: "2029-10-09",
-    quantity: "20,000 Bags (1,000 MT)",
-    unitSize: "50 kg Bag",
-    labCertification: {
-      labName: "State Soil & Fertilizer Testing Center",
-      nitrogenContent: "11.10% (FLAGGED: Low N)",
-      status: "TEMPERATURE_HUMIDITY_VIOLATION",
-      certHash: "0x773ee120fa8d...tripwire_recalled",
-      signatory: "SYSTEM_TRIPWIRE_AUTOMATED"
-    },
-    merkleRoot: "0x773recall...root",
-    packaging: {
-      bagQr: "QR-BAG-773-REV",
-      palletQr: "PLT-773-QUARANTINE",
-      masterRfid: "RFID-773-BLOCKED"
-    },
-    currentStage: "Reverse Flow Activated (Quarantine Recall)",
-    status: "RECALLED",
-    currentTemp: 44.5, // EXCEEDS 40°C TRIPWIRE
-    currentHumidity: 88.0, // EXCEEDS 85% TRIPWIRE
-    tripwireTripped: true,
-    stages: [
-      {
-        id: 1,
-        title: "Batch Genesis",
-        location: "PPL Paradeep Plant",
-        timestamp: "2026-10-10 10:00 IST",
-        hash: "0x773a1...",
-        status: "COMPLETED",
-        note: "Initial packaging generated."
-      },
-      {
-        id: 2,
-        title: "Transit Sensor Violation",
-        location: "Transit NH-16 (Bhubaneswar Corridor)",
-        timestamp: "2026-10-13 13:45 IST",
-        hash: "0x773_ALARM_EVENT...",
-        status: "FAILED",
-        note: "IoT edge telemetry recorded 44.5°C & 88% humidity. Smart contract tripped automatically!"
-      },
-      {
-        id: 3,
-        title: "Smart Contract Automated Recall",
-        location: "Reverse Flow Corridor",
-        timestamp: "2026-10-13 14:00 IST",
-        hash: "0x773_BURN_TOKEN...",
-        status: "REVERSED",
-        note: "Tokens revoked. Red return manifest issued back to Paradeep factory."
-      }
+    shortId: "773",
+    productName: "एनपीके खाद (चेतावनी: नकली / खराब खाद)",
+    productNameEn: "NPK Complex (WARNING: RECALLED FAKE)",
+    manufacturer: "अज्ञात / संदिग्ध सप्लायर (Suspicious Vendor)",
+    manufacturerHi: "अज्ञात / मिलावटी बैच",
+    mfgDate: "10-10-2026",
+    expiryDate: "रद्द (CANCELLED)",
+    bagWeight: "50 kg (अमान्य)",
+    mrp: "अमान्य (खरीद पर रोक)",
+    dbtSubsidy: "₹0.00 (सब्सिडी रोकी गई)",
+    farmerName: "कोई नहीं (सप्लाई रद्द)",
+    village: "अलर्ट जारी (Alert Issued)",
+    isGenuine: false,
+    nitrogen: "11.10% (फेल: नाइट्रोजन बहुत कम)",
+    labStatus: "❌ टेस्ट फेल: नकली खाद की आशंका",
+    statusBadgeHi: "⚠️ सावधान: नकली खाद! न खरीदें ❌",
+    statusBadgeEn: "⚠️ WARNING: RECALLED / COUNTERFEIT ❌",
+    alertMessageHi: "सावधान! इस बोरी में नाइट्रोजन की भारी कमी पाई गई है और तापमान ज्यादा होने से यह खाद खराब हो चुकी है। इसे तुरंत वापस करें और 1800-180-1551 पर शिकायत करें।",
+    alertMessageEn: "Warning! This batch failed quality control due to heat degradation and low nitrogen. Do not purchase!",
+    journey: [
+      { step: 1, titleHi: "संदिग्ध प्लांट (Suspicious Plant)", titleEn: "Factory", descHi: "बैच तैयार किया गया।", descEn: "Batch initially generated.", date: "10 Oct" },
+      { step: 2, titleHi: "रास्ते में खराब (Sensor Failed)", titleEn: "Transport Violation", descHi: "ट्रक में 44.5°C तापमान से खाद जल गई।", descEn: "Temperature exceeded 44.5°C, ruining stock.", date: "13 Oct" },
+      { step: 3, titleHi: "सरकारी रोक (Recalled by Govt)", titleEn: "Govt Blocked", descHi: "स्मार्ट कॉन्ट्रैक्ट ने सब्सिडी रोक दी और केस दर्ज किया।", descEn: "Subsidy revoked and recall issued back to source.", date: "13 Oct" }
     ]
   }
 ];
 
-export const SUPPLY_CHAIN_STAGES = [
-  {
-    step: 1,
-    key: 'manufacturer',
-    name: 'Manufacturer & 3-Level QR',
-    hindi: 'निर्माता व 3-स्तरीय क्यूआर',
-    gps: '26.4521° N, 80.3318° E',
-    location: 'NFL Vijaipur Factory',
-    badge: 'Genesis Mint',
-    color: '#FF6A1A',
-    description: 'Every 50 kg bag gets a unique SHA-256 Bag QR. 50 bag hashes roll into one Pallet QR Merkle root, and 20 pallet hashes roll into one Master RFID container tag. Scan one code to prove every grain inside.',
-    dataStored: [
-      '1 Unit Bag = Bag QR (50 kg SHA-256)',
-      '50 Bags = Pallet QR (Merkle Tree Leaf)',
-      '20 Pallets = Master RFID (50 MT)',
-      'Manufacturing Date, Lot #, Stoichiometry',
-      'Factory Geostamp & Ed25519 Signature'
-    ],
-    blockchainAction: [
-      'Mint digital twin NFT batch on Hyperledger Fabric',
-      'Anchor 3-level hierarchical Merkle tree roots',
-      'Emit GenesisBatchCreated event to national portal'
-    ]
+export const FARMER_TEXT = {
+  hi: {
+    brandName: "किसानट्रेस",
+    tagline: "खाद असली है या नकली? 1 सेकंड में पता लगाएं",
+    subtagline: "अपनी 50 किलो की बोरी का क्यूआर कोड स्कैन करें और ₹1,500 की सरकारी सब्सिडी सीधे अपने बैंक खाते में पाएं।",
+    scanBagBtn: "📷 बोरी का QR कोड स्कैन करें",
+    enterNumberBtn: "🔍 बोरी नंबर डालें",
+    helplineText: "📞 किसान कॉल सेंटर (टोल-फ्री): 1800-180-1551",
+    samplePillsTitle: "नमूना बोरी चुनकर देखें:",
+    ureaPill: "9041 (यूरिया - असली)",
+    dapPill: "8812 (डीएपी - असली)",
+    fakePill: "773 (नकली खाद - चेतावनी)",
+    stepsTitle: "किसान भाइयों के लिए 3 आसान कदम",
+    step1Title: "1. बोरी पर QR कोड देखें",
+    step1Desc: "हर 50 किलो की बोरी के सामने सरकारी मुहर और एक चौकोर QR कोड छपा होता है।",
+    step2Title: "2. अपने फोन से जांचें",
+    step2Desc: "कैमरा खोलकर स्कैन करें या बोरी का नंबर यहां डालें। तुरंत हरा सही का निशान दिखेगा।",
+    step3Title: "3. ₹1,500 सब्सिडी पाएं",
+    step3Desc: "दुकानदार से पक्की रसीद लें। सरकार की ₹1,500 सब्सिडी सीधे आपके बैंक खाते में पहुंचेगी।",
+    channelsTitle: "जांचने के 3 आसान तरीके (बिना इंटरनेट भी चलेगा)",
+    channel1Title: "स्मार्टफोन (कैमरा स्कैन)",
+    channel1Desc: "किसी भी एंड्रॉइड फोन के कैमरे से कोड स्कैन करें।",
+    channel2Title: "सादा कीपैड फोन (USSD *99#)",
+    channel2Desc: "बिना इंटरनेट वाले फोन से *99# डायल करें और बोरी नंबर एसएमएस करें।",
+    channel3Title: "खाद दुकान पर अंगूठा (POS मशीन)",
+    channel3Desc: "दुकानदार की मशीन पर आधार से अंगूठा लगाएं और सब्सिडी की रसीद पाएं।",
+    journeyTitle: "फैक्ट्री से खेत तक: आपकी बोरी का सफर",
+    journeySub: "देखें आपकी खाद की बोरी कहाँ-कहाँ से होकर आप तक पहुंची है:",
+    reportFakeTitle: "नकली खाद की शिकायत कहाँ करें?",
+    reportFakeDesc: "अगर खाद में रेत, नमक या कम वजन मिले, या दुकानदार ₹266.50 से ज्यादा पैसे मांगे, तो तुरंत शिकायत करें:",
+    callNowBtn: "📞 तुरंत कॉल करें: 1800-180-1551",
+    dataHubBtn: "📊 कृषि अधिकारी व एक्सपर्ट डेटा हब (Turso DB & Excel)",
+    footerCopyright: "© 2026 भारत सरकार डिजिटल कृषि मिशन &bull; राष्ट्रीय खाद वितरण प्रणाली"
   },
-  {
-    step: 2,
-    key: 'lab',
-    name: 'Quality Lab & HPLC Certification',
-    hindi: 'गुणवत्ता प्रयोगशाला व डिजिटल प्रमाणपत्र',
-    gps: '26.8500° N, 80.9500° E',
-    location: 'CFQCTI Testing Lab',
-    badge: 'QC Ed25519 Signed',
-    color: '#3DDC84',
-    description: 'Pre-dispatch HPLC & spectroscopy testing confirms exact Nitrogen stoichiometry (46.2% N) and verifies Biuret < 1.5%. Results are digitally signed by certified chemists directly into the batch certificate.',
-    dataStored: [
-      'HPLC & Spectroscopy Chromatography Logs',
-      'Nutrient Ratio: 46.2% N (Pass: >= 46.0%)',
-      'Moisture 0.31%, Biuret 0.82%',
-      'Accredited Laboratory Ed25519 Public Key'
-    ],
-    blockchainAction: [
-      'Attach cryptographic QC certificate to batch',
-      'Enforce automated threshold compliance smart contract',
-      'Lock batch if chemical tolerances exceed limits'
-    ]
-  },
-  {
-    step: 3,
-    key: 'warehouse',
-    name: 'Central Warehouse & RFID Gate',
-    hindi: 'केंद्रीय गोदाम व निर्णय बिंदु',
-    gps: '26.8000° N, 81.0200° E',
-    location: 'CWC Lucknow Hub',
-    badge: 'RFID Inward Scan',
-    color: '#38BDF8',
-    description: 'Automated RFID portal reads 20 pallets simultaneously at container intake. Sensor nodes confirm cold-chain integrity and route sound stock to regional transporters or flag damaged stock for reverse flow.',
-    dataStored: [
-      'EPC Gen2 RFID Portal Scans (20 Pallets)',
-      'Inward Inventory Handoff Timestamp',
-      'Environmental Status: 28.0°C / 55% RH'
-    ],
-    blockchainAction: [
-      'Execute multi-signature custody transfer',
-      'Verify physical-to-digital inventory match',
-      'Route to domestic transit corridor'
-    ]
-  },
-  {
-    step: 4,
-    key: 'transporter',
-    name: 'IoT Transit Corridor (NH-19)',
-    hindi: 'परिवहन ट्रक व लाइव आईओटी टेलीमेट्री',
-    gps: '26.3000° N, 81.8000° E',
-    location: 'NH-19 Highway Corridor',
-    badge: 'Live IoT Telemetry',
-    color: '#F59E0B',
-    description: 'Cellular 4G/NB-IoT sensors continuously stream GPS corridor position, cabin temperature, humidity, and tamper accelerometer shocks. Exceeding 40°C or 85% RH triggers automatic smart contract recall.',
-    dataStored: [
-      'Vehicle Telemetry: UP-32-BT-9014',
-      'Real-time GPS Track & Speed (48 km/h)',
-      'Dual Sensor Readings (Temp & Humidity)',
-      'E-Way Bill & Transit Permit Tokens'
-    ],
-    blockchainAction: [
-      'Stream live location state updates to ledger',
-      'Evaluate tripwire rules: Alert if T > 40°C or H > 85%',
-      'Trigger automated reverse-flow throw back if violated'
-    ]
-  },
-  {
-    step: 5,
-    key: 'distributor',
-    name: 'District Distributor Intake',
-    hindi: 'जिला वितरक व कस्टडी ट्रांसफर',
-    gps: '25.7500° N, 82.6800° E',
-    location: 'IFFCO District Depot',
-    badge: 'Pallet Handshake',
-    color: '#A855F7',
-    description: 'District warehouse scans pallet QR. System validates Merkle tree leaf hashes, logs custody shift, and dispatches sub-lots to local village cooperative Kendras.',
-    dataStored: [
-      'Received Pallet QR Token Identifiers',
-      'Sub-lot Split Log (1,000 Bags Allocated)',
-      'Warehouse Bay Coordinates & Time of Arrival'
-    ],
-    blockchainAction: [
-      'Transfer consignment ownership to distributor',
-      'Authorize sub-lot division tokens for retail outlets',
-      'Update national fertilizer portal (iFMS)'
-    ]
-  },
-  {
-    step: 6,
-    key: 'retailer',
-    name: 'Retailer POS — Works Offline',
-    hindi: 'खुदरा POS — ऑफ़लाइन-प्रथम वास्तुकला',
-    gps: '25.4500° N, 82.8000° E',
-    location: 'PM Kisan Seva Kendra',
-    badge: 'Offline-First SQLite',
-    color: '#EC4899',
-    description: 'Village POS operates in zero-connectivity areas. Transactions are signed with hardware nonces in an encrypted SQLite store. Local OTP receipts print immediately; transactions sync to blockchain when connectivity restores.',
-    dataStored: [
-      'Device Nonce & Local SQLite Cryptographic Hash',
-      'MRP Ceiling Verification & Subsidized Price',
-      'Local OTP Receipt Generated for Farmer',
-      'Pending Offline Sync Queue'
-    ],
-    blockchainAction: [
-      'Store cryptographically signed receipt in local ledger',
-      'Atomic batch-sync to main chain when 4G connects',
-      'Prevent duplicate redemption via nonce verification'
-    ]
-  },
-  {
-    step: 7,
-    key: 'farmer',
-    name: 'Farmer Verification & DBT Subsidy',
-    hindi: 'भारतीय किसान — सत्यापन व ₹1500 डीबीटी',
-    gps: '25.4000° N, 82.8500° E',
-    location: 'Badlapur Agricultural Cluster',
-    badge: '₹1,500 DBT Credited',
-    color: '#10B981',
-    description: 'Farmer verifies fertilizer authenticity via 3 channels: ① Smartphone QR scanner, ② Feature phone SMS / USSD (*99#), or ③ POS Aadhaar Biometrics. Ledger validation releases ₹1,500 DBT subsidy straight to the farmer\'s bank account!',
-    dataStored: [
-      'Purchase Quantity: 1 Bag (50 kg Neem Coated Urea)',
-      'Farmer Aadhaar UID (Masked: XXXX-XXXX-4819)',
-      'Acreage Cap Verification (Bhulekh Land Records)',
-      'Direct Benefit Transfer (DBT) Reference ID'
-    ],
-    blockchainAction: [
-      'Burn unit bag single-use token (prevents bag refill fraud)',
-      'Trigger smart contract release of ₹1,500 DBT to farmer bank',
-      'Deliver green authenticity tick to farmer screen'
-    ]
+  en: {
+    brandName: "KisanTrace",
+    tagline: "Is Your Fertilizer 100% Genuine? Verify in 1 Second",
+    subtagline: "Scan your 50kg bag QR code and confirm your ₹1,500 government DBT subsidy directly in your bank account.",
+    scanBagBtn: "📷 Scan Bag QR Code",
+    enterNumberBtn: "🔍 Enter Bag Number",
+    helplineText: "📞 Kisan Call Centre (Toll Free): 1800-180-1551",
+    samplePillsTitle: "Select Sample Bag to Test:",
+    ureaPill: "9041 (Urea - Genuine)",
+    dapPill: "8812 (DAP - Genuine)",
+    fakePill: "773 (Counterfeit Alert)",
+    stepsTitle: "3 Simple Steps for Every Farmer",
+    step1Title: "1. Check the Bag QR Code",
+    step1Desc: "Every authentic 50kg bag carries a unique serialized QR code and govt emblem.",
+    step2Title: "2. Scan with Your Phone",
+    step2Desc: "Point your phone camera or enter the bag number to see instant verification.",
+    step3Title: "3. Receive ₹1,500 DBT Subsidy",
+    step3Desc: "Get a computerized receipt. Govt subsidy of ₹1,500 is directly credited to your bank.",
+    channelsTitle: "3 Easy Ways to Verify (Works Even Without Internet)",
+    channel1Title: "Smartphone Camera",
+    channel1Desc: "Instant scan with any mobile browser or camera.",
+    channel2Title: "Feature Keypad Phone (*99#)",
+    channel2Desc: "Dial *99# or send SMS with bag number in low network areas.",
+    channel3Title: "Village Shop POS Machine",
+    channel3Desc: "Aadhaar biometric fingerprint authentication at the PM Kisan Seva Kendra.",
+    journeyTitle: "Factory to Farm: The Journey of Your Fertilizer",
+    journeySub: "Track the exact path of your fertilizer bag from synthesis to your soil:",
+    reportFakeTitle: "Report Fake Fertilizer or Overcharging",
+    reportFakeDesc: "If fertilizer contains sand/moisture or if retailer charges more than ₹266.50/bag, report immediately:",
+    callNowBtn: "📞 Call Toll-Free: 1800-180-1551",
+    dataHubBtn: "📊 Agronomist & Official Data Hub (Turso DB & Excel)",
+    footerCopyright: "© 2026 National Fertilizer Digital Provenance Mission"
   }
-];
+};
+
 
 export const CORE_DETERMINANTS = [
   {
@@ -389,8 +167,8 @@ export const CORE_DETERMINANTS = [
     icon: "🧪",
     layer: "Chemical Integrity Layer",
     points: [
-      "Upstream Raw Material Provenance: Upstream origin hashing for Nitrogen (Haber-Bosch natural gas), Phosphorus (rock phosphate mines in Jordan/Rajasthan), and Potash (MOP/SOP sources).",
-      "Chemical Stoichiometry: Guaranteed N-P-K ratios (Urea 46.2% N, DAP 18-46-0). Maximum tolerances: Biuret <= 1.5%, moisture <= 0.5%, particle size 1.0-2.8 mm.",
+      "Upstream Raw Material Provenance: Upstream origin hashing for Nitrogen (Haber-Bosch natural gas), Phosphorus (Jordan rock phosphate), and Potash.",
+      "Chemical Stoichiometry: Guaranteed N-P-K ratios (Urea 46.2% N, DAP 18-46-0). Maximum tolerances: Biuret <= 1.5%, moisture <= 0.5%.",
       "HPLC Quality Certification: Pre-dispatch chromatography logs cryptographically signed with accredited lab Ed25519 private keys."
     ]
   },
@@ -400,7 +178,7 @@ export const CORE_DETERMINANTS = [
     icon: "🏷️",
     layer: "Hardware & Serialization Layer",
     points: [
-      "Hierarchical 3-Level Identifiers: 1 Bag (50 kg) -> Bag QR (SHA-256); 50 Bags -> Pallet QR (50 Hashes Merkle Root); 20 Pallets (50 MT) -> Master RFID (EPC Gen2).",
+      "Hierarchical 3-Level Identifiers: 1 Bag (50 kg) -> Bag QR (SHA-256); 50 Bags -> Pallet QR (Merkle Root); 20 Pallets (50 MT) -> Master RFID.",
       "IoT Edge Sensor Telemetry: Continuous monitoring of temperature, relative humidity, multi-axis shock, and cellular GPS coordinates.",
       "Active Threshold Tripwires: Critical guardrail at T > 40.0°C or H > 85.0%. Over-limit triggers instant quarantine and reverse-flow recall."
     ]

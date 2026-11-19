@@ -1,290 +1,198 @@
 import React, { useState } from 'react';
-import { SUPPLY_CHAIN_STAGES } from '../data/mockBatches';
 import Journey3DCanvas from './3d/Journey3DCanvas';
-import { ChevronLeft, ChevronRight, RotateCcw, AlertTriangle, ShieldCheck, Thermometer, Droplets, CheckCircle2 } from 'lucide-react';
+import { Thermometer, Droplets, AlertTriangle, CheckCircle2, ChevronRight, ChevronLeft, RotateCcw } from 'lucide-react';
+import { FARMER_TEXT } from '../data/mockBatches';
 
-export default function TraceabilityJourney({ onOpenDataHub }) {
+export default function TraceabilityJourney({ lang = 'hi', onOpenDataHub }) {
   const [activeStep, setActiveStep] = useState(0);
   const [temp, setTemp] = useState(28.0);
   const [humidity, setHumidity] = useState(55);
-  const [packetType, setPacketType] = useState('pallet');
-  const [isReverseFlow, setIsReverseFlow] = useState(false);
-
-  // Smart Contract Tripwire Guardrail
   const isOverLimit = temp > 40.0 || humidity > 85;
+  const t = FARMER_TEXT[lang];
 
-  const handleNext = () => {
-    if (activeStep < SUPPLY_CHAIN_STAGES.length - 1) {
-      setActiveStep(prev => prev + 1);
+  const steps = [
+    {
+      titleHi: '1. खाद कारखाना (फैक्ट्री)',
+      titleEn: '1. Fertilizer Factory',
+      subHi: 'बोरी भरी गई और क्यूआर कोड लगा',
+      subEn: 'Bagging & unique QR stamped',
+      descHi: 'फैक्ट्री में शुद्ध नीम कोटेड यूरिया भरा जाता है। हर 50 किलो की बोरी पर एक अनोखा क्यूआर कोड छपता है जिससे कोई नकली खाद न भर सके।',
+      descEn: 'Pure Neem Coated Urea is packed and serialized with a tamper-evident QR code to prevent counterfeiting.',
+      badgeHi: 'फैक्ट्री से प्रमाणित',
+      badgeEn: 'Factory Certified',
+      color: '#FF6A1A'
+    },
+    {
+      titleHi: '2. सुरक्षित जीपीएस ट्रक (रास्ता)',
+      titleEn: '2. GPS Truck Transit',
+      subHi: 'गर्मी और तापमान की 24 घंटे जांच',
+      subEn: 'IoT cold-chain tracking',
+      descHi: 'ट्रक में लगा सेंसर रास्ते भर धूप और नमी नापता रहता है। अगर तापमान 40°C से ज्यादा हो तो अलर्ट बजता है और खराब खाद को रोक दिया जाता है।',
+      descEn: 'Sensors monitor temperature and humidity continuously. Any spike above 40°C triggers an automatic stop.',
+      badgeHi: 'जीपीएस लाइव',
+      badgeEn: 'GPS Monitored',
+      color: '#38BDF8'
+    },
+    {
+      titleHi: '3. गांव की खाद दुकान (केंद्र)',
+      titleEn: '3. Village Retailer Kendra',
+      subHi: 'पीएम किसान सेवा केंद्र पर आगमन',
+      subEn: 'Stocked at Kisan Kendra',
+      descHi: 'दुकानदार बोरी स्कैन करके अपने स्टॉक में दर्ज करता है। सरकारी रेट ₹266.50 प्रति बोरी से ज्यादा लेना सख्त मना है।',
+      descEn: 'Retailer scans incoming bags. Selling above the official MRP of ₹266.50 is strictly prohibited.',
+      badgeHi: 'दुकान पर उपलब्ध',
+      badgeEn: 'In Stock',
+      color: '#A855F7'
+    },
+    {
+      titleHi: '4. आपका खेत और ₹1,500 सब्सिडी',
+      titleEn: '4. Farmer Field & DBT Subsidy',
+      subHi: 'असली खाद + सीधे बैंक में पैसा',
+      subEn: 'Authentic Bag + Bank Transfer',
+      descHi: 'जैसे ही आप बोरी खरीदते हैं, सरकारी सब्सिडी ₹1,500 सीधे आपके बैंक खाते में जमा हो जाती है और आपके फोन पर एसएमएस आता है।',
+      descEn: 'Upon purchase confirmation, ₹1,500 direct subsidy is sent straight to your bank with an instant SMS confirmation.',
+      badgeHi: 'सब्सिडी जमा ✓',
+      badgeEn: 'DBT Credited ✓',
+      color: '#10B981'
     }
-  };
+  ];
 
-  const handlePrev = () => {
-    if (activeStep > 0) {
-      setActiveStep(prev => prev - 1);
-    }
-  };
-
-  const currentStage = SUPPLY_CHAIN_STAGES[activeStep];
+  const current = steps[activeStep];
 
   return (
-    <section id="journey" className="py-20 px-4 sm:px-8 max-w-7xl mx-auto">
+    <section id="journey-section" className="py-16 px-4 sm:px-8 max-w-6xl mx-auto">
       {/* Section Header */}
-      <div className="flex flex-col items-center text-center mb-12">
-        <div className="inline-flex items-center gap-2 glass-panel px-3.5 py-1.5 rounded-full border border-white/10 mb-4 text-xs font-mono text-[#3DDC84]">
-          <span>⛓️ IMMUTABLE 7-STAGE PIPELINE</span>
+      <div className="flex flex-col items-center text-center mb-8">
+        <div className="inline-flex items-center gap-2 glass-panel px-3.5 py-1.5 rounded-full border border-white/10 mb-3 text-xs text-[#3DDC84] font-semibold">
+          <span>🌾</span>
+          <span>{lang === 'hi' ? 'फैक्ट्री से खेत तक' : 'From Factory to Field'}</span>
         </div>
-        <h2 className="font-display font-bold text-3xl sm:text-4xl md:text-5xl tracking-tight text-white mb-4">
-          The Living Provenance Corridor
+        <h2 className="font-display font-bold text-2xl sm:text-3xl md:text-4xl text-white mb-2">
+          {t.journeyTitle}
         </h2>
-        <p className="text-sm sm:text-base text-[#A1A1AA] max-w-2xl leading-relaxed">
-          Journey from the Haber-Bosch synthesis reactor to the farmer’s soil. Watch the 3D diorama camera 
-          fly along each custody transfer in real time.
+        <p className="text-xs sm:text-sm text-[#A1A1AA] max-w-xl">
+          {t.journeySub}
         </p>
       </div>
 
-      {/* 3D Journey Canvas Viewport */}
-      <div className="mb-8">
-        <Journey3DCanvas activeStep={activeStep} isReverseFlow={isReverseFlow || isOverLimit} />
+      {/* 3D Journey Diorama Canvas */}
+      <div className="mb-6">
+        <Journey3DCanvas activeStep={activeStep * 2} isReverseFlow={isOverLimit} />
       </div>
 
-      {/* Step Navigator Bar */}
-      <div className="glass-panel p-3 rounded-2xl border border-white/10 mb-8 flex items-center justify-between overflow-x-auto gap-2">
-        {SUPPLY_CHAIN_STAGES.map((st, i) => (
+      {/* 4 Simple Step Tabs */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-6">
+        {steps.map((st, i) => (
           <button
-            key={st.key}
-            onClick={() => {
-              setActiveStep(i);
-              if (isReverseFlow) setIsReverseFlow(false);
-            }}
-            className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-medium whitespace-nowrap transition-all duration-300 ${
+            key={i}
+            onClick={() => setActiveStep(i)}
+            className={`p-3 rounded-2xl text-left border transition-all ${
               activeStep === i
-                ? 'bg-[#FF6A1A] text-white shadow-glow-orange font-semibold'
-                : 'text-white/70 hover:text-white hover:bg-white/5'
+                ? 'bg-[#10B981]/20 border-[#10B981] text-white shadow-glow-green'
+                : 'glass-panel border-white/10 text-white/70 hover:bg-white/5'
             }`}
           >
-            <span className="w-4 h-4 rounded-full flex items-center justify-center bg-black/20 text-[10px] font-mono">
-              {st.step}
-            </span>
-            <span>{st.name.split('&')[0]}</span>
+            <div className="text-[10px] font-mono text-[#3DDC84] font-bold">
+              {lang === 'hi' ? `कदम ${i + 1}` : `STEP ${i + 1}`}
+            </div>
+            <div className="text-xs font-bold text-white mt-0.5 truncate">
+              {lang === 'hi' ? st.titleHi : st.titleEn}
+            </div>
           </button>
         ))}
       </div>
 
-      {/* Interactive Command & Narrative Dock */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        {/* Left Column: Stage Detail & Cryptographic Record Card */}
-        <div className="lg:col-span-7 glass-panel p-6 sm:p-8 rounded-3xl border border-white/10 relative overflow-hidden">
-          <div className="flex items-center justify-between mb-4 pb-4 border-b border-white/10">
-            <div className="flex items-center gap-3">
-              <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-[#FF6A1A]/20 text-[#FF6A1A] border border-[#FF6A1A]/30">
-                Stage {currentStage.step} of 7
-              </span>
-              <span className="text-xs text-[#A1A1AA] font-mono">{currentStage.gps}</span>
-            </div>
-            <span className="text-xs px-2.5 py-1 rounded-full bg-[#3DDC84]/15 text-[#3DDC84] font-medium border border-[#3DDC84]/20">
-              {currentStage.badge}
+      {/* Interactive Detail Card & Farmer Sliders */}
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-start">
+        {/* Left: Active Stage Explainer */}
+        <div className="md:col-span-7 glass-panel p-6 rounded-3xl border border-white/10">
+          <div className="flex items-center justify-between mb-3">
+            <span className="text-xs font-mono font-bold px-3 py-1 rounded-full bg-white/10 text-white">
+              {lang === 'hi' ? current.badgeHi : current.badgeEn}
+            </span>
+            <span className="text-xs text-[#3DDC84] font-semibold">
+              {lang === 'hi' ? `चरण ${activeStep + 1} / 4` : `Stage ${activeStep + 1} of 4`}
             </span>
           </div>
 
-          <h3 className="font-display font-bold text-2xl text-white mb-1">
-            {currentStage.name}
+          <h3 className="font-display font-bold text-xl sm:text-2xl text-white mb-1">
+            {lang === 'hi' ? current.titleHi : current.titleEn}
           </h3>
-          <p className="text-xs font-serif italic text-white/50 mb-4">
-            {currentStage.hindi}
+          <p className="text-xs text-[#FF6A1A] font-semibold mb-3">
+            {lang === 'hi' ? current.subHi : current.subEn}
           </p>
 
-          <p className="text-sm text-[#D4D4D8] leading-relaxed mb-6 font-light">
-            {currentStage.description}
+          <p className="text-xs sm:text-sm text-[#D4D4D8] leading-relaxed mb-6 font-light">
+            {lang === 'hi' ? current.descHi : current.descEn}
           </p>
 
-          {/* Two-Column Telemetry & Smart Contract Records */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-            <div className="bg-black/30 p-4 rounded-2xl border border-white/5">
-              <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-[#FF6A1A] mb-2.5 flex items-center gap-1.5">
-                <span>📦</span> Data Stored on Node
-              </h4>
-              <ul className="space-y-1.5">
-                {currentStage.dataStored.map((item, idx) => (
-                  <li key={idx} className="text-xs text-white/80 flex items-start gap-1.5">
-                    <span className="text-[#3DDC84] text-[10px] mt-0.5">✓</span>
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="bg-black/30 p-4 rounded-2xl border border-white/5">
-              <h4 className="text-xs font-mono font-bold uppercase tracking-wider text-[#3DDC84] mb-2.5 flex items-center gap-1.5">
-                <span>⛓️</span> Smart Contract Action
-              </h4>
-              <ul className="space-y-1.5">
-                {currentStage.blockchainAction.map((action, idx) => (
-                  <li key={idx} className="text-xs text-white/80 flex items-start gap-1.5">
-                    <span className="text-[#FF6A1A] text-[10px] mt-0.5">&gt;</span>
-                    <span>{action}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </div>
-
-          {/* Step Navigation Controls */}
+          {/* Previous / Next buttons */}
           <div className="flex items-center justify-between pt-4 border-t border-white/10">
-            <div className="flex items-center gap-2">
-              <button
-                onClick={handlePrev}
-                disabled={activeStep === 0}
-                className="px-4 py-2 rounded-full border border-white/10 text-xs font-medium text-white/80 hover:bg-white/5 disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-1.5"
-              >
-                <ChevronLeft className="w-4 h-4" />
-                <span>Previous</span>
-              </button>
-              <button
-                onClick={handleNext}
-                disabled={activeStep === SUPPLY_CHAIN_STAGES.length - 1}
-                className="px-5 py-2 rounded-full bg-white text-[#0B0B0C] text-xs font-semibold hover:bg-[#FF6A1A] hover:text-white transition-all disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-1.5"
-              >
-                <span>Next Stage</span>
-                <ChevronRight className="w-4 h-4" />
-              </button>
-            </div>
+            <button
+              onClick={() => setActiveStep(prev => Math.max(0, prev - 1))}
+              disabled={activeStep === 0}
+              className="px-4 py-2 rounded-full border border-white/10 text-xs font-semibold text-white/80 hover:bg-white/5 disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-1.5"
+            >
+              <ChevronLeft className="w-4 h-4" />
+              <span>{lang === 'hi' ? 'पिछला' : 'Previous'}</span>
+            </button>
 
             <button
-              onClick={() => {
-                setActiveStep(0);
-                setIsReverseFlow(false);
-                setTemp(28.0);
-                setHumidity(55);
-              }}
-              className="text-xs text-[#A1A1AA] hover:text-white flex items-center gap-1.5 px-3 py-1.5 rounded-full hover:bg-white/5 transition-colors"
+              onClick={() => setActiveStep(prev => Math.min(steps.length - 1, prev + 1))}
+              disabled={activeStep === steps.length - 1}
+              className="px-5 py-2 rounded-full bg-[#10B981] text-white text-xs font-bold hover:bg-[#059669] transition-all disabled:opacity-30 disabled:cursor-not-allowed flex items-center gap-1.5 shadow-glow-green"
             >
-              <RotateCcw className="w-3.5 h-3.5" />
-              <span>Reset Tour</span>
+              <span>{lang === 'hi' ? 'अगला कदम' : 'Next Step'}</span>
+              <ChevronRight className="w-4 h-4" />
             </button>
           </div>
         </div>
 
-        {/* Right Column: Live IoT Environment & Guardrails Simulation */}
-        <div className="lg:col-span-5 space-y-6">
-          {/* Packet Level Selector */}
-          <div className="glass-panel p-6 rounded-3xl border border-white/10">
-            <h4 className="text-xs font-mono uppercase tracking-wider text-[#A1A1AA] mb-3">
-              Packaging Hierarchy (Point 1 of Spec)
+        {/* Right: Simple Sensor Tripwire Explanation for Farmers */}
+        <div className="md:col-span-5 glass-panel p-6 rounded-3xl border border-white/10 space-y-4">
+          <div className="flex items-center justify-between">
+            <h4 className="text-xs font-bold text-white flex items-center gap-1.5">
+              <Thermometer className="w-4 h-4 text-[#FF6A1A]" />
+              <span>{lang === 'hi' ? 'धूप व गर्मी जांच (अधिकतम 40°C)' : 'Heat Limit (Max 40°C)'}</span>
             </h4>
-            <div className="grid grid-cols-3 gap-2">
-              <button
-                onClick={() => setPacketType('bag')}
-                className={`py-2 px-2.5 rounded-xl text-xs font-medium border text-center transition-all ${
-                  packetType === 'bag'
-                    ? 'border-[#FF6A1A] bg-[#FF6A1A]/15 text-white'
-                    : 'border-white/10 text-white/70 hover:bg-white/5'
-                }`}
-              >
-                📦 1 Bag (50kg)
-              </button>
-              <button
-                onClick={() => setPacketType('pallet')}
-                className={`py-2 px-2.5 rounded-xl text-xs font-medium border text-center transition-all ${
-                  packetType === 'pallet'
-                    ? 'border-[#3DDC84] bg-[#3DDC84]/15 text-white'
-                    : 'border-white/10 text-white/70 hover:bg-white/5'
-                }`}
-              >
-                📦📦 Pallet (50)
-              </button>
-              <button
-                onClick={() => setPacketType('master')}
-                className={`py-2 px-2.5 rounded-xl text-xs font-medium border text-center transition-all ${
-                  packetType === 'master'
-                    ? 'border-[#38BDF8] bg-[#38BDF8]/15 text-white'
-                    : 'border-white/10 text-white/70 hover:bg-white/5'
-                }`}
-              >
-                🏭 Master RFID
-              </button>
-            </div>
+            <span className={`text-xs font-mono font-bold ${temp > 40 ? 'text-red-400' : 'text-white'}`}>
+              {temp.toFixed(1)} °C
+            </span>
           </div>
+          <input
+            type="range"
+            min="20"
+            max="50"
+            step="0.5"
+            value={temp}
+            onChange={(e) => setTemp(parseFloat(e.target.value))}
+            className="w-full accent-[#FF6A1A] h-2 bg-white/10 rounded-lg cursor-pointer"
+          />
 
-          {/* Environmental Telemetry Sliders */}
-          <div className="glass-panel p-6 rounded-3xl border border-white/10 space-y-5">
-            <div className="flex items-center justify-between">
-              <h4 className="text-xs font-mono uppercase tracking-wider text-[#A1A1AA] flex items-center gap-1.5">
-                <Thermometer className="w-4 h-4 text-[#FF6A1A]" />
-                <span>Ambient Temperature (Limit: 40°C)</span>
-              </h4>
-              <span className={`text-xs font-mono font-bold ${temp > 40 ? 'text-red-400' : 'text-white'}`}>
-                {temp.toFixed(1)} °C
-              </span>
+          {/* Simple Alert Status */}
+          <div className={`p-4 rounded-2xl border text-xs leading-relaxed ${
+            isOverLimit
+              ? 'bg-red-500/15 border-red-500/40 text-red-200'
+              : 'bg-[#10B981]/15 border-[#10B981]/30 text-[#D1FAE5]'
+          }`}>
+            <div className="font-bold flex items-center gap-1.5 mb-1">
+              {isOverLimit ? (
+                <>
+                  <AlertTriangle className="w-4 h-4 text-red-400" />
+                  <span>{lang === 'hi' ? '⚠️ बहुत तेज धूप! खाद खराब होने का खतरा' : '⚠️ Overheating Alert! Stock Quarantined'}</span>
+                </>
+              ) : (
+                <>
+                  <CheckCircle2 className="w-4 h-4 text-[#10B981]" />
+                  <span>{lang === 'hi' ? '✓ सुरक्षित तापमान (खाद बिल्कुल सही है)' : '✓ Normal Temp (Fertilizer Safe)'}</span>
+                </>
+              )}
             </div>
-            <input
-              type="range"
-              min="15"
-              max="55"
-              step="0.5"
-              value={temp}
-              onChange={(e) => setTemp(parseFloat(e.target.value))}
-              className="w-full accent-[#FF6A1A] h-1.5 bg-white/10 rounded-lg cursor-pointer"
-            />
-
-            <div className="flex items-center justify-between pt-2">
-              <h4 className="text-xs font-mono uppercase tracking-wider text-[#A1A1AA] flex items-center gap-1.5">
-                <Droplets className="w-4 h-4 text-[#38BDF8]" />
-                <span>Relative Humidity (Limit: 85%)</span>
-              </h4>
-              <span className={`text-xs font-mono font-bold ${humidity > 85 ? 'text-red-400' : 'text-white'}`}>
-                {humidity} %
-              </span>
-            </div>
-            <input
-              type="range"
-              min="20"
-              max="100"
-              step="1"
-              value={humidity}
-              onChange={(e) => setHumidity(parseInt(e.target.value))}
-              className="w-full accent-[#38BDF8] h-1.5 bg-white/10 rounded-lg cursor-pointer"
-            />
-
-            {/* Smart Contract Tripwire Status Box */}
-            <div
-              className={`p-4 rounded-2xl border transition-all text-xs ${
-                isOverLimit || isReverseFlow
-                  ? 'bg-red-500/10 border-red-500/40 text-red-300'
-                  : 'bg-[#3DDC84]/10 border-[#3DDC84]/30 text-[#A7F3D0]'
-              }`}
-            >
-              <div className="font-semibold flex items-center gap-2 mb-1">
-                {isOverLimit || isReverseFlow ? (
-                  <>
-                    <AlertTriangle className="w-4 h-4 text-red-400" />
-                    <span>TRIPWIRE VIOLATION: REVERSE FLOW TRIGGERED</span>
-                  </>
-                ) : (
-                  <>
-                    <CheckCircle2 className="w-4 h-4 text-[#3DDC84]" />
-                    <span>STATUS: BATCH COMPLIANT ✓</span>
-                  </>
-                )}
-              </div>
-              <p className="text-[11.5px] opacity-90 leading-relaxed font-light">
-                {isOverLimit || isReverseFlow
-                  ? 'Critical threshold breach! Smart contract automatically flags batch for quarantine and routes it back to the manufacturing plant via reverse flow.'
-                  : 'All physical sensor parameters within compliant range. Direct benefit transfer subsidy cleared for execution upon farmer receipt.'}
-              </p>
-            </div>
-
-            {/* Reverse Flow Trigger Button */}
-            <button
-              onClick={() => setIsReverseFlow(!isReverseFlow)}
-              className={`w-full py-2.5 rounded-full text-xs font-semibold transition-all border ${
-                isReverseFlow
-                  ? 'bg-red-500 text-white border-red-600 shadow-lg shadow-red-500/30'
-                  : 'border-red-500/40 text-red-400 hover:bg-red-500/10'
-              }`}
-            >
-              {isReverseFlow ? '✓ Reverse Flow Active (Click to Clear)' : '↩ Simulate Emergency Reverse Flow Recall'}
-            </button>
+            <p className="text-[11px] opacity-90">
+              {isOverLimit
+                ? (lang === 'hi' ? 'तापमान 40°C से ऊपर जाने पर खाद जल सकती है। ऐसा होने पर सिस्टम तुरंत रोक लगा देता है।' : 'Exceeding 40°C degrades fertilizer nutrients. The smart system quarantines the batch automatically.')
+                : (lang === 'hi' ? 'खाद सही तापमान में रखी गई है। पोषक तत्व 100% सुरक्षित हैं।' : 'Stored under safe conditions. Guaranteed active nutrient bioavailability.')}
+            </p>
           </div>
         </div>
       </div>
