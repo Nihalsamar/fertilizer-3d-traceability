@@ -29,15 +29,26 @@ export default function Navbar({ lang = 'hi', setLang, onOpenDataHub, onScanClic
         </a>
 
         {/* Center / Right Controls */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5">
+          {/* Switcher to 1st Original Website (without any update) */}
+          <a
+            href="/fertilizer-classic"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-purple-500/40 bg-purple-500/15 hover:bg-purple-500/25 text-purple-300 text-xs font-semibold transition-all shadow-sm"
+            title="Switch to 1st Original Website (Classic Model 3 without update)"
+          >
+            <span>🏛️</span>
+            <span className="hidden sm:inline">{lang === 'hi' ? '1st ओरिजिनल वेबसाइट' : '1st Original Website'}</span>
+            <span className="sm:hidden">1st Web</span>
+          </a>
+
           {/* Bilingual Language Switcher Button (Crucial for farmers) */}
           <button
             onClick={() => setLang(lang === 'hi' ? 'en' : 'hi')}
-            className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/10 hover:bg-white/15 text-xs font-semibold text-white border border-white/20 transition-all shadow-sm"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/15 text-xs font-semibold text-white border border-white/20 transition-all shadow-sm"
             title="भाषा बदलें / Change Language"
           >
             <Globe className="w-3.5 h-3.5 text-[#3DDC84]" />
-            <span>{lang === 'hi' ? 'English में देखें' : 'हिन्दी में बदलें'}</span>
+            <span>{lang === 'hi' ? 'English' : 'हिन्दी'}</span>
           </button>
 
           {/* Toll-Free Kisan Helpline button */}

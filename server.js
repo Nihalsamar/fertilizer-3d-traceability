@@ -400,8 +400,13 @@ app.post('/api/seed', adminLimiter, requireAdminAuth, async (req, res) => {
   }
 });
 
-// Dedicated Route to load previous Fertilizer Model 3 application safely
-app.get('/fertilizer', (req, res) => {
+// 1st Original Website (without any update, Model 3 Classic preserved)
+app.get(['/fertilizer-classic', '/fertilizer/classic', '/fertilizer-v1', '/fertilizer/v1', '/model3'], (req, res) => {
+  res.sendFile(path.join(__dirname, 'fertilizer_backup.html'));
+});
+
+// 2nd New Redesigned Website (Farmer 3D Portal with all 7 steps in 3D)
+app.get(['/fertilizer', '/fertilizer-new', '/fertilizer/new'], (req, res) => {
   res.sendFile(path.join(__dirname, 'fertilizer.html'));
 });
 
@@ -619,8 +624,11 @@ app.get('*', (req, res) => {
   if (normalized === '/' || normalized === '/index.html') {
     return res.sendFile(path.join(__dirname, 'index.html'));
   }
-  if (normalized === '/fertilizer' || normalized === '/fertilizer.html') {
+  if (normalized === '/fertilizer' || normalized === '/fertilizer.html' || normalized === '/fertilizer-new' || normalized === '/fertilizer/new') {
     return res.sendFile(path.join(__dirname, 'fertilizer.html'));
+  }
+  if (normalized === '/fertilizer-classic' || normalized === '/fertilizer/classic' || normalized === '/fertilizer-v1' || normalized === '/fertilizer/v1' || normalized === '/model3') {
+    return res.sendFile(path.join(__dirname, 'fertilizer_backup.html'));
   }
   if (normalized === '/sentry' || normalized === '/sentry-upi' || normalized === '/sentry.html') {
     return res.sendFile(path.join(__dirname, 'sentry.html'));
