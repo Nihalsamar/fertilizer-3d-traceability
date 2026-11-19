@@ -117,6 +117,8 @@ app.use((req, res, next) => {
 
 // Serve legitimate static web assets (HTML, CSS, client JS, images)
 app.use(express.static(__dirname, { dotfiles: 'deny', index: 'index.html' }));
+app.use('/fertilizer/assets', express.static(path.join(__dirname, 'assets')));
+app.use('/assets', express.static(path.join(__dirname, 'assets')));
 
 // ----------------------------------------------------------------------------
 // 4. In-Memory Sliding-Window Rate Limiting (Shield against brute force / floods)
